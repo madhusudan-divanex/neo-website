@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 import { QRCodeCanvas } from "qrcode.react";
 import html2canvas from "html2canvas";
 import html2pdf from "html2pdf.js";
+import base_url from "../baseUrl";
 export default function ViewBirthCertificate({ certificateData }) {
   const pdfRef=useRef()
   const handleDownload = () => {
@@ -41,7 +42,8 @@ export default function ViewBirthCertificate({ certificateData }) {
           <div className="d-flex justify-content-between align-items-start">
             <div className="d-flex">
               <div style={s.logo}>
-                <img src="/logo.png" alt="" />
+                <img src={certificateData?.organization?.logo ?
+                  `${base_url}/${certificateData?.organization?.logo}` : "/logo.png"} alt="" />
               </div>
               <div style={{ marginLeft: 10 }}>
                 <div style={s.title}>Birth Certificate</div>
@@ -72,10 +74,10 @@ export default function ViewBirthCertificate({ certificateData }) {
               <div style={s.infoLabel}>ISSUE DATE</div>
               <div style={s.infoValue}>{new Date(certificateData?.createdAt)?.toLocaleDateString('en-GB')}</div>
             </div>
-            <div className="col">
+            {certificateData?.license &&<div className="col">
               <div style={s.infoLabel}>REGISTRATION NO.</div>
               <div style={s.infoValue}>{certificateData?.license}</div>
-            </div>
+            </div>}
             <div className="col">
               <div style={s.infoLabel}>STATUS</div>
               <div style={{ ...s.infoValue, color: "#00a6a6" }}>

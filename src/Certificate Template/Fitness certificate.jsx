@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 import { QRCodeCanvas } from "qrcode.react"
 import html2canvas from "html2canvas";
 import html2pdf from "html2pdf.js";
+import base_url from "../baseUrl";
 export default function ViewFitnessCertificate({ certificateData }) {
   const pdfRef = useRef()
   const handleDownload = () => {
@@ -43,7 +44,8 @@ export default function ViewFitnessCertificate({ certificateData }) {
           <div className="d-flex justify-content-between align-items-start mb-3">
             <div className="d-flex">
               <div style={styles.logo}>
-                <img src="/logo.png" alt="" />
+                <img src={certificateData?.organization?.logo ?
+                  `${base_url}/${certificateData?.organization?.logo}` : "/logo.png"} alt="" />
               </div>
               <div className="ms-2">
                 <div style={styles.title}>Fitness Certificate</div>

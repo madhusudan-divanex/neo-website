@@ -26,6 +26,8 @@ import CmsDynamic from "./Components/CmsDynamic";
 import BlogDetails from "./Components/BlogDetail";
 import Blogs from "./Components/Blogs";
 import Certificate from "./Components/Certificate";
+import DoctorAptBookingReceipt from "./Certificate Template/Booking receipt";
+import MedicalPrescription from "./Certificate Template/Medical Prescription";
 
 
 
@@ -136,6 +138,14 @@ function Router() {
          {
           path:"/certificate/:id",
           element:<Certificate/>
+        },
+         {
+          path:"/doctor-appointment-receipt/:id",
+          element:<DoctorAptBookingReceipt/>
+        },
+         {
+          path:"/medical-prescription/:id",
+          element:<MedicalPrescription/>
         }
 
 

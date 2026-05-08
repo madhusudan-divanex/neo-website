@@ -5,7 +5,7 @@ function AppLayouts() {
   const location = useLocation();
   const path = location.pathname;
   const userId = localStorage.getItem("userId");
-  const blockPaths=["/select-account-type",'/certificate/:id']
+  const blockPaths=["/select-account-type",'/certificate/:id','/doctor-appointment-receipt/:id']
   const isBlocked = blockPaths.some((blockPath) => matchPath(blockPath, path));
 
   return (

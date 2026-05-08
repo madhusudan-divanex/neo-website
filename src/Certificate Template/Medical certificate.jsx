@@ -6,8 +6,9 @@ import './Template css/medicalCertificate.css'
 import { getDaysBetweenDates } from "../Services/globalFunction";
 import html2pdf from "html2pdf.js";
 import html2canvas from "html2canvas";
+import base_url from "../baseUrl";
 const ViewMedicalCertificate = ({ certificateData }) => {
-const pdfRef=useRef()
+  const pdfRef = useRef()
   const handleDownload = () => {
     const element = pdfRef.current;
 
@@ -29,6 +30,7 @@ const pdfRef=useRef()
 
     html2pdf().set(opt).from(element).save();
   };
+  console.log(certificateData)
   return (
     <>
       <div className="container mt-2 d-flex justify-content-between">
@@ -41,11 +43,17 @@ const pdfRef=useRef()
 
           {/* HEADER */}
           <div className="d-flex justify-content-between p-4 border-bottom">
-            <div>
-              <h5 className="fw-bold mb-1">Medical Certificate</h5>
-              <div className="text-muted small">{certificateData?.organization?.name}</div>
-              <div className="text-muted small">
-                {certificateData?.address?.fullAddress + ',' + certificateData?.address?.city?.name + ',' + certificateData?.address?.state?.name + ',' + certificateData?.address?.pinCode}
+            <div className="d-flex">
+              <div style={{ width: '34px', height: '34px' }}>
+                <img src={certificateData?.organization?.logo ?
+                  `${base_url}/${certificateData?.organization?.logo}` : "/logo.png"} alt="" />
+              </div>
+              <div style={{ marginLeft: 10 }}>
+                <h5 className="fw-bold mb-1">Medical Certificate</h5>
+                <div className="text-muted small">{certificateData?.organization?.name}</div>
+                <div className="text-muted small">
+                  {certificateData?.address?.fullAddress + ',' + certificateData?.address?.city?.name + ',' + certificateData?.address?.state?.name + ',' + certificateData?.address?.pinCode}
+                </div>
               </div>
             </div>
 

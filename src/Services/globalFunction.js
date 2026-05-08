@@ -11,3 +11,20 @@ export const getDaysBetweenDates = (from, to) => {
 
   return diffDays > 0 ? diffDays : 0;
 };
+export const calculateAge = (dob, referenceDate = new Date()) => {
+  if (!dob) return "";
+
+  const birthDate = new Date(dob);
+  const refDate = new Date(referenceDate);
+
+  let age = refDate.getFullYear() - birthDate.getFullYear();
+
+  const monthDiff = refDate.getMonth() - birthDate.getMonth();
+  const dayDiff = refDate.getDate() - birthDate.getDate();
+
+  if (monthDiff < 0 || (monthDiff === 0 && dayDiff < 0)) {
+    age--; // birthday not reached yet
+  }
+
+  return age;
+};
