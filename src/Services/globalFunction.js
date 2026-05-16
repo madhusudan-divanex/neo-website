@@ -28,3 +28,9 @@ export const calculateAge = (dob, referenceDate = new Date()) => {
 
   return age;
 };
+export const stripHtml = (html) => {
+  if (!html) return "";
+
+  const doc = new DOMParser().parseFromString(html, "text/html");
+  return doc.body.textContent || "";
+};

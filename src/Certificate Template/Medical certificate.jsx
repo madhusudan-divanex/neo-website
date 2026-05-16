@@ -35,7 +35,10 @@ const ViewMedicalCertificate = ({ certificateData }) => {
     <>
       <div className="container mt-2 d-flex justify-content-between">
         <img src="/logo.png" alt="" srcset="" width={100} height={60} />
-        <button className="thm-btn" onClick={handleDownload}>Download</button>
+        <div>
+
+          <button className="thm-btn" onClick={handleDownload}>Download</button>
+        </div>
       </div>
 
       <div ref={pdfRef} className="mc-wrapper d-flex justify-content-center bg-light py-4">

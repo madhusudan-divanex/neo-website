@@ -1,33 +1,37 @@
+import React from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
-import PrivacyPolicy from "./Components/PrivacyPolicy";
-import TermAndCondition from "./Components/TermAndCondition";
+const PrivacyPolicy = React.lazy(() => import("./Components/PrivacyPolicy"));
+const TermAndCondition = React.lazy(() => import("./Components/TermAndCondition"));
 
 
 
-import ClinicalSafetyStatement from "./Components/ClinicalSafetyStatement";
-import MedicalDisclaimer from "./Components/MedicalDisclaimer";
-import AccessModel from "./Components/AccessModel";
-import AbdmReady from "./Components/AbdmReady";
-import DigitalHealthPrinciples from "./Components/DigitalHealthPrinciples";
-import DicomPosture from "./Components/DicomPosture";
-import SecurityRoadmap from "./Components/SecurityRoadmap";
-import GovermentHealth from "./Components/GovernmentHealth";
-import InsuranceProgram from "./Components/InsuranceProgram";
-import LabPharmacies from "./Components/LabPharmacies";
-import HospitalHealth from "./Components/HospitalHealthSystem";
-// import Modules from "./Components/Modules";
-import Secaurity from "./Components/Secaurity";
-import HowItWorks from "./Components/HowItWorks";
-import Landing from "./Components/Home";
-import AppLayouts from "./layout/AppLayouts";
-import SelectAccountType from "./Components/SelectAccountType";
-import CmsDynamic from "./Components/CmsDynamic";
-import BlogDetails from "./Components/BlogDetail";
-import Blogs from "./Components/Blogs";
-import Certificate from "./Components/Certificate";
-import DoctorAptBookingReceipt from "./Certificate Template/Booking receipt";
-import MedicalPrescription from "./Certificate Template/Medical Prescription";
+const ClinicalSafetyStatement = React.lazy(() => import("./Components/ClinicalSafetyStatement"));
+const MedicalDisclaimer = React.lazy(() => import("./Components/MedicalDisclaimer"));
+const AccessModel = React.lazy(() => import("./Components/AccessModel"));
+const AbdmReady = React.lazy(() => import("./Components/AbdmReady"));
+const DigitalHealthPrinciples = React.lazy(() => import("./Components/DigitalHealthPrinciples"));
+const DicomPosture = React.lazy(() => import("./Components/DicomPosture"));
+const SecurityRoadmap = React.lazy(() => import("./Components/SecurityRoadmap"));
+const GovermentHealth = React.lazy(() => import("./Components/GovernmentHealth"));
+const InsuranceProgram = React.lazy(() => import("./Components/InsuranceProgram"));
+const LabPharmacies = React.lazy(() => import("./Components/LabPharmacies"));
+const HospitalHealth = React.lazy(() => import("./Components/HospitalHealthSystem"));
+const Secaurity = React.lazy(() => import("./Components/Secaurity"));
+const HowItWorks = React.lazy(() => import("./Components/HowItWorks"));
+const Landing = React.lazy(() => import("./Components/Home"));
+const AppLayouts = React.lazy(() => import("./layout/AppLayouts"));
+const SelectAccountType = React.lazy(() => import("./Components/SelectAccountType"));
+const CmsDynamic = React.lazy(() => import("./Components/CmsDynamic"));
+const BlogDetails = React.lazy(() => import("./Components/BlogDetail"));
+const Blogs = React.lazy(() => import("./Components/Blogs"));
+const Certificate = React.lazy(() => import("./Components/Certificate"));
+const DoctorAptBookingReceipt = React.lazy(() => import("./Certificate Template/Booking receipt"));
+const MedicalPrescription = React.lazy(() => import("./Certificate Template/Medical Prescription"));
+const DischargeInvoice = React.lazy(() => import("./Certificate Template/DischargeInvoice"));
+const TransferCertificate = React.lazy(() => import("./Certificate Template/TransferCertificate"));
+const LabReport = React.lazy(() => import("./Certificate Template/LabReport"));
+const IPDInvoice = React.lazy(() => import("./Certificate Template/IPDInvoice"));
 
 
 
@@ -52,7 +56,7 @@ function Router() {
         {
           path: "/select-account-type",
           element: <SelectAccountType />,
-        },     
+        },
         {
           path: "/privacy-policy",
           element: <PrivacyPolicy />,
@@ -119,7 +123,7 @@ function Router() {
           path: "/hospital-health-system",
           element: <HospitalHealth />,
         },
-         {
+        {
           path: "/term-condition",
           element: <TermAndCondition />,
         },
@@ -128,24 +132,40 @@ function Router() {
           element: <CmsDynamic />,
         },
         {
-          path:"/blogs-detail/:id",
-          element:<BlogDetails/>
+          path: "/blogs-detail/:id",
+          element: <BlogDetails />
         },
-         {
-          path:"/blogs",
-          element:<Blogs/>
+        {
+          path: "/blogs",
+          element: <Blogs />
         },
-         {
-          path:"/certificate/:id",
-          element:<Certificate/>
+        {
+          path: "/certificate/:id",
+          element: <Certificate />
         },
-         {
-          path:"/doctor-appointment-receipt/:id",
-          element:<DoctorAptBookingReceipt/>
+        {
+          path: "/transfer-certificate/:id",
+          element: <TransferCertificate />
         },
-         {
-          path:"/medical-prescription/:id",
-          element:<MedicalPrescription/>
+        {
+          path: "/discharge-invoice/:id",
+          element: <DischargeInvoice />
+        },
+        {
+          path: "/lab-report/:id",
+          element: <LabReport />
+        },
+        {
+          path: "/ipd-invoice/:id",
+          element: <IPDInvoice />
+        },
+        {
+          path: "/doctor-appointment-receipt/:id",
+          element: <DoctorAptBookingReceipt />
+        },
+        {
+          path: "/medical-prescription/:id",
+          element: <MedicalPrescription />
         }
 
 

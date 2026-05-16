@@ -7,7 +7,7 @@ import html2canvas from "html2canvas";
 import html2pdf from "html2pdf.js";
 import base_url from "../baseUrl";
 export default function ViewBirthCertificate({ certificateData }) {
-  const pdfRef=useRef()
+  const pdfRef = useRef()
   const handleDownload = () => {
     const element = pdfRef.current;
 
@@ -33,7 +33,10 @@ export default function ViewBirthCertificate({ certificateData }) {
     <>
       <div className="container mt-2 d-flex justify-content-between">
         <img src="/logo.png" alt="" srcset="" width={100} height={60} />
-        <button className="thm-btn" onClick={handleDownload}>Download</button>
+        <div>
+
+          <button className="thm-btn" onClick={handleDownload}>Download</button>
+        </div>
       </div>
       <div style={s.page} ref={pdfRef}>
         <div style={s.container}>
@@ -74,7 +77,7 @@ export default function ViewBirthCertificate({ certificateData }) {
               <div style={s.infoLabel}>ISSUE DATE</div>
               <div style={s.infoValue}>{new Date(certificateData?.createdAt)?.toLocaleDateString('en-GB')}</div>
             </div>
-            {certificateData?.license &&<div className="col">
+            {certificateData?.license && <div className="col">
               <div style={s.infoLabel}>REGISTRATION NO.</div>
               <div style={s.infoValue}>{certificateData?.license}</div>
             </div>}
