@@ -6,7 +6,8 @@ function AppLayouts() {
   const path = location.pathname;
   const userId = localStorage.getItem("userId");
   const blockPaths = ["/select-account-type", '/certificate/:id', '/doctor-appointment-receipt/:id', '/discharge-invoice/:id', '/medical-prescription/:id',
-    'transfer-certificate/:id', 'lab-report/:id', 'ipd-invoice/:id'
+    'transfer-certificate/:id', 'lab-report/:id', 'ipd-invoice/:id', '/hospital-bill/:id', '/lab-order/:id', '/lab-invoice/:id', '/pharmacy-return/:id', '/pharmacy-sell/:id',
+    '/lab-sample/:id', '/patient-consent-letter/:id',
   ]
   const isBlocked = blockPaths.some((blockPath) => matchPath(blockPath, path));
 

@@ -1,5 +1,12 @@
 import React from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import HospitalBill from "./Certificate Template/HospitalBill";
+import LabTestOrder from "./Certificate Template/LabTestOrder";
+import LabInvoice from "./Certificate Template/LabInvoice";
+import PharmacyReturn from "./Certificate Template/PharmacyReturn";
+import PharmacyInvoice from "./Certificate Template/PharmacySell";
+import LabSampleReceipt from "./Certificate Template/LabSample";
+import PatientConsentForm from "./Certificate Template/PatientConsentForm";
 
 const PrivacyPolicy = React.lazy(() => import("./Components/PrivacyPolicy"));
 const TermAndCondition = React.lazy(() => import("./Components/TermAndCondition"));
@@ -166,8 +173,35 @@ function Router() {
         {
           path: "/medical-prescription/:id",
           element: <MedicalPrescription />
+        },
+        {
+          path: "/hospital-bill/:id",
+          element: <HospitalBill />
+        },
+        {
+          path: "/lab-order/:id",
+          element: <LabTestOrder />
+        },
+        {
+          path: "/lab-invoice/:id",
+          element: <LabInvoice />
+        },
+        {
+          path: "/lab-sample/:id",
+          element: <LabSampleReceipt />
+        },
+        {
+          path: "/pharmacy-return/:id",
+          element: <PharmacyReturn />
+        },
+        {
+          path: "/pharmacy-sell/:id",
+          element: <PharmacyInvoice />
+        },
+        {
+          path: "/patient-consent-letter/:id",
+          element: <PatientConsentForm />
         }
-
 
 
 

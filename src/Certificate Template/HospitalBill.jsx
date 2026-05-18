@@ -7,40 +7,40 @@ import html2canvas from "html2canvas";
 import base_url from "../baseUrl";
 import { getApiData } from "../Services/api";
 import { calculateAge, stripHtml } from "../Services/globalFunction";
-
 const s = {
-    // Layout
+    // ── Page ──────────────────────────────────────────────────────────────────
     page: {
         backgroundColor: "#f4f6f7",
         minHeight: "100vh",
         display: "flex",
-        justifyContent: "center",
         alignItems: "center",
+        justifyContent: "center",
         padding: "24px",
-        fontFamily: "sans-serif",
     },
-    logo: {
-        width: 34,
-        height: 34,
-    },
-    invoice: {
+    card: {
         width: "880px",
         backgroundColor: "#ffffff",
+        borderRadius: "6px",
+        boxShadow: "0 12px 40px rgba(0,0,0,0.28)",
         color: "#1C1C1C",
         fontSize: "12px",
         position: "relative",
         overflow: "hidden",
     },
 
-    // Watermark
-    watermarkWrapper: {
+    // ── Watermark ─────────────────────────────────────────────────────────────
+    watermarkWrap: {
         position: "absolute",
-        inset: 0,
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        pointerEvents: "none",
-        transform: "translateY(40px)",
+        width: 220,
+        height: 220,
+        background: "url('/CertWatermark2.png')",
+        backgroundRepeat: "no-repeat",
+        backgroundSize: "contain",
+        // opacity: 0.05,
+        borderRadius: "50%",
+        top: "40%",
+        left: "50%",
+        transform: "translate(-50%, -50%)",
     },
     watermarkCircle: {
         width: "420px",
@@ -50,21 +50,21 @@ const s = {
         borderRadius: "50%",
     },
 
-    // Header
+    // ── Header ────────────────────────────────────────────────────────────────
     header: {
+        position: "relative",
         padding: "24px 24px 16px",
         borderBottom: "1px solid #E6E6E6",
         display: "flex",
         justifyContent: "space-between",
     },
-    headerLeft: {},
     headerTitle: {
         fontSize: "20px",
         fontWeight: 600,
         lineHeight: "24px",
         margin: 0,
     },
-    headerHospital: {
+    headerSub: {
         fontSize: "12px",
         color: "#4A4A4A",
         marginTop: "2px",
@@ -75,23 +75,20 @@ const s = {
         marginTop: "2px",
     },
     headerRight: {
-        textAlign: "right",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "flex-end",
+        gap: "2px",
     },
-    networkBadge: {
+    badge: {
         border: "1px solid #14b8a6",
         color: "#14b8a6",
         fontSize: "10px",
         padding: "2px 12px",
         borderRadius: "9999px",
-        display: "inline-block",
-    },
-    headerRightMeta: {
-        fontSize: "10px",
-        color: "#868686",
-        marginTop: "2px",
     },
 
-    // Meta strip
+    // ── Meta strip ────────────────────────────────────────────────────────────
     metaStrip: {
         padding: "16px 24px",
         borderBottom: "1px solid #E6E6E6",
@@ -100,15 +97,13 @@ const s = {
         gap: "16px",
     },
 
-    // Patient
+    // ── Patient ───────────────────────────────────────────────────────────────
     patientSection: {
         padding: "20px 24px",
         borderBottom: "1px solid #E6E6E6",
         display: "flex",
     },
-    patientLeft: {
-        flex: 1,
-    },
+    patientLeft: { flex: 1 },
     patientName: {
         fontSize: "16px",
         fontWeight: 600,
@@ -121,52 +116,26 @@ const s = {
         columnGap: "20px",
         rowGap: "8px",
         marginTop: "12px",
+        fontSize: "11px",
     },
-    qrContainer: {
+    qrCol: {
         width: "100px",
         borderLeft: "1px solid #E6E6E6",
         paddingLeft: "16px",
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
+        justifyContent: "flex-start",
     },
     qrBox: {
         width: "72px",
         height: "72px",
         backgroundColor: "#E6E6E6",
     },
-    qrLabel: {
-        fontSize: "10px",
-        color: "#868686",
-        marginTop: "8px",
-    },
-    qrLink: {
-        fontSize: "10px",
-        color: "#14b8a6",
-    },
+    qrLabel: { fontSize: "10px", color: "#868686", marginTop: "8px" },
+    qrLink: { fontSize: "10px", color: "#14b8a6", marginTop: "2px" },
 
-    // Admission + Clinical
-    admissionClinical: {
-        padding: "16px 24px",
-        borderBottom: "1px solid #E6E6E6",
-        display: "grid",
-        gridTemplateColumns: "1fr 1fr",
-        gap: "24px",
-        fontSize: "11px",
-    },
-    sectionGroup: {
-        display: "flex",
-        flexDirection: "column",
-        gap: "4px",
-    },
-    sectionLabel: {
-        fontSize: "10px",
-        color: "#868686",
-        letterSpacing: "0.05em",
-        marginBottom: "2px",
-    },
-
-    // Table
+    // ── Table section ─────────────────────────────────────────────────────────
     tableSection: {
         padding: "16px 24px",
         borderBottom: "1px solid #E6E6E6",
@@ -175,8 +144,8 @@ const s = {
         textAlign: "center",
         fontSize: "10px",
         color: "#868686",
+        letterSpacing: "0.02em",
         marginBottom: "8px",
-        letterSpacing: "0.05em",
     },
     table: {
         width: "100%",
@@ -188,78 +157,43 @@ const s = {
         backgroundColor: "#FAFAFA",
         color: "#868686",
     },
-    thLeft: {
-        textAlign: "left",
-        padding: "6px 12px",
-        fontWeight: 500,
-    },
-    thCenter: {
-        textAlign: "center",
-        padding: "6px 12px",
-        fontWeight: 500,
-    },
-    thRight: {
-        textAlign: "right",
-        padding: "6px 12px",
-        fontWeight: 500,
-    },
-    tdBorderTop: {
-        borderTop: "1px solid #E6E6E6",
-    },
-    tdLeft: {
-        padding: "6px 12px",
-        textAlign: "left",
-    },
-    tdCenter: {
-        padding: "6px 12px",
-        textAlign: "center",
-    },
-    tdRight: {
-        padding: "6px 12px",
-        textAlign: "right",
-    },
-    tdSubText: {
-        fontSize: "10px",
-        color: "#868686",
-        marginTop: "2px",
+    thLeft: { textAlign: "left", padding: "6px 12px", fontWeight: 500 },
+    thCenter: { textAlign: "center", padding: "6px 12px", fontWeight: 500 },
+    thRight: { textAlign: "right", padding: "6px 12px", fontWeight: 500 },
+    trBorder: { borderTop: "1px solid #E6E6E6" },
+    tdLeft: { padding: "6px 12px", textAlign: "left" },
+    tdCenter: { padding: "6px 12px", textAlign: "center" },
+    tdRight: { padding: "6px 12px", textAlign: "right" },
+    tdSub: { fontSize: "10px", color: "#868686", marginTop: "2px" },
+
+    // ── Summary ───────────────────────────────────────────────────────────────
+    summaryWrap: { display: "flex", justifyContent: "flex-end", marginTop: "12px" },
+    summaryBox: { width: "220px", fontSize: "12px", lineHeight: "1.4" },
+    summaryRow: { display: "flex", justifyContent: "space-between" },
+    summaryLabel: { color: "#868686" },
+    summaryTotal: {
+        display: "flex",
+        justifyContent: "space-between",
+        fontWeight: 600,
+        fontSize: "14px",
+        marginTop: "4px",
     },
 
-    // Payment
-    paymentRow: {
+    logo: {
+        width: 34,
+        height: 34,
+    },
+    // ── Payment ───────────────────────────────────────────────────────────────
+    paymentGrid: {
         display: "grid",
         gridTemplateColumns: "repeat(2, 1fr)",
         borderBottom: "1px solid #E6E6E6",
         fontSize: "11px",
     },
-    paymentCell: {
-        padding: "12px 24px",
-    },
-    paymentCellBordered: {
-        padding: "12px 24px",
-        borderLeft: "1px solid #E6E6E6",
-    },
+    paymentCell: { padding: "12px 24px" },
+    paymentCellBorder: { padding: "12px 24px", borderLeft: "1px solid #E6E6E6" },
 
-    // Notes
-    notesSection: {
-        padding: "16px 24px",
-        borderBottom: "1px solid #E6E6E6",
-    },
-    notesTitle: {
-        fontSize: "10px",
-        color: "#868686",
-        marginBottom: "8px",
-        letterSpacing: "0.05em",
-    },
-    notesList: {
-        fontSize: "10px",
-        color: "#868686",
-        display: "flex",
-        flexDirection: "column",
-        gap: "4px",
-        paddingLeft: "16px",
-    },
-
-    // Footer
+    // ── Footer ────────────────────────────────────────────────────────────────
     footer: {
         backgroundColor: "#0ea5a4",
         color: "#ffffff",
@@ -269,35 +203,30 @@ const s = {
         padding: "6px 24px",
     },
 
-    // Typography helpers
+    // ── Typography ────────────────────────────────────────────────────────────
     label: {
         fontSize: "10px",
         color: "#868686",
         lineHeight: "12px",
-        marginBottom: "2px",
         letterSpacing: "0.02em",
+        marginBottom: "2px",
     },
-    value: {
-        fontSize: "11px",
-        color: "#1C1C1C",
-        fontWeight: 500,
-        lineHeight: "13px",
-    },
-    metaBlock: {
-        lineHeight: "1.2",
-    },
+    value: { fontSize: "11px", lineHeight: "13px", fontWeight: 500 },
+    valueBold: { fontSize: "11px", lineHeight: "13px", fontWeight: 600 },
+    metaBlock: { lineHeight: "1.2" },
 };
 
+// ── Small components ──────────────────────────────────────────────────────────
 const Label = ({ children }) => <p style={s.label}>{children}</p>;
-const Value = ({ children }) => <p style={s.value}>{children}</p>;
-
+const Value = ({ children, bold }) => (
+    <p style={bold ? s.valueBold : s.value}>{children}</p>
+);
 const Meta = ({ l, v }) => (
     <div style={s.metaBlock}>
         <Label>{l}</Label>
         <Value>{v}</Value>
     </div>
 );
-
 const KV = ({ k, v }) => (
     <div style={s.metaBlock}>
         <Label>{k}</Label>
@@ -305,8 +234,8 @@ const KV = ({ k, v }) => (
     </div>
 );
 
-export default function IPDInvoice() {
 
+export default function HospitalBill() {
     const { id } = useParams()
     const [allotmentData, setAllotmentData] = useState()
     const [patientData, setPatientData] = useState()
@@ -326,14 +255,15 @@ export default function IPDInvoice() {
                 setPaymentData(res.paymentData)
                 setDischargeData(res.dischargeData)
             } else {
-                toast.error(res.message)
+                // toast.error(res.message)
             }
         } catch (error) {
-            toast.error(error?.response?.data?.message)
+            // toast.error(error?.response?.data?.message)
         }
     }
     useEffect(() => {
         if (id) {
+
             fetchAllotmentDetail()
         }
     }, [id])
@@ -357,7 +287,7 @@ export default function IPDInvoice() {
             document.body.classList.add("hide-buttons");
             const opt = {
                 margin: 0,
-                filename: `BedInvoice-${allotmentData?.customId}.pdf`,
+                filename: `HospitalBill-${allotmentData?.customId}.pdf`,
                 html2canvas: { scale: 2, useCORS: true, allowTaint: true },
                 jsPDF: { unit: "in", format: "letter", orientation: "portrait" }
             };
@@ -372,8 +302,6 @@ export default function IPDInvoice() {
             setAllotmentData({});
         }
     };
-
-
     return (
         <>
             <div className="container mt-2 d-flex justify-content-between">
@@ -383,46 +311,40 @@ export default function IPDInvoice() {
                     <button className="thm-btn" onClick={handleDownload}>Download</button>
                 </div>
             </div>
-            <div style={s.page} ref={invoiceRef}>
-                <div style={s.invoice}>
 
-                    {/* WATERMARK */}
-                    <div style={s.watermarkWrapper}>
-                        <div style={s.watermarkCircle} />
+            <div style={s.page} ref={invoiceRef}>
+                <div style={s.card}>
+
+                    {/* Watermark */}
+                    <div style={s.watermarkWrap}>
+                        {/* <div style={s.watermarkCircle} /> */}
                     </div>
 
                     {/* HEADER */}
                     <div style={s.header}>
-                        <div className="d-flex gap-2">
+                        <div className="d-flex gap-3">
                             <div style={s.logo}>
                                 <img src={hospitalData?.logoFileId ?
                                     `${base_url}/api/file/${hospitalData?.logoFileId}` : "/logo.png"} alt="" />
                             </div>
-                            <div style={s.headerLeft}>
-                                <h1 style={s.headerTitle}>IPD / Bed Invoice</h1>
-                                <p style={s.headerHospital} className="mb-0 lh-sm">{hospitalData?.name}</p>
-                                <p style={s.headerMeta} className="mb-0 lh-sm">
-                                    {hospitalData?.nh12}
-                                </p>
-                                <p style={s.headerMeta} className="mb-0 lh-sm">
-                                    {hospitalData?.fullAddress}, {hospitalData?.city?.name} ,{hospitalData?.pinCode}
-                                </p>
+                            <div>
+                                <h1 style={s.headerTitle}>Hospital Bill</h1>
+                                <p style={s.headerSub} className="my-0 lh-sm">{hospitalData?.name}</p>
+                                <p style={s.headerMeta} className="my-0 lh-sm">{hospitalData?.nh12} · Reg. MH-HOSP-2010-00891 · NABH Accredited</p>
+                                <p style={s.headerMeta} className="my-0 lh-sm">{hospitalData?.fullAddress} ,{hospitalData?.city?.name},{hospitalData?.state?.name} -{hospitalData?.pinCode}</p>
                             </div>
                         </div>
-
                         <div style={s.headerRight}>
-                            <div style={s.networkBadge}>NeoHealthCard Network</div>
-                            <p style={s.headerRightMeta} className="mb-0 lh-sm">Fully Automated · Ecosystem Connected</p>
-                            <p style={s.headerRightMeta} className="mb-0 lh-sm">
-                                {hospitalData?.email} · {hospitalData?.contactNumber}
-                            </p>
+                            <div style={s.badge}>NeoHealthCard Network</div>
+                            <p style={s.headerMeta} className="my-0 lh-sm">Fully Automated · Ecosystem Connected</p>
+                            <p style={s.headerMeta} className="my-0 lh-sm">{hospitalData?.email} · {hospitalData?.contactNumber}</p>
                         </div>
                     </div>
 
                     {/* META */}
                     <div style={s.metaStrip}>
-                        {paymentData && <Meta l="IPD INVOICE ID" v={paymentData?.customId} />}
-                        {dischargeData && <Meta l="DISCHARGE REF" v={dischargeData?.customId} />}
+                        <Meta l="BILL ID" v={paymentData?.customId} />
+                        <Meta l="DISCHARGE REF" v={dischargeData?.customId} />
                         {paymentData?.payments?.length > 0 && (
                             <Meta
                                 l="BILL DATE"
@@ -454,12 +376,10 @@ export default function IPDInvoice() {
                                 <KV k="Dr ID" v={allotmentData?.primaryDoctorId?.nh12} />
                             </div>
                         </div>
-
-                        {/* QR */}
-                        <div style={s.qrContainer}>
+                        <div style={s.qrCol}>
                             <div style={s.qrBox} >
                                 <QRCodeCanvas
-                                    value={`https://www.neohealthcard.com/ipd-invoice/${allotmentData?.customId}`}
+                                    value={`https://www.neohealthcard.com/hospital-bill/${allotmentData?.customId}`}
                                     size={256}
                                     // className="qr-code"
                                     style={{ height: "auto", maxWidth: "100%", width: "100%" }}
@@ -470,31 +390,9 @@ export default function IPDInvoice() {
                         </div>
                     </div>
 
-                    {/* ADMISSION + CLINICAL */}
-                    <div style={s.admissionClinical}>
-                        <div style={s.sectionGroup}>
-                            <p style={s.sectionLabel}>ADMISSION DETAILS</p>
-                            {/* <KV k="Ward Type" v="General Ward" /> */}
-                            <KV k="Bed / Room" v={`${allotmentData?.bedId?.bedName} / ${allotmentData?.bedId?.roomId?.roomName}`} />
-                            <KV k="Admission" v={new Date(allotmentData?.allotmentDate)?.toLocaleDateString('en-GB')} />
-                            {dischargeData && <KV k="Discharge" v={new Date(dischargeData?.createdAt)?.toLocaleString('en-GB')} />}
-                            <KV k="Total Stay" v={`${totalStay} Days`} />
-                        </div>
-
-                        <div style={s.sectionGroup}>
-                            <p style={s.sectionLabel}>CLINICAL REFERENCE</p>
-                            <KV k="Diagnosis" v={allotmentData?.admissionReason} />
-                            {dischargeData && <KV k="Discharge Type" v={dischargeData?.dischargeType} />}
-                            {dischargeData && <KV k="Condition" v={stripHtml(dischargeData?.conditionOfDischarge)} />}
-                            <KV k="Attending Doctor" v={allotmentData?.primaryDoctorId?.name} />
-                            <KV k="Department" v={allotmentData?.departmentId?.departmentName} />
-                        </div>
-                    </div>
-
                     {/* TABLE */}
                     <div style={s.tableSection}>
                         <p style={s.tableTitle}>SERVICES & CHARGES</p>
-
                         <table style={s.table}>
                             <thead style={s.thead}>
                                 <tr>
@@ -528,93 +426,62 @@ export default function IPDInvoice() {
                                             0
                                         )}</td>
                                     </tr>}
-                                {/* {paymentData?.services?.length > 0 &&
-                  <tr style={s.tdBorderTop}>
-                    <td style={s.tdLeft}><div>Services </div>
-                      <div style={s.tdSubText}>{paymentData?.services?.map(item => item?.name)?.join(',')}</div>
-                    </td>
-                    <td style={s.tdRight}>₹ {paymentData?.services?.reduce(
-                      (sum, s) => sum + Number(s.amount || 0),
-                      0
-                    )}</td>
-                  </tr>} */}
+                                {paymentData?.services?.length > 0 &&
+                                    <tr style={s.tdBorderTop}>
+                                        <td style={s.tdLeft}><div>Services </div>
+                                            <div style={s.tdSubText}>{paymentData?.services?.map(item => item?.name)?.join(',')}</div>
+                                        </td>
+                                        <td style={s.tdRight}>₹ {paymentData?.services?.reduce(
+                                            (sum, s) => sum + Number(s.amount || 0),
+                                            0
+                                        )}</td>
+                                    </tr>}
+
                             </tbody>
                         </table>
+
+                        {/* SUMMARY */}
+                        <div style={s.summaryWrap}>
+                            <div style={s.summaryBox}>
+                                <div style={s.summaryRow}>
+                                    <span style={s.summaryLabel}>Sub Total</span>
+                                    <span>₹{paymentData?.totalAmount}</span>
+                                </div>
+                                {/* <div style={s.summaryRow}>
+                <span style={s.summaryLabel}>GST Total</span>
+                <span>₹1,200</span>
+              </div> */}
+                                <div style={s.summaryRow}>
+                                    <span style={s.summaryLabel}>Discount {`${paymentData?.discountType == "Percentage" ? '(%)' : '₹'}`}</span>
+                                    <span>-{paymentData?.discountValue}</span>
+                                </div>
+                                <div style={s.summaryTotal}>
+                                    <span>Grand Total</span>
+                                    <span>₹{paymentData?.finalAmount}</span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                     {/* PAYMENT */}
-                    {/*<div style={s.tableSection}>
-            <p style={s.tableTitle}>Payments</p>
-
-            <table style={s.table}>
-              <thead style={s.thead}>
-                <tr>
-                  <th style={s.thLeft}>Payment Date </th>
-                  <th style={s.thCenter}>Payment Type</th>
-                  <th style={s.thRight}>Amount</th>
-                </tr>
-              </thead>
-
-              <tbody>
-                {paymentData?.payments?.length > 0 &&
-                  paymentData?.payments?.map((item, key) => <tr style={s.tdBorderTop} key={key}>
-                    <td style={s.tdLeft}><div>{new Date(item?.date)?.toLocaleDateString('en-GB')} </div>
-                    </td>
-                    <td style={s.tdCenter}>{item?.type}</td>
-                    <td style={s.tdRight}> ₹ {item?.amount}</td>
-                  </tr>)}
-                <tr style={s.tdBorderTop}>
-                  <td></td>
-                  <td></td>
-                  <td style={s.tdRight}>Total Amount ₹ {paymentData?.totalAmount}</td>
-                </tr>
-                {paymentData?.discountValue > 0 &&
-                  <tr style={s.tdBorderTop}>
-                    <td></td>
-                    <td></td>
-                    <td style={s.tdRight}>Discount {`${paymentData?.discountType == "Percentage" ? '(%)' : '₹'}`} {paymentData?.discountValue}</td>
-                  </tr>}
-                <tr style={s.tdBorderTop}>
-                  <td></td>
-                  <td></td>
-                  <td style={s.tdRight}>Final Amount ₹ {paymentData?.finalAmount}</td>
-                </tr>
-
-              </tbody>
-            </table>
-          </div>*/}
-
-                    <div style={s.paymentRow}>
+                    <div style={s.paymentGrid}>
                         {/* <div style={s.paymentCell}>
             <Label>Payment Mode</Label>
             <Value>Cash</Value>
           </div> */}
-                        {paymentData && <div style={s.paymentCellBordered}>
+                        <div style={s.paymentCellBorder}>
                             <Label>Transaction ID</Label>
                             <Value>{paymentData?.customId}</Value>
-                        </div>}
-                        <div style={s.paymentCellBordered}>
-                            <Label>Status</Label>
-                            <Value>{paymentData?.status || ''}</Value>
                         </div>
-                    </div>
-
-                    {/* NOTES */}
-                    <div style={s.notesSection}>
-                        <p style={s.notesTitle}>IMPORTANT NOTES</p>
-                        <ol style={s.notesList}>
-                            <li>Bed charges calculated on daily basis from admission time.</li>
-                            <li>Partial day is billed as full day for IPD purposes.</li>
-                            <li>Charges vary by ward category and level of care required.</li>
-                            <li>This invoice is linked to Discharge Summary.</li>
-                        </ol>
+                        <div style={s.paymentCellBorder}>
+                            <Label>Status</Label>
+                            <Value>{paymentData?.status}</Value>
+                        </div>
                     </div>
 
                     {/* FOOTER */}
                     <div style={s.footer}>
-                        <span>
-                            {hospitalData?.name}, Mumbai · {hospitalData?.email} · {hospitalData?.contactNumber}
-                        </span>
+                        <span>{hospitalData?.name}, Mumbai · {hospitalData?.email} · {hospitalData?.contactNumber}</span>
                         <span>Wishing you a speedy recovery</span>
                     </div>
 

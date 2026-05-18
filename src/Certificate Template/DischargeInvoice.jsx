@@ -425,7 +425,7 @@ export default function DischargeInvoice() {
                         <div style={s.qrCol}>
                             <div style={s.qrBox} >
                                 <QRCodeCanvas
-                                    value={`https://www.neohealthcard.com/discharge-summary/${allotmentData?.customId}`}
+                                    value={`https://www.neohealthcard.com/discharge-invoice/${allotmentData?.customId}`}
                                     size={256}
                                     // className="qr-code"
                                     style={{ height: "auto", maxWidth: "100%", width: "100%" }}
