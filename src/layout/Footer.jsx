@@ -8,6 +8,7 @@ import { getApiData } from "../Services/api";
 
 function Footer() {
   const [socialLinks, setSocilLinks] = useState([])
+  const [firstSection, setFirstSection] = useState()
   async function fetchSocialLink() {
     try {
       const res = await getApiData('api/social-links')
@@ -18,8 +19,20 @@ function Footer() {
 
     }
   }
+  const fetchData = async () => {
+    try {
+      const res = await getApiData("api/admin/landing/main");
+      if (res.success) {
+        setFirstSection(res?.data?.firstSection)
+      }
+
+
+    } catch (err) {
+      console.log(err);
+    }
+  };
   useEffect(() => {
-    fetchSocialLink()
+    Promise.all([fetchData(), fetchSocialLink()])
   }, [])
   return (
     <>
@@ -36,7 +49,7 @@ function Footer() {
               </div>
 
               <p className="footer-text">
-                NeoHealthCard Private Limited Build consent-first health infrastructure for secure care continuity, verified clinical truth, and governance-ready interoperability.
+                {firstSection?.footerData?.aboutNeo}
               </p>
 
               <div>
@@ -51,7 +64,7 @@ function Footer() {
 
               <div className="clinical-notice-bx">
                 <h5>CLINICAL NOTICE</h5>
-                <p>NeoAI provides decision support and workflow assistance. it does not replace a licensed clinician. Clinical  responsibility remains with the treating provider.</p>
+                <p>{firstSection?.footerData?.clinicalNote}</p>
               </div>
               <div className="footer-social mt-3">
                 <a href={socialLinks?.facebook} className="dv-social-icon-btn" target="_blank">
@@ -116,7 +129,7 @@ function Footer() {
 
               <div className="clinical-notice-bx">
                 <h5>TRANSPARENCY</h5>
-                <p>Access is logged and auditable patients can review sharing and revoke consent where applicable.</p>
+                <p>{firstSection?.footerData?.transparancy}</p>
 
               </div>
             </div>
