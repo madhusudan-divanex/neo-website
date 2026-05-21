@@ -7,6 +7,8 @@ import PharmacyReturn from "./Certificate Template/PharmacyReturn";
 import PharmacyInvoice from "./Certificate Template/PharmacySell";
 import LabSampleReceipt from "./Certificate Template/LabSample";
 import PatientConsentForm from "./Certificate Template/PatientConsentForm";
+import UserProfile from "./User Profile/UserProfile";
+import OPDReceipt from "./Certificate Template/OPDReceipt";
 
 const PrivacyPolicy = React.lazy(() => import("./Components/PrivacyPolicy"));
 const TermAndCondition = React.lazy(() => import("./Components/TermAndCondition"));
@@ -167,6 +169,10 @@ function Router() {
           element: <IPDInvoice />
         },
         {
+          path: "/opd-receipt/:id",
+          element: <OPDReceipt />
+        },
+        {
           path: "/doctor-appointment-receipt/:id",
           element: <DoctorAptBookingReceipt />
         },
@@ -201,6 +207,10 @@ function Router() {
         {
           path: "/patient-consent-letter/:id",
           element: <PatientConsentForm />
+        },
+        {
+          path: "/user-profile/:id",
+          element: <UserProfile />
         }
 
 

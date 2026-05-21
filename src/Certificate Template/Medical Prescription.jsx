@@ -19,11 +19,11 @@ const FontLink = () => (
 // ── Data ─────────────────────────────────────────────────────────────────
 
 // ── Component ────────────────────────────────────────────────────────────
-export default function MedicalPrescription({presId, pdfLoading, endLoading }) {
-    const { id } = useParams()
+export default function MedicalPrescription({ presId, pdfLoading, endLoading }) {
+  const { id } = useParams()
   const [ptData, setPtData] = useState()
   const [aptData, setAptData] = useState()
-  const [prescription,setPrescription]=useState()
+  const [prescription, setPrescription] = useState()
   async function fetchAptPayment() {
     try {
       const res = await getApiData(`api/comman/prescription/${presId || id}`)
@@ -49,9 +49,9 @@ export default function MedicalPrescription({presId, pdfLoading, endLoading }) {
       const element = invoiceRef.current;
       document.body.classList.add("hide-buttons");
       const opt = {
-        margin: 0.5,
-        filename: `Invoice-${aptData?.transactionId}.pdf`,
-        html2canvas: { scale: 2 },
+        margin: 0.3,
+        filename: `Prescription-${prescription?.customId}.pdf`,
+        html2canvas: { scale: 2, useCORS: true, allowTaint: true },
         jsPDF: { unit: "in", format: "letter", orientation: "portrait" }
       };
 
@@ -62,26 +62,25 @@ export default function MedicalPrescription({presId, pdfLoading, endLoading }) {
 
     } finally {
       if (pdfLoading) endLoading();
-      setAptData({});
     }
   };
-  useEffect(() => {
-    if (ptData && aptData && pdfLoading) {
-      const timer = setTimeout(() => {
-        handleDownload();
-      }, 1500);
-      return () => clearTimeout(timer);
-    }
-  }, [ptData, aptData, pdfLoading]);
   return (
     <>
-      <FontLink />
-      <link
-        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-        rel="stylesheet"
-      />
+      <div className="container mt-2 d-flex justify-content-between align-items-center">
+        <img src="/logo.png" alt="" srcset="" width={100} height={60} />
+        <div>
 
-      <style>{`
+          <button className="thm-btn" onClick={handleDownload}>Download</button>
+        </div>
+      </div>
+      <>
+        <FontLink />
+        <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+        />
+
+        <style>{`
         /* ---------- global ---------- */
         .rx * { font-family: 'Inter', sans-serif; box-sizing: border-box; }
 
@@ -190,157 +189,157 @@ export default function MedicalPrescription({presId, pdfLoading, endLoading }) {
         .rx-footer .rx-tagline { font-style: italic; }
       `}</style>
 
-      <div className="rx rx-page">
-        <div className="rx-card">
+        <div className="rx rx-page" >
+          <div className="rx-card" ref={invoiceRef}>
 
-          {/* ── HEADER ── */}
-          <div className="rx-header d-flex justify-content-between align-items-start">
-            <div className="d-flex align-items-start gap-3">
-              <div className="rx-logo">
-                <img src="/logo.png" alt="" srcset="" />
-              </div>
-              <div>
-                <div className="rx-h-title">Medical Prescription</div>
-                <div className="rx-h-name">{aptData?.orgName}</div>
-                <div className="rx-h-addr">
-                  {aptData?.orgNh12}<br />
-                  {aptData?.orgAddress}
+            {/* ── HEADER ── */}
+            <div className="rx-header d-flex justify-content-between align-items-start">
+              <div className="d-flex align-items-start gap-3">
+                <div className="rx-logo">
+                  <img src={aptData?.logo || "/logo.png"} alt="" srcset="" />
+                </div>
+                <div>
+                  <div className="rx-h-title">Medical Prescription</div>
+                  <div className="rx-h-name">{aptData?.orgName}</div>
+                  <div className="rx-h-addr">
+                    {aptData?.orgNh12}<br />
+                    {aptData?.orgAddress}
+                  </div>
                 </div>
               </div>
-            </div>
-            <div className="text-end">
-              <div className="mb-1">
-                <span className="rx-badge">
-                  <svg width="9" height="9" viewBox="0 0 10 10" fill="#1dcdd8">
-                    <polygon points="5,0.5 6.2,3.5 9.5,3.8 7.2,6 7.9,9.5 5,7.8 2.1,9.5 2.8,6 0.5,3.8 3.8,3.5" />
-                  </svg>
-                  NeoHealthCard Network
-                </span>
+              <div className="text-end">
+                <div className="mb-1">
+                  <span className="rx-badge">
+                    <svg width="9" height="9" viewBox="0 0 10 10" fill="#1dcdd8">
+                      <polygon points="5,0.5 6.2,3.5 9.5,3.8 7.2,6 7.9,9.5 5,7.8 2.1,9.5 2.8,6 0.5,3.8 3.8,3.5" />
+                    </svg>
+                    NeoHealthCard Network
+                  </span>
+                </div>
+                <div className="d-flex gap-3 justify-content-end mb-1">
+                  <span className="rx-eco">Fully Automated</span>
+                  <span className="rx-eco">Ecosystem Connected</span>
+                </div>
+                <div className="rx-h-contact">{aptData?.orgEmail} · {aptData?.orgContactNumber}</div>
               </div>
-              <div className="d-flex gap-3 justify-content-end mb-1">
-                <span className="rx-eco">Fully Automated</span>
-                <span className="rx-eco">Ecosystem Connected</span>
-              </div>
-              <div className="rx-h-contact">{aptData?.orgEmail} · {aptData?.orgContactNumber}</div>
             </div>
-          </div>
 
-          {/* ── META STRIP ── */}
-          <div className="rx-meta">
-            <div className="rx-mc">
-              <div className="rx-ml">Prescription ID</div>
-              <div className="rx-mv rx-mono">{prescription?.customId}</div>
-            </div>
-            <div className="rx-mc">
-              <div className="rx-ml">Date &amp; Time</div>
-              <div className="rx-mv">{new Date(prescription?.createdAt)?.toLocaleString('en-GB')}</div>
-            </div>
-            <div className="rx-mc">
-              <div className="rx-ml">Diagnosis</div>
-              <div className="rx-mv">{prescription?.diagnosis}</div>
-            </div>
-            {/* <div className="rx-mc">
+            {/* ── META STRIP ── */}
+            <div className="rx-meta">
+              <div className="rx-mc">
+                <div className="rx-ml">Prescription ID</div>
+                <div className="rx-mv rx-mono">{prescription?.customId}</div>
+              </div>
+              <div className="rx-mc">
+                <div className="rx-ml">Date &amp; Time</div>
+                <div className="rx-mv">{new Date(prescription?.createdAt)?.toLocaleString('en-GB')}</div>
+              </div>
+              <div className="rx-mc">
+                <div className="rx-ml">Diagnosis</div>
+                <div className="rx-mv">{prescription?.diagnosis}</div>
+              </div>
+              {/* <div className="rx-mc">
               <div className="rx-ml">Valid For</div>
               <div className="rx-mv">30 Days</div>
             </div> */}
-          </div>
-
-          {/* ── PATIENT ── */}
-          <div className="rx-patient">
-            <div className="flex-fill">
-              <div className="rx-pt-sec-lbl">Patient</div>
-              <div className="rx-pt-name">{ptData?.name}</div>
-              <div className="rx-pt-grid">
-                <span className="rx-pt-lbl">Age / Sex</span>      <span className="rx-pt-val text-capitalize">{calculateAge(ptData?.dob,prescription?.createdAt)}/ {ptData?.gender}</span>
-                <span className="rx-pt-lbl">Email Address</span>   <span className="rx-pt-val">{ptData?.email}</span>
-
-                <span className="rx-pt-lbl">DOB</span>             <span className="rx-pt-val">{new Date(ptData?.dob)?.toLocaleDateString('en-GB')}</span>
-                <span className="rx-pt-lbl">Address</span>         <span className="rx-pt-val">{ptData?.address}</span>
-
-                <span className="rx-pt-lbl">Blood</span>           <span className="rx-pt-val">{ptData?.bloodGroup}</span>
-                <span className="rx-pt-lbl">Patient ID</span>      <span className="rx-pt-val rx-mono">{ptData?.nh12}</span>
-
-                <span className="rx-pt-lbl">Contact no</span>      <span className="rx-pt-val">+91 {ptData?.contactNumber}</span>
-                <span className="rx-pt-lbl">Dr Name</span>         <span className="rx-pt-val">Dr. {aptData?.doctorName}</span>
-
-                <span className="rx-pt-lbl"></span>                 <span className="rx-pt-val"></span>
-                <span className="rx-pt-lbl">Dr ID</span>           <span className="rx-pt-val rx-mono">{aptData?.doctorNh12}</span>
-              </div>
             </div>
-            <div>
-              <div className="rx-qr-wrap">
-                 <QRCodeCanvas
-                     value={`https://www.neohealthcard.com/prescription/${prescription?.customId}`}
+
+            {/* ── PATIENT ── */}
+            <div className="rx-patient">
+              <div className="flex-fill">
+                <div className="rx-pt-sec-lbl">Patient</div>
+                <div className="rx-pt-name">{ptData?.name}</div>
+                <div className="rx-pt-grid">
+                  <span className="rx-pt-lbl">Age / Sex</span>      <span className="rx-pt-val text-capitalize">{calculateAge(ptData?.dob, prescription?.createdAt)}/ {ptData?.gender}</span>
+                  <span className="rx-pt-lbl">Email Address</span>   <span className="rx-pt-val">{ptData?.email}</span>
+
+                  <span className="rx-pt-lbl">DOB</span>             <span className="rx-pt-val">{new Date(ptData?.dob)?.toLocaleDateString('en-GB')}</span>
+                  <span className="rx-pt-lbl">Address</span>         <span className="rx-pt-val">{ptData?.address}</span>
+
+                  <span className="rx-pt-lbl">Blood</span>           <span className="rx-pt-val">{ptData?.bloodGroup}</span>
+                  <span className="rx-pt-lbl">Patient ID</span>      <span className="rx-pt-val rx-mono">{ptData?.nh12}</span>
+
+                  <span className="rx-pt-lbl">Contact no</span>      <span className="rx-pt-val">+91 {ptData?.contactNumber}</span>
+                  <span className="rx-pt-lbl">Dr Name</span>         <span className="rx-pt-val">Dr. {aptData?.doctorName}</span>
+
+                  <span className="rx-pt-lbl"></span>                 <span className="rx-pt-val"></span>
+                  <span className="rx-pt-lbl">Dr ID</span>           <span className="rx-pt-val rx-mono">{aptData?.doctorNh12}</span>
+                </div>
+              </div>
+              <div>
+                <div className="rx-qr-wrap">
+                  <QRCodeCanvas
+                    value={`https://www.neohealthcard.com/medical-prescription/${prescription?.customId}`}
                     size={256}
                     // className="qr-code"
                     style={{ height: "auto", maxWidth: "100%", width: "100%" }}
                   />
+                </div>
+                <div className="rx-scan">Scan to verify<br />verify.neohealthcard.in</div>
               </div>
-              <div className="rx-scan">Scan to verify<br />verify.neohealthcard.in</div>
             </div>
-          </div>
 
-          {/* ── SERVICES TABLE ── */}
-          <div className="rx-svc-wrap">
-            <div className="rx-svc-title">Services &amp; Charges</div>
-            <table className="rx-tbl">
-              <thead>
-                <tr>
-                  {["Medication Name","Refills","Frequency","Duration","Instruction"].map(h => (
-                    <th key={h}>{h}</th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                {prescription?.medications.map((m, i) => (
-                  <tr key={i}>
-                    <td>
-                      <div className="rx-med">{m.name}</div>
-                      {/* {m.sub && <div className="rx-msub">{m.sub}</div>} */}
-                    </td>
-                    <td>{m.refills}</td>
-                    <td>{m.frequency}</td>
-                    <td>{m.duration}</td>
-                    <td>{m.instructions}</td>
+            {/* ── SERVICES TABLE ── */}
+            <div className="rx-svc-wrap">
+              <div className="rx-svc-title">Services &amp; Charges</div>
+              <table className="rx-tbl">
+                <thead>
+                  <tr>
+                    {["Medication Name", "Refills", "Frequency", "Duration", "Instruction"].map(h => (
+                      <th key={h}>{h}</th>
+                    ))}
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+                </thead>
+                <tbody>
+                  {prescription?.medications.map((m, i) => (
+                    <tr key={i}>
+                      <td>
+                        <div className="rx-med">{m.name}</div>
+                        {/* {m.sub && <div className="rx-msub">{m.sub}</div>} */}
+                      </td>
+                      <td>{m.refills}</td>
+                      <td>{m.frequency}</td>
+                      <td>{m.duration}</td>
+                      <td>{m.instructions}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
 
-          {/* ── GENERAL INSTRUCTION ── */}
-          <div className="rx-gi">
-            <div className="rx-gi-title">General Instruction</div>
-            <ol className="rx-gi-ol">
-              <li>{prescription?.notes}</li>
-              {/* {instructions.map(({ num, text }) => (
+            {/* ── GENERAL INSTRUCTION ── */}
+            <div className="rx-gi">
+              <div className="rx-gi-title">General Instruction</div>
+              <ol className="rx-gi-ol">
+                <li>{prescription?.notes}</li>
+                {/* {instructions.map(({ num, text }) => (
                 <li key={num} value={num}>{text}</li>
               ))} */}
-            </ol>
-          </div>
-
-          {/* ── SIGNATURES ── */}
-          <div className="rx-sig-row">
-            <div className="rx-sig-blk">
-              <div className="rx-sig-name">Dr. {aptData?.doctorName}</div>
-              <div className="rx-sig-role">{aptData?.specialization}  · {aptData?.orgName}</div>
-              <div className="rx-sig-id">{aptData?.doctorNh12}</div>
+              </ol>
             </div>
-            <div className="rx-sig-blk">
-              <div className="rx-sig-name">{ptData?.name}</div>
-              <div className="rx-sig-role">Patient / Authorised Representative</div>
-              <div className="rx-sig-id">{ptData?.nh12}</div>
+            {/* ── SIGNATURES ── */}
+            <div className="rx-sig-row">
+              <div className="rx-sig-blk">
+                <div className="rx-sig-name">{aptData?.doctorName}</div>
+                <div className="rx-sig-role">{aptData?.specialization}  · {aptData?.orgName}</div>
+                <div className="rx-sig-id">{aptData?.doctorNh12}</div>
+              </div>
+              <div className="rx-sig-blk">
+                <div className="rx-sig-name">{ptData?.name}</div>
+                <div className="rx-sig-role">Patient / Authorised Representative</div>
+                <div className="rx-sig-id">{ptData?.nh12}</div>
+              </div>
             </div>
-          </div>
 
-          {/* ── FOOTER ── */}
-          <div className="rx-footer">
-            <span>{aptData?.orgName}, {aptData?.orgAddress} · {aptData?.orgEmail} · {aptData?.orgContactNumber}</span>
-            <span className="rx-tagline">Wishing you a speedy recovery</span>
-          </div>
+            {/* ── FOOTER ── */}
+            <div className="rx-footer">
+              <span>{aptData?.orgName}, {aptData?.orgAddress} · {aptData?.orgEmail} · {aptData?.orgContactNumber}</span>
+              <span className="rx-tagline">Wishing you a speedy recovery</span>
+            </div>
 
+          </div>
         </div>
-      </div>
+      </>
     </>
   );
 }

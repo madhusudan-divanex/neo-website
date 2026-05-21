@@ -34,3 +34,4 @@ export const stripHtml = (html) => {
   const doc = new DOMParser().parseFromString(html, "text/html");
   return doc.body.textContent || "";
 };
+export const statusClass = (s) => s === "approved" ? "approved-active" : s === "pending" ? "approved-pending" : "approved-reject";

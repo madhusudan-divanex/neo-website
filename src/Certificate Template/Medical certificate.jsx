@@ -30,7 +30,6 @@ const ViewMedicalCertificate = ({ certificateData }) => {
 
     html2pdf().set(opt).from(element).save();
   };
-  console.log(certificateData)
   return (
     <>
       <div className="container mt-2 d-flex justify-content-between">

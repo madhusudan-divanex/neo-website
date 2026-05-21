@@ -1471,14 +1471,14 @@ input[type=number] {
   color: var(--first-color);
 }
 
-.social-media-icon{
+.social-media-icon {
   font-size: 16px;
   display: inline-block;
   color: #052F59;
   transition: all 0.5s ease;
 }
 
-.social-media-icon:hover{
+.social-media-icon:hover {
   color: #0E559C !important;
 }
 
@@ -3423,13 +3423,13 @@ input[type=number] {
   height: 750px;
   min-height: 600px;
   overflow-y: auto;
-  scrollbar-width: none;  
-    -ms-overflow-style: none;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 
 }
 
 .chat-left-usr-bx::-webkit-scrollbar {
-    display: none;  
+  display: none;
 }
 
 .chat-search-bx {
@@ -6381,108 +6381,110 @@ object-fit: fill;
   object-fit: contain;
   height: 300px;
 }
-.app-layout{
+
+.app-layout {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
 }
-.page-content{
+
+.page-content {
   flex: 1;
 }
 
 .permision-check-list {
-    display: flex;
-    align-items: center;
-    column-gap: 20px;
-    flex-wrap: wrap;
+  display: flex;
+  align-items: center;
+  column-gap: 20px;
+  flex-wrap: wrap;
 }
 
 
 .custom-check {
-    position: relative;
-    cursor: pointer;
-    user-select: none;
-    display: flex;
-    align-items: start;
-    padding-top: 10px;
-    padding-bottom: 10px;
-    margin-bottom: 0;
+  position: relative;
+  cursor: pointer;
+  user-select: none;
+  display: flex;
+  align-items: start;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  margin-bottom: 0;
 }
 
 
 .custom-check .form-check-input {
-    appearance: none;
-    -webkit-appearance: none;
-    height: 18px;
-    width: 18px;
-    border: 1px solid #00B4B5;
-    border-radius: 4px;
-    outline: none;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    margin-right: 8px;
-    position: relative;
-    box-shadow: 0px 0px 10px 0px #00B4B582;
+  appearance: none;
+  -webkit-appearance: none;
+  height: 18px;
+  width: 18px;
+  border: 1px solid #00B4B5;
+  border-radius: 4px;
+  outline: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-right: 8px;
+  position: relative;
+  box-shadow: 0px 0px 10px 0px #00B4B582;
 
 }
 
 
 .custom-check .form-check-input:checked {
-    background-color: #00B4B5;
-    border-color: #00B4B5;
+  background-color: #00B4B5;
+  border-color: #00B4B5;
 }
 
 .custom-check .form-check-input:focus {
-    box-shadow: none !important;
+  box-shadow: none !important;
 }
 
 
 .custom-check .form-check-label {
-    font-size: 16px;
-    color: #000000;
-    font-weight: 400;
+  font-size: 16px;
+  color: #000000;
+  font-weight: 400;
 }
 
 .permission-check-main-bx h4 {
-    font-weight: 700;
-    font-size: 20px;
-    line-height: 100%;
-    color: #052F59;
-    text-transform: capitalize;
-    margin-bottom: 0;
-    display: flex;
-    gap: 6px;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 100%;
+  color: #052F59;
+  text-transform: capitalize;
+  margin-bottom: 0;
+  display: flex;
+  gap: 6px;
 }
 
 .admin-sub-dropdown:hover {
-    background-color: #0E559C;
+  background-color: #0E559C;
 }
 
 /* Add to chat.css */
 .follow-up-btn {
-    font-size: 0.875rem;
-    padding: 0.25rem 0.75rem;
-    border-radius: 20px;
-    transition: all 0.3s ease;
+  font-size: 0.875rem;
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  transition: all 0.3s ease;
 }
 
 .follow-up-btn:hover {
-    background-color: #0d6efd;
-    color: white;
-    transform: translateY(-2px);
+  background-color: #0d6efd;
+  color: white;
+  transform: translateY(-2px);
 }
 
 .follow-up-questions {
-    background: rgba(13, 110, 253, 0.05);
-    padding: 0.75rem;
-    border-radius: 10px;
-    border-left: 4px solid #0d6efd;
+  background: rgba(13, 110, 253, 0.05);
+  padding: 0.75rem;
+  border-radius: 10px;
+  border-left: 4px solid #0d6efd;
 }
 
 
 /* Privacy Policy start*/
 
-.neo-privacy-content h4{
+.neo-privacy-content h4 {
   font-size: 30px;
   text-align: center;
   color: #000;
@@ -6490,28 +6492,28 @@ object-fit: fill;
   padding-bottom: 30px;
 }
 
-.neo-privacy-content h5{
-   font-size: 18px;
+.neo-privacy-content h5 {
+  font-size: 18px;
   text-align: center;
   color: grey;
   font-weight: 500;
 }
 
 
-.privacy-policy-main-content h4{
+.privacy-policy-main-content h4 {
   font-size: 25px;
   font-weight: 700;
   color: #052F59;
-  
+
 }
 
-.privacy-policy-main-content h5{
+.privacy-policy-main-content h5 {
   font-size: 25px;
   font-weight: 700;
   color: #00022A;
 }
 
-.privacy-policy-main-content p{
+.privacy-policy-main-content p {
   font-size: 18px;
   font-weight: 500;
   color: #000;
@@ -6522,17 +6524,19 @@ object-fit: fill;
   padding-left: 20px !important;
 }
 
-.privacy-list .privacy-item{
-   font-size: 18px;
+.privacy-list .privacy-item {
+  font-size: 18px;
   font-weight: 500;
   color: #000;
   list-style-type: disc !important;
   padding: 5px 0;
 }
-.for-institutions{
+
+.for-institutions {
   width: 300px !important;
 }
-.chat-left-usr-bx .add-chat{
+
+.chat-left-usr-bx .add-chat {
   position: absolute;
   bottom: 40px;
   right: 10px;
@@ -6566,4 +6570,161 @@ object-fit: fill;
 .about-para li {
   display: list-item !important;
   list-style-position: outside !important;
+}
+
+.lablcense-bx {
+  justify-content: space-between;
+  align-items: center;
+  display: flex;
+}
+
+.pdf-download-tbn {
+  color: #052f59;
+  background: #fff;
+  border: 1px solid #052f59;
+  border-radius: 12px;
+  padding: 6px 10px;
+  font-size: 16px;
+  font-weight: 700;
+  box-shadow: 0 0 20px #00b4b533;
+}
+
+.doctor-main-profile-card {
+  display: flex;
+  gap: 20px;
+}
+
+.doctor-content-details {
+  flex-direction: column;
+  flex: 1;
+  justify-content: space-between;
+  display: flex;
+}
+
+.doctor-info-list {
+  justify-content: space-between;
+  gap: 20px;
+  max-width: 700px;
+  display: flex;
+}
+
+.lab-certificate-dwn {
+  background: #00b4b538;
+  border-radius: 12px;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px 15px;
+  display: flex;
+}
+
+.lab-license-bx {
+  background: #fff;
+  border: 1px solid #999;
+  border-radius: 13px;
+  padding: 20px;
+}
+
+.vw-info-item {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 18px;
+}
+
+.vw-info-icon {
+  font-size: 17px;
+  margin-right: 10px;
+  color: #000;
+  margin-top: 2px;
+}
+
+.vw-info-title {
+  margin: 0;
+  font-weight: 600;
+  font-size: 13px;
+  color: #000;
+}
+
+.vw-info-value {
+  margin: 0;
+  font-weight: 400;
+  font-size: 18px;
+  color: #4D667E;
+  word-break: break-all;
+}
+
+.ovrview-bx p {
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 25px;
+  color: #000;
+
+}
+
+.vw-contract-bx {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 500px;
+}
+
+.vw-contract-bx h6 {
+  font-weight: 600;
+  font-size: 13px;
+  color: #000;
+}
+
+.vw-contract-bx p {
+  font-weight: 400;
+  font-size: 18px;
+  color: #4D667E;
+}
+
+.view-employee-bx {
+  background: #FFFFFF;
+  border: 1px solid #DBE0E5;
+  padding: 20px;
+
+}
+
+.view-avatr-bio-bx img {
+  width: 125px;
+  height: 125px;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.view-avatr-bio-bx h4 {
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 150%;
+  text-align: center;
+  color: #052F59;
+
+}
+
+.view-avatr-bio-bx p {
+
+  font-weight: 600;
+  text-align: center;
+
+
+}
+
+.view-avatr-bio-bx .vw-id {
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 150%;
+  text-align: center;
+  color: #484848;
+}
+
+.view-avatr-bio-bx .vw-activ {
+  display: inline-block;
+  background: #34A853;
+  border-radius: 30px;
+  padding: 10px;
+  color: #fff;
+  font-weight: 600;
+  font-size: 13px;
+  text-align: center;
 }

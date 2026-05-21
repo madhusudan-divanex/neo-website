@@ -225,9 +225,9 @@ export default function LabTestOrder() {
                             </div>
                             <div>
                                 <div className="lto-h-title">Lab Test Order</div>
-                                <div className="lto-h-name">{appointmentData?.labId?.name}</div>
+                                <div className="lto-h-name">{labData?.name}</div>
                                 <div className="lto-h-addr">
-                                    {appointmentData?.labId?.nh12} <br />
+                                    {labData?.nh12} <br />
                                     {labData?.address}
                                 </div>
                             </div>
@@ -245,7 +245,7 @@ export default function LabTestOrder() {
                                 <span className="lto-eco">Fully Automated</span>
                                 <span className="lto-eco">Ecosystem Connected</span>
                             </div>
-                            <div className="lto-h-contact">{appointmentData?.labId?.email} · {appointmentData?.labId?.contactNumber}</div>
+                            <div className="lto-h-contact">{labData?.email} · {labData?.contactNumber}</div>
                         </div>
                     </div>
 
@@ -253,7 +253,7 @@ export default function LabTestOrder() {
                     <div className="lto-meta">
                         <div className="lto-mc">
                             <div className="lto-ml">Lab ID</div>
-                            <div className="lto-mv mono">{appointmentData?.labId?.nh12}</div>
+                            <div className="lto-mv mono">{labData?.nh12}</div>
                         </div>
                         <div className="lto-mc">
                             <div className="lto-ml">Date &amp; Time</div>
@@ -265,7 +265,7 @@ export default function LabTestOrder() {
             </div> */}
                         <div className="lto-mc wide">
                             <div className="lto-ml">Report To</div>
-                            <div className="lto-mv">{appointmentData?.labId?.name} · {appointmentData?.labId?.nh12}</div>
+                            <div className="lto-mv">{labData?.name} · {labData?.nh12}</div>
                         </div>
                     </div>
 
@@ -276,15 +276,15 @@ export default function LabTestOrder() {
                             <div className="lto-pt-name">{appointmentData?.patientId?.name}</div>
                             <div className="lto-pt-grid">
                                 <span className="lto-pt-l">Age / Sex</span>      <span className="lto-pt-v">{calculateAge(patientData?.dob, appointmentData?.createdAt)}/ {patientData?.gender}</span>
-                                <span className="lto-pt-l">Email Address</span>   <span className="lto-pt-v">{appointmentData?.patientId?.email}</span>
+                                <span className="lto-pt-l">Email Address</span>   <span className="lto-pt-v">{patientData?.email}</span>
 
                                 <span className="lto-pt-l">DOB</span>             <span className="lto-pt-v">{new Date(patientData?.dob)?.toLocaleDateString('en-GB')}</span>
-                                <span className="lto-pt-l">Address</span>         <span className="lto-pt-v">{patientData?.fullAddress}</span>
+                                <span className="lto-pt-l">Address</span>         <span className="lto-pt-v">{patientData?.address}</span>
 
                                 <span className="lto-pt-l">Blood</span>           <span className="lto-pt-v">{patientData?.bloodGroup}</span>
-                                <span className="lto-pt-l">Patient ID</span>      <span className="lto-pt-v mono">{appointmentData?.patientId?.nh12}</span>
+                                <span className="lto-pt-l">Patient ID</span>      <span className="lto-pt-v mono">{patientData?.nh12}</span>
 
-                                <span className="lto-pt-l">Contact no</span>      <span className="lto-pt-v">{appointmentData?.patientId?.contactNumber}</span>
+                                <span className="lto-pt-l">Contact no</span>      <span className="lto-pt-v">{patientData?.contactNumber}</span>
                                 <span className="lto-pt-l">Dr Name</span>         <span className="lto-pt-v">{appointmentData?.staff?.name}</span>
 
                                 <span className="lto-pt-l"></span>                 <span className="lto-pt-v"></span>
@@ -320,10 +320,10 @@ export default function LabTestOrder() {
                                 {appointmentData?.tests?.map((item, key) =>
                                     item?.subCat.map((sub, i) => (
                                         <tr key={i}>
-                                            <td>{sub?.subCategory}</td>
-                                            <td>{sub?.category?.name}</td>
-                                            <td>{sub?.sample?.map(s => s?.type).join(', ')}</td>
-                                            <td>{sub.code}</td>
+                                            <td>{sub?.subCatId?.subCategory}</td>
+                                            <td>{sub?.subCatId?.category?.name}</td>
+                                            <td>{sub?.subCatId?.sample?.map(s => s?.type).join(', ')}</td>
+                                            <td>{sub?.subCatId?.code}</td>
                                         </tr>
                                     )))}
                             </tbody>
@@ -349,15 +349,15 @@ export default function LabTestOrder() {
                             <div className="lto-sig-id">{appointmentData?.staff?.contactNumber}</div>
                         </div>
                         <div className="lto-sig-blk">
-                            <div className="lto-sig-name">{appointmentData?.labId?.name}</div>
+                            <div className="lto-sig-name">{labData?.name}</div>
                             <div className="lto-sig-role">Accepted &amp; Registered</div>
-                            <div className="lto-sig-id">{appointmentData?.labId?.nh12}</div>
+                            <div className="lto-sig-id">{labData?.nh12}</div>
                         </div>
                     </div>
 
                     {/* ── FOOTER ── */}
                     <div className="lto-footer">
-                        <span>{appointmentData?.labId?.name}, {labData?.address} · {appointmentData?.labId?.email} · {appointmentData?.labId?.contactNumber}</span>
+                        <span>{labData?.name}, {labData?.address} · {labData?.email} · {labData?.contactNumber}</span>
                         <span className="lto-tagline">Wishing you a speedy recovery</span>
                     </div>
 
