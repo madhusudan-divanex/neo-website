@@ -246,7 +246,7 @@ export default function DoctorAptBookingReceipt({ paymentId, pdfLoading, endLoad
         <div style={{ ...styles.section, ...styles.grid2 }}>
           <div>
             <div style={styles.small}>APPOINTMENT DETAILS</div>
-            <KV k="Doctor" v={`Dr. ${aptData?.doctorName}`} />
+            <KV k="Doctor" v={` ${aptData?.doctorName}`} />
             <KV k="Specialisation" v={aptData?.specialization} />
             <KV k="Slot" v={new Date(aptData?.appointmentDate)?.toLocaleString('en-GB')} />
             {/* <KV k="Booked Via" v="NeoHealthCard App" /> */}

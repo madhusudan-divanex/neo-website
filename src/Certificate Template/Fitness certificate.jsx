@@ -54,7 +54,15 @@ export default function ViewFitnessCertificate({ certificateData }) {
                 <div style={styles.subtitle}>{certificateData?.organization?.name}</div>
                 <div style={styles.meta}>
                   {certificateData?.nh12}<br />
-                  {certificateData?.address?.fullAddress + ',' + certificateData?.address?.city?.name + ',' + certificateData?.address?.state?.name + ',' + certificateData?.address?.pinCode}
+                  {[
+                    certificateData?.address?.fullAddress,
+                    certificateData?.address?.city?.name,
+                    certificateData?.address?.state?.name,
+                    certificateData?.address?.pinCode
+                  ]
+                    .filter(Boolean)
+                    .join(', ')
+                  }
                 </div>
               </div>
             </div>
@@ -119,7 +127,7 @@ export default function ViewFitnessCertificate({ certificateData }) {
           {/* FOOTER SIGN */}
           <div className="row mt-5 text-center">
             <div className="col">
-              <div style={styles.signName}>Dr. {certificateData?.doctorId?.name}</div>
+              <div style={styles.signName}> {certificateData?.doctorId?.name}</div>
               <div style={styles.signMeta}>{certificateData?.specialty} specialist· {certificateData?.organization?.name}</div>
               <div style={styles.linkSmall}>{certificateData?.doctorId?.nh12} </div>
             </div>

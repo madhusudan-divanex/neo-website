@@ -54,7 +54,15 @@ const ViewMedicalCertificate = ({ certificateData }) => {
                 <h5 className="fw-bold mb-1">Medical Certificate</h5>
                 <div className="text-muted small">{certificateData?.organization?.name}</div>
                 <div className="text-muted small">
-                  {certificateData?.address?.fullAddress + ',' + certificateData?.address?.city?.name + ',' + certificateData?.address?.state?.name + ',' + certificateData?.address?.pinCode}
+                  {[
+                    certificateData?.address?.fullAddress,
+                    certificateData?.address?.city?.name,
+                    certificateData?.address?.state?.name,
+                    certificateData?.address?.pinCode
+                  ]
+                    .filter(Boolean)
+                    .join(', ')
+                  }
                 </div>
               </div>
             </div>
@@ -74,7 +82,7 @@ const ViewMedicalCertificate = ({ certificateData }) => {
           <div className="row px-4 py-3 border-bottom small text-muted">
             <Meta title="Certificate ID" value={certificateData?.customId} />
             <Meta title="Issue Date" value={new Date(certificateData?.createdAt)?.toLocaleDateString('en-GB')} />
-            <Meta title="Issued By" value={`Dr. ${certificateData?.doctorId?.name}`} />
+            <Meta title="Issued By" value={` ${certificateData?.doctorId?.name}`} />
             <Meta title="Valid For" value={`${getDaysBetweenDates(certificateData?.rest?.from, certificateData?.rest?.to)} Days`} />
             <Meta title="Status" value={`Verified · ${certificateData?.status}`} />
           </div>
@@ -140,7 +148,7 @@ const ViewMedicalCertificate = ({ certificateData }) => {
           {/* SIGNATURE */}
           <div className="row border-top text-center small text-muted">
             <div className="col p-4">
-              <div className="fw-semibold">Dr. {certificateData?.doctorId?.name}</div>
+              <div className="fw-semibold"> {certificateData?.doctorId?.name}</div>
               <div>{certificateData?.specialty} specialist</div>
             </div>
 

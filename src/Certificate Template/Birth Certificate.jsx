@@ -53,7 +53,15 @@ export default function ViewBirthCertificate({ certificateData }) {
                 <div style={s.subtitle}>{certificateData?.organization?.name}</div>
                 <div style={s.meta}>
                   {certificateData?.organization?.nh12}<br />
-                  {certificateData?.address?.fullAddress + ',' + certificateData?.address?.city?.name + ',' + certificateData?.address?.state?.name + ',' + certificateData?.address?.pinCode}
+                  {[
+                    certificateData?.address?.fullAddress,
+                    certificateData?.address?.city?.name,
+                    certificateData?.address?.state?.name,
+                    certificateData?.address?.pinCode
+                  ]
+                    .filter(Boolean)
+                    .join(', ')
+                  }
                 </div>
               </div>
             </div>
@@ -117,7 +125,7 @@ export default function ViewBirthCertificate({ certificateData }) {
                 {certificateData?.childId?.nh12 && <Row label="NHC-P ID (Child)" value={certificateData?.childId?.nh12} />}
                 <Row label="Mother's Name" value={certificateData?.motherName} />
                 {certificateData?.motherId?.nh12 && <Row label="Mother's NHC-P ID" value={certificateData?.motherId?.nh12} />}
-                <Row label="Attending Doctor" value={`Dr. ${certificateData?.doctorId?.name}`} />
+                <Row label="Attending Doctor" value={` ${certificateData?.doctorId?.name}`} />
               </div>
             </div>
 
@@ -142,7 +150,7 @@ export default function ViewBirthCertificate({ certificateData }) {
           {/* SIGNATURES */}
           <div className="row text-center" style={{ marginTop: 40 }}>
             <div className="col">
-              <div style={s.signName}>Dr. {certificateData?.doctorId?.name}</div>
+              <div style={s.signName}> {certificateData?.doctorId?.name}</div>
               <div style={s.signMeta}>{certificateData?.specialty} specialist· · {certificateData?.organization?.name}</div>
               <div style={s.linkSmall}>{certificateData?.doctorId?.nh12}</div>
             </div>

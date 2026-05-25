@@ -252,16 +252,12 @@ export default function MedicalPrescription({ presId, pdfLoading, endLoading }) 
                 <div className="rx-pt-grid">
                   <span className="rx-pt-lbl">Age / Sex</span>      <span className="rx-pt-val text-capitalize">{calculateAge(ptData?.dob, prescription?.createdAt)}/ {ptData?.gender}</span>
                   <span className="rx-pt-lbl">Email Address</span>   <span className="rx-pt-val">{ptData?.email}</span>
-
                   <span className="rx-pt-lbl">DOB</span>             <span className="rx-pt-val">{new Date(ptData?.dob)?.toLocaleDateString('en-GB')}</span>
                   <span className="rx-pt-lbl">Address</span>         <span className="rx-pt-val">{ptData?.address}</span>
-
                   <span className="rx-pt-lbl">Blood</span>           <span className="rx-pt-val">{ptData?.bloodGroup}</span>
                   <span className="rx-pt-lbl">Patient ID</span>      <span className="rx-pt-val rx-mono">{ptData?.nh12}</span>
-
                   <span className="rx-pt-lbl">Contact no</span>      <span className="rx-pt-val">+91 {ptData?.contactNumber}</span>
-                  <span className="rx-pt-lbl">Dr Name</span>         <span className="rx-pt-val">Dr. {aptData?.doctorName}</span>
-
+                  <span className="rx-pt-lbl">Dr Name</span>         <span className="rx-pt-val"> {aptData?.doctorName}</span>
                   <span className="rx-pt-lbl"></span>                 <span className="rx-pt-val"></span>
                   <span className="rx-pt-lbl">Dr ID</span>           <span className="rx-pt-val rx-mono">{aptData?.doctorNh12}</span>
                 </div>

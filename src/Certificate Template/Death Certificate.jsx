@@ -36,7 +36,7 @@ export default function ViewDeathCertificate({ certificateData }) {
         <img src="/logo.png" alt="" srcset="" width={100} height={60} />
         <div>
 
-        <button className="thm-btn" onClick={handleDownload}>Download</button>
+          <button className="thm-btn" onClick={handleDownload}>Download</button>
         </div>
       </div>
 
@@ -68,155 +68,163 @@ export default function ViewDeathCertificate({ certificateData }) {
                     {certificateData?.organization?.nh12} · Reg. {certificateData?.license}
                   </div>
                   <div style={{ fontSize: "11px", color: "#888" }}>
-                    {certificateData?.address?.fullAddress + ',' + certificateData?.address?.city?.name + ',' + certificateData?.address?.state?.name + ',' + certificateData?.address?.pinCode}
+                    {[
+                      certificateData?.address?.fullAddress,
+                      certificateData?.address?.city?.name,
+                      certificateData?.address?.state?.name,
+                      certificateData?.address?.pinCode
+                    ]
+                      .filter(Boolean)
+                      .join(', ')
+                    }
                   </div>
                 </div>
               </div>
 
-            <div className="text-end">
-              <div
-                style={{
-                  fontSize: "11px",
-                  border: "1px solid #19b6b6",
-                  padding: "4px 10px",
-                  borderRadius: "20px",
-                  color: "#19b6b6",
-                  display: "inline-block",
-                  marginBottom: "4px"
-                }}
-              >
-                NeoHealthCard Network
+              <div className="text-end">
+                <div
+                  style={{
+                    fontSize: "11px",
+                    border: "1px solid #19b6b6",
+                    padding: "4px 10px",
+                    borderRadius: "20px",
+                    color: "#19b6b6",
+                    display: "inline-block",
+                    marginBottom: "4px"
+                  }}
+                >
+                  NeoHealthCard Network
+                </div>
+                <div style={{ fontSize: "11px", color: "#19b6b6" }}>
+                  Fully Automated · Ecosystem Connected
+                </div>
+                <div style={{ fontSize: "11px", color: "#777" }}>
+                  {certificateData?.organization?.email} · {certificateData?.organization?.contactNumber}
+                </div>
               </div>
-              <div style={{ fontSize: "11px", color: "#19b6b6" }}>
-                Fully Automated · Ecosystem Connected
+            </div>
+
+            {/* META */}
+            <div className="row mt-3" style={{ fontSize: "11px", color: "#666" }}>
+              <div className="col">
+                CERTIFICATE ID<br />
+                <span style={{ color: "#000", fontWeight: 500 }}>{certificateData?.customId}</span>
               </div>
-              <div style={{ fontSize: "11px", color: "#777" }}>
-                {certificateData?.organization?.email} · {certificateData?.organization?.contactNumber}
+              <div className="col">
+                ISSUE DATE<br />
+                <span style={{ color: "#000", fontWeight: 500 }}>{new Date(certificateData?.createdAt)?.toLocaleDateString('en-GB')}</span>
+              </div>
+              {certificateData?.license && <div className="col">
+                REGISTRATION NO.<br />
+                <span style={{ color: "#000", fontWeight: 500 }}>{certificateData?.license}</span>
+              </div>}
+              <div className="col">
+                STATUS<br />
+                <span style={{ color: "#16a34a", fontWeight: 600 }}>Registered · Verified</span>
               </div>
             </div>
           </div>
 
-          {/* META */}
-          <div className="row mt-3" style={{ fontSize: "11px", color: "#666" }}>
-            <div className="col">
-              CERTIFICATE ID<br />
-              <span style={{ color: "#000", fontWeight: 500 }}>{certificateData?.customId}</span>
-            </div>
-            <div className="col">
-              ISSUE DATE<br />
-              <span style={{ color: "#000", fontWeight: 500 }}>{new Date(certificateData?.createdAt)?.toLocaleDateString('en-GB')}</span>
-            </div>
-            {certificateData?.license && <div className="col">
-              REGISTRATION NO.<br />
-              <span style={{ color: "#000", fontWeight: 500 }}>{certificateData?.license}</span>
-            </div>}
-            <div className="col">
-              STATUS<br />
-              <span style={{ color: "#16a34a", fontWeight: 600 }}>Registered · Verified</span>
+          {/* CERTIFICATE BOX */}
+          <div style={{ padding: "24px" }}>
+            <div
+              style={{
+                border: "1.5px solid #19b6b6",
+                borderRadius: "10px",
+                padding: "30px 28px",
+                textAlign: "center",
+                position: "relative"
+              }}
+            >
+              <div style={{ fontSize: "18px", fontWeight: 600, color: "#19b6b6" }}>
+                Certificate of Death
+              </div>
+
+              <div style={{ fontSize: "12px", color: "#666", marginTop: "6px" }}>
+                {certificateData?.organization?.name} · {certificateData?.customId} · Govt. of {certificateData?.address?.state?.name}
+              </div>
+
+              <div style={{ fontSize: "12px", marginTop: "18px", color: "#444" }}>
+                This is to certify that the following person passed away at this hospital:
+              </div>
+
+              {/* DETAILS */}
+              <div className="row text-start mt-4" style={{ fontSize: "12px" }}>
+                <div className="col-6 pe-4">
+                  <div className="mb-2"><span style={{ color: "#888" }}>Full Name</span><br /><b>{certificateData?.fullName}</b></div>
+                  <div className="mb-2"><span style={{ color: "#888" }}>Gender</span><br />{certificateData?.gender}</div>
+                  <div className="mb-2"><span style={{ color: "#888" }}>Date of Death</span><br />{new Date(certificateData?.dateOfDeath)?.toLocaleDateString('en-GB')}</div>
+                  <div className="mb-2"><span style={{ color: "#888" }}>Place of Death</span><br />{certificateData?.placeOfDeath}</div>
+                  <div className="mb-2"><span style={{ color: "#888" }}>Contributing Cause</span><br />{certificateData?.contributingCause || '-'}</div>
+                  <div><span style={{ color: "#888" }}>Certifying Doctor</span><br /> {certificateData?.doctorId?.name}</div>
+                </div>
+
+                <div className="col-6 ps-4" style={{ borderLeft: "1px solid #e5e7eb" }}>
+                  <div className="mb-2"><span style={{ color: "#888" }}>Age at Death</span><br />{certificateData?.ageAtDeath} Years</div>
+                  {certificateData?.patientId && <div className="mb-2"><span style={{ color: "#888" }}>NHC-P ID</span><br />{certificateData?.patientId?.nh12}</div>}
+                  <div className="mb-2"><span style={{ color: "#888" }}>Time of Death</span><br />{certificateData?.timeOfDeath}</div>
+                  <div className="mb-2"><span style={{ color: "#888" }}>Cause of Death</span><br />{certificateData?.causeOfDeath}</div>
+                  <div className="mb-2"><span style={{ color: "#888" }}>Manner of Death</span><br />{certificateData?.mannerOfDeath || '-'}</div>
+                  <div><span style={{ color: "#888" }}>Next of Kin</span><br />{certificateData?.nextOfKin?.name} ({certificateData?.nextOfKin?.relation})</div>
+                </div>
+              </div>
+
+              {/* QR */}
+              <div style={{ marginTop: "28px" }}>
+                <div style={{
+                  width: "80px",
+                  height: "80px",
+                  margin: "auto",
+                }}>
+                  <QRCodeCanvas
+                    value={`https://www.neohealthcard.com/certificate/${certificateData?.customId}`}
+                    size={256}
+                    // className="qr-code"
+                    style={{ height: "auto", maxWidth: "100%", width: "100%" }}
+                  />
+                </div>
+                <div style={{ fontSize: "11px", color: "#888", marginTop: "6px" }}>Scan to verify</div>
+                <div style={{ fontSize: "11px", color: "#19b6b6" }}>verify.neohealthcard.in</div>
+              </div>
             </div>
           </div>
+
+          {/* SIGNATURE */}
+          <div className="row text-center" style={{ borderTop: "1px solid #e5e7eb" }}>
+            <div className="col" style={{ padding: "18px" }}>
+              <div style={{ fontSize: "13px", fontWeight: 500 }}> {certificateData?.doctorId?.name}</div>
+              <div style={{ fontSize: "11px", color: "#777" }}>{certificateData?.specialty} specialist· · {certificateData?.organization?.name}</div>
+              <div style={{ fontSize: "11px", color: "#19b6b6" }}>{certificateData?.doctorId?.nh12}</div>
+            </div>
+
+            <div className="col" style={{ padding: "18px", borderLeft: "1px solid #e5e7eb" }}>
+              <div style={{ fontSize: "13px", fontWeight: 500 }}>Registrar of Deaths</div>
+              <div style={{ fontSize: "11px", color: "#777" }}>Govt. of {certificateData?.address?.state?.name} · BMC</div>
+              <div style={{ fontSize: "11px", color: "#19b6b6" }}>Reg. No. {certificateData?.license}</div>
+            </div>
+
+            <div className="col" style={{ padding: "18px", borderLeft: "1px solid #e5e7eb" }}>
+              <div style={{ fontSize: "13px", fontWeight: 500 }}>{certificateData?.organization?.name}</div>
+              <div style={{ fontSize: "11px", color: "#777" }}>Authorised Signatory</div>
+              <div style={{ fontSize: "11px", color: "#19b6b6" }}>{certificateData?.organization?.nh12}</div>
+            </div>
+          </div>
+
+          {/* FOOTER */}
+          <div style={{
+            background: "#0ea5a5",
+            color: "#fff",
+            fontSize: "11px",
+            padding: "8px 16px",
+            display: "flex",
+            justifyContent: "space-between"
+          }}>
+            <div>{certificateData?.organization?.name}, {certificateData?.address?.city?.name} · {certificateData?.organization?.email} · {certificateData?.organization?.contactNumber}</div>
+            <div>Wishing you a speedy recovery</div>
+          </div>
+
         </div>
-
-        {/* CERTIFICATE BOX */}
-        <div style={{ padding: "24px" }}>
-          <div
-            style={{
-              border: "1.5px solid #19b6b6",
-              borderRadius: "10px",
-              padding: "30px 28px",
-              textAlign: "center",
-              position: "relative"
-            }}
-          >
-            <div style={{ fontSize: "18px", fontWeight: 600, color: "#19b6b6" }}>
-              Certificate of Death
-            </div>
-
-            <div style={{ fontSize: "12px", color: "#666", marginTop: "6px" }}>
-              {certificateData?.organization?.name} · {certificateData?.customId} · Govt. of {certificateData?.address?.state?.name}
-            </div>
-
-            <div style={{ fontSize: "12px", marginTop: "18px", color: "#444" }}>
-              This is to certify that the following person passed away at this hospital:
-            </div>
-
-            {/* DETAILS */}
-            <div className="row text-start mt-4" style={{ fontSize: "12px" }}>
-              <div className="col-6 pe-4">
-                <div className="mb-2"><span style={{ color: "#888" }}>Full Name</span><br /><b>{certificateData?.fullName}</b></div>
-                <div className="mb-2"><span style={{ color: "#888" }}>Gender</span><br />{certificateData?.gender}</div>
-                <div className="mb-2"><span style={{ color: "#888" }}>Date of Death</span><br />{new Date(certificateData?.dateOfDeath)?.toLocaleDateString('en-GB')}</div>
-                <div className="mb-2"><span style={{ color: "#888" }}>Place of Death</span><br />{certificateData?.placeOfDeath}</div>
-                <div className="mb-2"><span style={{ color: "#888" }}>Contributing Cause</span><br />{certificateData?.contributingCause || '-'}</div>
-                <div><span style={{ color: "#888" }}>Certifying Doctor</span><br />Dr. {certificateData?.doctorId?.name}</div>
-              </div>
-
-              <div className="col-6 ps-4" style={{ borderLeft: "1px solid #e5e7eb" }}>
-                <div className="mb-2"><span style={{ color: "#888" }}>Age at Death</span><br />{certificateData?.ageAtDeath} Years</div>
-                {certificateData?.patientId && <div className="mb-2"><span style={{ color: "#888" }}>NHC-P ID</span><br />{certificateData?.patientId?.nh12}</div>}
-                <div className="mb-2"><span style={{ color: "#888" }}>Time of Death</span><br />{certificateData?.timeOfDeath}</div>
-                <div className="mb-2"><span style={{ color: "#888" }}>Cause of Death</span><br />{certificateData?.causeOfDeath}</div>
-                <div className="mb-2"><span style={{ color: "#888" }}>Manner of Death</span><br />{certificateData?.mannerOfDeath || '-'}</div>
-                <div><span style={{ color: "#888" }}>Next of Kin</span><br />{certificateData?.nextOfKin?.name} ({certificateData?.nextOfKin?.relation})</div>
-              </div>
-            </div>
-
-            {/* QR */}
-            <div style={{ marginTop: "28px" }}>
-              <div style={{
-                width: "80px",
-                height: "80px",
-                margin: "auto",
-              }}>
-                <QRCodeCanvas
-                  value={`https://www.neohealthcard.com/certificate/${certificateData?.customId}`}
-                  size={256}
-                  // className="qr-code"
-                  style={{ height: "auto", maxWidth: "100%", width: "100%" }}
-                />
-              </div>
-              <div style={{ fontSize: "11px", color: "#888", marginTop: "6px" }}>Scan to verify</div>
-              <div style={{ fontSize: "11px", color: "#19b6b6" }}>verify.neohealthcard.in</div>
-            </div>
-          </div>
-        </div>
-
-        {/* SIGNATURE */}
-        <div className="row text-center" style={{ borderTop: "1px solid #e5e7eb" }}>
-          <div className="col" style={{ padding: "18px" }}>
-            <div style={{ fontSize: "13px", fontWeight: 500 }}>Dr. {certificateData?.doctorId?.name}</div>
-            <div style={{ fontSize: "11px", color: "#777" }}>{certificateData?.specialty} specialist· · {certificateData?.organization?.name}</div>
-            <div style={{ fontSize: "11px", color: "#19b6b6" }}>{certificateData?.doctorId?.nh12}</div>
-          </div>
-
-          <div className="col" style={{ padding: "18px", borderLeft: "1px solid #e5e7eb" }}>
-            <div style={{ fontSize: "13px", fontWeight: 500 }}>Registrar of Deaths</div>
-            <div style={{ fontSize: "11px", color: "#777" }}>Govt. of {certificateData?.address?.state?.name} · BMC</div>
-            <div style={{ fontSize: "11px", color: "#19b6b6" }}>Reg. No. {certificateData?.license}</div>
-          </div>
-
-          <div className="col" style={{ padding: "18px", borderLeft: "1px solid #e5e7eb" }}>
-            <div style={{ fontSize: "13px", fontWeight: 500 }}>{certificateData?.organization?.name}</div>
-            <div style={{ fontSize: "11px", color: "#777" }}>Authorised Signatory</div>
-            <div style={{ fontSize: "11px", color: "#19b6b6" }}>{certificateData?.organization?.nh12}</div>
-          </div>
-        </div>
-
-        {/* FOOTER */}
-        <div style={{
-          background: "#0ea5a5",
-          color: "#fff",
-          fontSize: "11px",
-          padding: "8px 16px",
-          display: "flex",
-          justifyContent: "space-between"
-        }}>
-          <div>{certificateData?.organization?.name}, {certificateData?.address?.city?.name} · {certificateData?.organization?.email} · {certificateData?.organization?.contactNumber}</div>
-          <div>Wishing you a speedy recovery</div>
-        </div>
-
-      </div>
-    </div >
+      </div >
 
     </>
   );
