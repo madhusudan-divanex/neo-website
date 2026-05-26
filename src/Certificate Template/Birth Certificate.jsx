@@ -31,7 +31,7 @@ export default function ViewBirthCertificate({ certificateData }) {
   };
   return (
     <>
-      <div className="container mt-2 d-flex justify-content-between">
+      <div className="container mt-2 d-flex justify-content-between align-items-center">
         <img src="/logo.png" alt="" srcset="" width={100} height={60} />
         <div>
 
@@ -287,13 +287,15 @@ const s = {
 
   watermark: {
     position: "absolute",
-    width: 260,
-    height: 260,
-    background: "#00a6a6",
-    opacity: 0.05,
+    width: 220,
+    height: 220,
+    background: "url('/CertWatermark2.png')",
+    backgroundRepeat: "no-repeat",
+    backgroundSize: "contain",
+    // opacity: 0.05,
     borderRadius: "50%",
+    top: "40%",
     left: "50%",
-    top: "55%",
     transform: "translate(-50%, -50%)",
   },
 

@@ -7,6 +7,24 @@ import html2pdf from "html2pdf.js";
 import html2canvas from "html2canvas";
 import base_url from "../baseUrl";
 
+
+
+
+const s = {
+  watermark: {
+    position: "absolute",
+    width: 220,
+    height: 220,
+    background: "url('/CertWatermark2.png')",
+    backgroundRepeat: "no-repeat",
+    backgroundSize: "contain",
+    // opacity: 0.05,
+    borderRadius: "50%",
+    top: "40%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+  },
+}
 export default function ViewDeathCertificate({ certificateData }) {
   const pdfRef = useRef()
   const handleDownload = () => {
@@ -32,7 +50,7 @@ export default function ViewDeathCertificate({ certificateData }) {
   };
   return (
     <>
-      <div className="container mt-2 d-flex justify-content-between">
+      <div className="container mt-2 d-flex justify-content-between align-items-center">
         <img src="/logo.png" alt="" srcset="" width={100} height={60} />
         <div>
 
@@ -125,6 +143,7 @@ export default function ViewDeathCertificate({ certificateData }) {
             </div>
           </div>
 
+
           {/* CERTIFICATE BOX */}
           <div style={{ padding: "24px" }}>
             <div
@@ -136,6 +155,7 @@ export default function ViewDeathCertificate({ certificateData }) {
                 position: "relative"
               }}
             >
+              <div style={s.watermark}></div>
               <div style={{ fontSize: "18px", fontWeight: 600, color: "#19b6b6" }}>
                 Certificate of Death
               </div>
@@ -188,6 +208,7 @@ export default function ViewDeathCertificate({ certificateData }) {
               </div>
             </div>
           </div>
+
 
           {/* SIGNATURE */}
           <div className="row text-center" style={{ borderTop: "1px solid #e5e7eb" }}>

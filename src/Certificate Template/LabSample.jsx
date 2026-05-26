@@ -84,7 +84,7 @@ const LabSampleReceipt = () => {
         str ? str.charAt(0).toUpperCase() + str.slice(1) : '';
     return (
         <>
-            <div className="container mt-2 d-flex justify-content-between">
+            <div className="container mt-2 d-flex justify-content-between align-items-center">
                 <img src="/logo.png" alt="" srcset="" width={100} height={60} />
                 <div>
                     <button className="thm-btn" onClick={handleDownload}>Download</button>

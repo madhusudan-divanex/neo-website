@@ -66,7 +66,7 @@ export default function MedicalPrescription({ presId, pdfLoading, endLoading }) 
   };
   return (
     <>
-      <div className="container mt-2 d-flex justify-content-between align-items-center">
+      <div className="container mt-2 d-flex justify-content-between align-items-center align-items-center">
         <img src="/logo.png" alt="" srcset="" width={100} height={60} />
         <div>
 
