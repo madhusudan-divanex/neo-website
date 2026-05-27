@@ -25,7 +25,7 @@ const ExternalLinks = () => (
 
 
 // ─── Component ────────────────────────────────────────────────────────────
-export default function LabTestOrder() {
+export default function LabTestOrder({ pdfLoading, endLoading } = {}) {
     const { id } = useParams();
     const [appointmentData, setAppointmentData] = useState(null);
     const [patientData, setPatientData] = useState(null);

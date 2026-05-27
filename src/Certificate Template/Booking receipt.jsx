@@ -152,7 +152,6 @@ export default function DoctorAptBookingReceipt({ paymentId, pdfLoading, endLoad
 
     } finally {
       if (pdfLoading) endLoading();
-      setAptData({});
     }
   };
   useEffect(() => {

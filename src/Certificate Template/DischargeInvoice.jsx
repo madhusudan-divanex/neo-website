@@ -335,8 +335,6 @@ export default function DischargeInvoice() {
             });
         } catch (error) {
 
-        } finally {
-            setAllotmentData({});
         }
     };
     const handlePrint = () => {
@@ -345,8 +343,6 @@ export default function DischargeInvoice() {
         setTimeout(() => {
             window.print();
             document.body.classList.remove("hide-buttons");
-
-            setAllotmentData({});
         }, 500);
     };
     useEffect(() => {

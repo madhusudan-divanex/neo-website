@@ -235,7 +235,7 @@ const KV = ({ k, v }) => (
 );
 
 
-export default function HospitalBill() {
+export default function HospitalBill({ pdfLoading, endLoading } = {}) {
     const { id } = useParams()
     const [allotmentData, setAllotmentData] = useState()
     const [patientData, setPatientData] = useState()
@@ -299,7 +299,6 @@ export default function HospitalBill() {
 
         } finally {
             if (pdfLoading) endLoading();
-            setAllotmentData({});
         }
     };
     return (

@@ -305,7 +305,7 @@ const KV = ({ k, v }) => (
     </div>
 );
 
-export default function IPDInvoice() {
+export default function IPDInvoice({ pdfLoading, endLoading } = {}) {
 
     const { id } = useParams()
     const [allotmentData, setAllotmentData] = useState()
@@ -369,7 +369,6 @@ export default function IPDInvoice() {
 
         } finally {
             if (pdfLoading) endLoading();
-            setAllotmentData({});
         }
     };
 

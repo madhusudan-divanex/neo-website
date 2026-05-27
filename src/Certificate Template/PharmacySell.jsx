@@ -7,7 +7,7 @@ import html2canvas from "html2canvas";
 import base_url from "../baseUrl";
 import { getApiData } from "../Services/api";
 import { calculateAge, stripHtml } from "../Services/globalFunction";
-const PharmacyInvoice = () => {
+const PharmacyInvoice = ({ pdfLoading, endLoading } = {}) => {
     const { id } = useParams()
     const [ptData, setPtData] = useState()
     const [orgData, setOrgData] = useState()
@@ -53,8 +53,7 @@ const PharmacyInvoice = () => {
         } catch (error) {
 
         } finally {
-            setSellData({});
-
+            if (pdfLoading) endLoading();
         }
     };
     const capitalize = (str) =>

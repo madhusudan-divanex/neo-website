@@ -8,7 +8,7 @@ import base_url from "../baseUrl";
 import { getApiData } from "../Services/api";
 import { calculateAge, stripHtml } from "../Services/globalFunction";
 
-const LabInvoice = () => {
+const LabInvoice = ({ pdfLoading, endLoading } = {}) => {
     const { id } = useParams();
     const [appointmentData, setAppointmentData] = useState(null);
     const [patientData, setPatientData] = useState(null);

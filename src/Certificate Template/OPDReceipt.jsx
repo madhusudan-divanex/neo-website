@@ -261,7 +261,7 @@ const Meta = ({ l, v }) => (
     </div>
 );
 
-export default function OPDReceipt() {
+export default function OPDReceipt({ pdfLoading, endLoading } = {}) {
     const { id } = useParams()
     const [ptData, setPtData] = useState()
     const [aptData, setAptData] = useState()
@@ -306,7 +306,7 @@ export default function OPDReceipt() {
         } catch (error) {
 
         } finally {
-            setAptData({});
+            if (pdfLoading) endLoading();
         }
     };
     const capitalize = (str) =>
