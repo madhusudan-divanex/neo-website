@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { NavLink, useParams } from "react-router-dom";
+import { Link, NavLink, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { QRCodeCanvas } from "qrcode.react";
 import html2pdf from "html2pdf.js";
@@ -8,8 +8,6 @@ import base_url from "../baseUrl";
 import { getApiData } from "../Services/api";
 import { calculateAge, stripHtml } from "../Services/globalFunction";
 import "./Template css/DischargeSummary.css"
-
-
 
 
 const KV = ({ k, v }) => (
@@ -25,57 +23,59 @@ const KVS = ({ k, v }) => (
   </div>
 );
 
-export default function TransferCertificate() {
-    const { id } = useParams()
-    const pdfRef = useRef();
-    const [transferData, setTransferData] = useState()
-    const [organization, setOrganization] = useState()
-    const [patientData, setPatientData] = useState()
-    async function fetchTransferData(params) {
-        try {
-            const res = await getApiData(`api/hospital/transfer-data/${id}`)
-            if (res.success) {
-                setTransferData(res.data)
-                setOrganization(res.organization)
-                setPatientData(res.patientData)
-            }
-        } catch (error) {
-            toast.error(error?.response?.data?.message)
-        }
+export default function PatientTransfer() {
+  const { id } = useParams()
+  const pdfRef = useRef();
+  const [transferData, setTransferData] = useState()
+  const [organization, setOrganization] = useState()
+  const [patientData, setPatientData] = useState()
+  async function fetchTransferData(params) {
+    try {
+      const res = await getApiData(`api/hospital/transfer-data/${id}`)
+      if (res.success) {
+        setTransferData(res.data)
+        setOrganization(res.organization)
+        setPatientData(res.patientData)
+      }
+    } catch (error) {
+      toast.error(error?.response?.data?.message)
     }
-    useEffect(() => {
-        fetchTransferData()
-    }, [id])
-    const handleDownload = () => {
-        const element = pdfRef.current;
+  }
+  useEffect(() => {
+    fetchTransferData()
+  }, [id])
+  const handleDownload = () => {
+    const element = pdfRef.current;
 
-        const opt = {
-            margin: 0,
-            filename: `Patient-Transfer-${transferData?.fromHospital?.nh12}.pdf`,
-            image: { type: "jpeg", quality: 1 },
-            html2canvas: {
-                scale: 2, // better quality
-                useCORS: true
-            },
-            jsPDF: {
-                unit: "in",
-                format: "a4",
-                orientation: "portrait"
-            }
-        };
-
-        html2pdf().set(opt).from(element).save();
+    const opt = {
+      margin: 0,
+      filename: `Patient-Transfer-${transferData?.fromHospital?.nh12}.pdf`,
+      image: { type: "jpeg", quality: 1 },
+      html2canvas: {
+        scale: 2, // better quality
+        useCORS: true
+      },
+      jsPDF: {
+        unit: "in",
+        format: "a4",
+        orientation: "portrait"
+      }
     };
-    return (
-        <>
-            <div className="container d-flex justify-content-between align-items-center">
+
+    html2pdf().set(opt).from(element).save();
+  };
+  return (
+    <>
+
+    <div className="container mt-2 d-flex justify-content-between align-items-center">
                 <img src="/logo.png" alt="" srcset="" width={100} height={60} />
                 <div>
+
                     <button className="thm-btn" onClick={handleDownload}>Download</button>
                 </div>
             </div>
-
-            <div className="ds-page" ref={pdfRef}>
+     
+     <div className="ds-page" ref={pdfRef}>
   <div className="ds-card">
     <div className="ds-watermark-wrap">
     </div>
@@ -236,8 +236,7 @@ export default function TransferCertificate() {
     </div>
 
   </div>
-            </div>
-
-        </>
-    );
+        </div>
+    </>
+  );
 }

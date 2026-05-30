@@ -1,4 +1,4 @@
-import "./Template css/labTestReport.css";
+
 import React, { useEffect, useRef, useState } from "react";
 import { NavLink, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -8,43 +8,44 @@ import html2canvas from "html2canvas";
 import base_url from "../baseUrl";
 import { getApiData } from "../Services/api";
 import { calculateAge, stripHtml } from "../Services/globalFunction";
+import "./Template css/DischargeSummary.css"
 
 
 
-const LabReport = ({ appointmentId, pdfLoading, endLoading }) => {
-    const { id } = useParams();
-    const [appointmentData, setAppointmentData] = useState(null);
-    const [patientData, setPatientData] = useState(null);
-    const [labData, setLabData] = useState(null);
-    const [testReports, setTestReports] = useState([]);
-
-    const invoiceRef = useRef();
-
-    // ── Fetch ──────────────────────────────────────────────────────────────────
-    async function fetchAllotmentDetail() {
-        // if(!appointmentId){
-        //   return
-        // }
-        try {
-            const res = await getApiData(
-                `api/comman/lab-report/${appointmentId || id}`
-            );
-            if (res.success) {
-                setAppointmentData(res.appointmentData);
-                setPatientData(res.patientData);
-                setLabData(res.labData);
-                setTestReports(res.testReports || []);
-            } else {
-                toast.error(res.message);
-            }
-        } catch (error) {
-            toast.error(error?.response?.data?.message);
-        }
+const LabReport = ({ reportId, pdfLoading, endLoading }) => {
+   const { id } = useParams();
+  const [appointmentData, setAppointmentData] = useState(null);
+  const [patientData, setPatientData] = useState(null);
+  const [labData, setLabData] = useState(null);
+  const [testReports, setTestReports] = useState([]);
+  const [sampleData, setSampleData] = useState()
+ 
+  const invoiceRef = useRef();
+ 
+  // ── Fetch ──────────────────────────────────────────────────────────────────
+  async function fetchAllotmentDetail() {
+   
+    try {
+      const res = await getApiData(
+        `api/comman/lab-report/${reportId || id}`
+      );
+      if (res.success) {
+        setAppointmentData(res.appointmentData);
+        setPatientData(res.patientData);
+        setLabData(res.labData);
+        setTestReports(res.testReports || []);
+        setSampleData(res.sampleData);
+      } else {
+        toast.error(res.message);
+      }
+    } catch (error) {
+      toast.error(error?.response?.data?.message);
     }
-
-    useEffect(() => {
-        if (id || appointmentId) fetchAllotmentDetail();
-    }, [id, appointmentId]);
+  }
+ 
+  useEffect(() => {
+    if (id || reportId) fetchAllotmentDetail();
+  }, [id, reportId]);
 
     // ── PDF Download ───────────────────────────────────────────────────────────
     const handleDownload = () => {
@@ -103,243 +104,473 @@ const LabReport = ({ appointmentId, pdfLoading, endLoading }) => {
                     <button className="thm-btn" onClick={handleDownload}>Download</button>
                 </div>
             </div>
-            <div className="report-wrapper d-flex justify-content-center bg-light py-4">
-                <div className="report-a4 bg-white position-relative" ref={invoiceRef}>
 
-                    {/* WATERMARK */}
-                    <div className="watermark"></div>
-
-                    {/* ── HEADER ── */}
-                    <div className="d-flex justify-content-between p-4 border-bottom">
-                        <div className="d-flex gap-3">
-                            <div className="logo">
-                                <img src={labData?.logo ?
-                                    `${base_url}/${labData?.logo}` : "/logo.png"} alt="" />
-                            </div>
-                            <div >
-                                <h5 className="fw-bold mb-1">Lab Report</h5>
-                                <div className="text-muted small">{labData?.name}</div>
-                                <div className="text-muted small">
-                                    {[labData?.address, labData?.city?.name, labData?.state?.name, labData?.pinCode]
-                                        .filter(Boolean).join(", ")}
-                                </div>
-                            </div>
-                        </div>
-                        <div className="text-end">
-                            <span className="badge bg-teal px-3 py-2">NeoHealthCard Network</span>
-                            <div className="small text-muted mt-2">{labData?.email}</div>
-                            <div className="small text-muted">{labData?.contactNumber}</div>
-                        </div>
-                    </div>
-
-                    {/* ── META ── */}
-                    <div className="row g-3 px-4 py-3 border-bottom small text-muted">
-                        {/* <MetaCol title="Appointment ID"     value={`${appointmentData?.customId || "----"}`} /> */}
-                        <MetaCol title="Lab Order Ref" value={appointmentData?.customId} />
-                        <MetaCol
-                            title="Lab Id"
-                            value={labData?.nh12}
-                        />
-                        <MetaCol
-                            title="Reported"
-                            value={appointmentData?.date
-                                ? new Date(appointmentData.date).toLocaleString("en-GB")
-                                : "—"}
-                        />
-                    </div>
-
-                    {/* ── PATIENT ── */}
-                    <div className="px-4 py-3 border-bottom">
-                        <h6 className="fw-semibold mb-2">{patientData?.name}</h6>
-                        <div className="row small text-muted">
-                            <div className="col">
-                                Age: {calculateAge(patientData?.dob, appointmentData?.createdAt)} / {patientData?.gender || '-'}
-                            </div>
-                            <div className="col">
-                                DOB: {patientData?.dob ? new Date(patientData.dob).toLocaleDateString("en-GB") : "—"}
-                            </div>
-                            <div className="col">Blood: {patientData?.bloodGroup || '-'}</div>
-                            <div className="col">Contact: {patientData?.contactNumber}</div>
-                        </div>
-                    </div>
-
-                    {/* ── DYNAMIC TEST REPORTS ── */}
-                    {testReports.length === 0 && (
-                        <div className="px-4 py-4 text-center text-muted small">
-                            No test reports available.
-                        </div>
-                    )}
-
-                    {testReports.map((report, rIdx) => {
-                        /*
-                         * report.subCatId  → populated SubTestCat document
-                         *   .subCategory   → heading naam
-                         *   .component[]   → parameter definitions
-                         *       ._id       → unique id
-                         *       .name      → parameter naam  (e.g. "Hemoglobin")
-                         *       .unit      → unit           (e.g. "g/dl")
-                         *       .minRange  → lower limit
-                         *       .maxRange  → upper limit
-                         *       .title     → optional section heading (e.g. "Blood Indices")
-                         *
-                         * report.component[]  → entered results
-                         *       .cmpId        → SubTestCat.component._id ka string
-                         *       .result       → numeric result string
-                         *       .textResult   → free-text result
-                         *       .status       → stored status (optional)
-                         */
-                        const subCat = report?.subCatId;
-                        const subCatName = subCat?.subCategory ?? `Test ${rIdx + 1}`;
-                        const definitions = subCat?.component ?? [];
-                        const results = report?.component ?? [];
-                        const upload = report?.upload;
-
-                        // cmpId → result object lookup
-                        const resultMap = {};
-                        results.forEach((r) => {
-                            if (r.cmpId) resultMap[r.cmpId] = r;
-                        });
-
-                        return (
-                            <div className="px-4 py-3 border-bottom" key={report?._id || rIdx}>
-
-                                {/* SubCategory name */}
-                                <h6 className="text-center text-muted small mb-3">{subCatName}</h6>
-
-                                {/* Uploaded report link (if any) */}
-                                {/* {upload?.report && (
-                <div className="mb-2 small">
-                  <span className="text-muted">Uploaded Report: </span>
-                  <a href={upload.report} target="_blank" rel="noreferrer" className="text-teal">
-                    {upload.name || "View Report"}
-                  </a>
-                  {upload.comment && (
-                    <span className="text-muted ms-2">— {upload.comment}</span>
+            <div className="ds-page"  ref={invoiceRef}>
+      <div className="ds-card position-relative">
+        <div className="ds-watermark-wrap"></div>
+        <div className="ds-header">
+          <div className="d-flex gap-3">
+ 
+            <div className="ds-logo">
+              <img
+                src={
+                  labData?.logo
+                    ? `${base_url}/${labData?.logo}`
+                    : "/logo.png"
+                }
+                alt=""
+              />
+            </div>
+ 
+            <div>
+              <h1 className="ds-header-title">
+                Lab Report
+              </h1>
+ 
+              <div className="ds-header-sub">
+                {labData?.name}
+              </div>
+ 
+              <div className="ds-header-meta">
+                {[labData?.address, labData?.city?.name, labData?.state?.name, labData?.pinCode]
+                  .filter(Boolean)
+                  .join(", ")}
+              </div>
+            </div>
+          </div>
+ 
+          <div className="ds-header-right">
+            <div className="ds-badge">
+              NeoHealthCard Network
+            </div>
+ 
+            <div className="ds-header-system">
+              Fully Automated · Ecosystem Connected
+            </div>
+ 
+            <div className="ds-header-meta">
+              {labData?.email} ·  {labData?.contactNumber}
+            </div>
+ 
+ 
+          </div>
+        </div>
+        <div className="ds-meta-strip">
+          <div className="ds-meta-block">
+            <div className="ds-meta-label">
+              Report Id
+            </div>
+ 
+            <div className="ds-meta-value">
+              {testReports[0]?.customId}
+            </div>
+          </div>
+          <div className="ds-meta-block">
+            <div className="ds-meta-label">
+              Sample Id
+            </div>
+ 
+            <div className="ds-meta-value">
+              {sampleData?.customId}
+            </div>
+          </div>
+          <div className="ds-meta-block">
+            <div className="ds-meta-label">
+              Lab Order Ref
+            </div>
+ 
+            <div className="ds-meta-value">
+              {appointmentData?.customId}
+            </div>
+          </div>
+ 
+          <div className="ds-meta-block">
+            <div className="ds-meta-label">
+              Collected
+            </div>
+ 
+            <div className="ds-meta-value">
+              {new Date(sampleData?.createdAt)?.toLocaleString('en-GB')}
+            </div>
+          </div>
+ 
+          <div className="ds-meta-block">
+            <div className="ds-meta-label">
+              Reported
+            </div>
+ 
+            <div className="ds-meta-value">
+              {testReports[0]?.createdAt
+                ? new Date(testReports[0].createdAt).toLocaleString("en-GB")
+                : "—"}
+            </div>
+          </div>
+ 
+        </div>
+        {/* ── PATIENT ── */}
+        <div className="ds-patient-section">
+ 
+          <div className="ds-patient-left">
+ 
+            <h2 className="ds-patient-name">
+              {patientData?.name}
+            </h2>
+ 
+            <div className="ds-patient-grid">
+ 
+              <div>
+                <div className="ds-detail-key">
+                  Age / Sex
+                </div>
+ 
+                <div className="ds-detail-summary">
+                  {`${calculateAge(
+                    patientData?.dob,
+                    appointmentData?.createdAt
+                  )} / ${patientData?.gender || "-"}`}
+                </div>
+              </div>
+ 
+              <div>
+                <div className="ds-detail-key">
+                  Email Address
+                </div>
+ 
+                <div className="ds-detail-summary">
+                  {patientData?.email}
+                </div>
+              </div>
+              <div>
+                <div className="ds-detail-key">
+                  Patient ID
+                </div>
+ 
+                <div className="ds-detail-summary">
+                  {patientData?.nh12}
+                </div>
+              </div>
+ 
+              <div>
+                <div className="ds-detail-key">
+                  DOB
+                </div>
+ 
+                <div className="ds-detail-summary">
+                  {patientData?.dob
+                    ? new Date(patientData.dob).toLocaleDateString("en-GB")
+                    : "—"}
+                </div>
+              </div>
+ 
+              <div>
+                <div className="ds-detail-key">
+                  Address
+                </div>
+ 
+                <div className="ds-detail-summary">
+                  {patientData?.address || "-"}
+                </div>
+              </div>
+ 
+              <div>
+                <div className="ds-detail-key">
+                  Dr Name
+                </div>
+ 
+                <div className="ds-detail-summary">
+                  {appointmentData?.staff?.name || "-"}
+                </div>
+              </div>
+              <div>
+                <div className="ds-detail-key">
+                  Contact
+                </div>
+ 
+                <div className="ds-detail-summary">
+                  {patientData?.contactNumber}
+                </div>
+              </div>
+ 
+ 
+              <div>
+                <div className="ds-detail-key">
+                  Blood
+                </div>
+ 
+                <div className="ds-detail-summary">
+                  {patientData?.bloodGroup || "-"}
+                </div>
+              </div>
+              <div>
+                <div className="ds-detail-key">
+                  Dr ID
+                </div>
+ 
+                <div className="ds-detail-summary">
+                  {appointmentData?.staff?.nh12 || "-"}
+                </div>
+              </div>
+ 
+ 
+            </div>
+          </div>
+ 
+          <div className="ds-qr-col">
+            <div className="ds-qr-box">
+              <QRCodeCanvas
+                value={`https://www.neohealthcard.com/doctor-appointment-receipt/${reportId}`}
+                size={256}
+                className="qr-codes"
+                style={{
+                  height: "auto",
+                  maxWidth: "100%",
+                  width: "100%",
+                }}
+              />
+            </div>
+ 
+            <div className="ds-qr-label">
+              Scan to verify
+            </div>
+ 
+            <div className="ds-qr-link">
+              verify.neohealthcard.in
+            </div>
+          </div>
+ 
+        </div>
+ 
+        {testReports.length === 0 && (
+          <div className="ds-notes-section text-center">
+            <div className="ds-header-meta">
+              No test reports available.
+            </div>
+          </div>
+        )}
+ 
+        {testReports.map((report, rIdx) => {
+          const subCat = report?.subCatId;
+          const subCatName = subCat?.subCategory ?? `Test ${rIdx + 1}`;
+          const definitions = subCat?.component ?? [];
+          const results = report?.component ?? [];
+          const upload = report?.upload;
+ 
+          const resultMap = {};
+ 
+          results.forEach((r) => {
+            if (r.cmpId) resultMap[r.cmpId] = r;
+          });
+ 
+          return (
+            <div
+              className="ds-medicines-section"
+              key={report?._id || rIdx}
+            >
+ 
+              <p className="ds-table-title text-center">
+                {subCatName}
+              </p>
+ 
+              <table className="ds-table">
+ 
+                <thead className="ds-thead">
+                  <tr>
+                    <th className="ds-th-left">
+                      Test
+                    </th>
+ 
+                    <th className="ds-th-right">
+                      Result
+                    </th>
+ 
+                    <th className="ds-th-right">
+                      Reference Range
+                    </th>
+ 
+                    <th className="ds-th-right">
+                      Unit
+                    </th>
+                  </tr>
+                </thead>
+ 
+                <tbody>
+ 
+                  {definitions.length === 0 && (
+                    <tr>
+                      <td
+                        colSpan="5"
+                        className="ds-td-left text-center"
+                      >
+                        No parameters defined.
+                      </td>
+                    </tr>
                   )}
+ 
+                  {definitions.map((cmp, cIdx) => {
+                    const cmpIdStr = cmp._id?.toString();
+                    const res = resultMap[cmpIdStr] || {};
+ 
+                    const resultVal =
+                      res.result !== undefined &&
+                        res.result !== ""
+                        ? res.result
+                        : res.textResult || "—";
+ 
+                    const range =
+                      cmp.optionType == "text"
+                        ? `${cmp.minRange} – ${cmp.maxRange}`
+                        : "Positve-Negative";
+ 
+                    const status =
+                      res.status ||
+                      (cmp.minRange !== undefined &&
+                        cmp.maxRange !== undefined &&
+                        res.result
+                        ? computeStatus(
+                          res.result,
+                          cmp.minRange,
+                          cmp.maxRange
+                        )
+                        : "—");
+ 
+                    const showTitle =
+                      cmp.title &&
+                      (cIdx === 0 ||
+                        definitions[cIdx - 1]?.title !== cmp.title);
+ 
+                    return (
+                      <React.Fragment key={cmp._id || cIdx}>
+ 
+                        <tr className="ds-tr-border">
+                          <td className="ds-td-left">
+                            {cmp.name}
+                          </td>
+ 
+                          <td className="ds-td-right">
+                            {resultVal}
+                          </td>
+ 
+                          <td className="ds-td-right">
+                            {range}
+                          </td>
+ 
+                          <td className="ds-td-right">
+                            {cmp.unit}
+                          </td>
+                        </tr>
+ 
+                      </React.Fragment>
+                    );
+                  })}
+ 
+                </tbody>
+              </table>
+ 
+              {/* Remark */}
+              {report?.remark && (
+                <div className="ds-header-meta mt-2">
+                  <strong>Remark:</strong> {report.remark}
                 </div>
-              )} */}
-
-                                <table className="table table-borderless report-table">
-                                    <thead className="small text-muted border-bottom">
-                                        <tr>
-                                            <th>Test</th>
-                                            <th>Result</th>
-                                            <th>Reference Range</th>
-                                            {/* <th>Status</th> */}
-                                            <th>Unit</th>
-                                        </tr>
-                                    </thead>
-
-                                    <tbody>
-                                        {definitions.length === 0 && (
-                                            <tr>
-                                                <td colSpan="5" className="text-center text-muted small py-2">
-                                                    No parameters defined.
-                                                </td>
-                                            </tr>
-                                        )}
-
-                                        {definitions.map((cmp, cIdx) => {
-                                            const cmpIdStr = cmp._id?.toString();
-                                            const res = resultMap[cmpIdStr] || {};
-
-                                            // Display result value
-                                            const resultVal =
-                                                res.result !== undefined && res.result !== ""
-                                                    ? res.result
-                                                    : res.textResult || "—";
-
-                                            // Reference range string
-                                            const range =
-                                                cmp.optionType == "text"
-                                                    ? `${cmp.minRange} – ${cmp.maxRange}`
-                                                    : "Positve-Negative";
-
-                                            // Status: use stored → else compute from range
-                                            const status =
-                                                res.status ||
-                                                (cmp.minRange !== undefined && cmp.maxRange !== undefined && res.result
-                                                    ? computeStatus(res.result, cmp.minRange, cmp.maxRange)
-                                                    : "—");
-
-                                            // Section title row: show when cmp.title changes
-                                            const showTitle =
-                                                cmp.title &&
-                                                (cIdx === 0 || definitions[cIdx - 1]?.title !== cmp.title);
-
-                                            return (
-                                                <React.Fragment key={cmp._id || cIdx}>
-                                                    {/* {showTitle && (
-                          <tr>
-                            <td colSpan="5" className="section-title">
-                              {cmp.title}
-                            </td>
-                          </tr>
-                        )} */}
-                                                    <tr className="border-bottom">
-                                                        <td>{cmp.name}</td>
-                                                        <td>{resultVal}</td>
-                                                        <td>{range}</td>
-                                                        {/* <td style={statusStyle(status)}>{status}</td> */}
-                                                        <td>{cmp.unit}</td>
-                                                    </tr>
-                                                </React.Fragment>
-                                            );
-                                        })}
-                                    </tbody>
-                                </table>
-
-                                {/* Remark */}
-                                {report?.remark && (
-                                    <div className="small text-muted mt-1">
-                                        <strong>Remark:</strong> {report.remark}
-                                    </div>
-                                )}
-                            </div>
-                        );
-                    })}
-
-                    {/* ── INSTRUCTIONS ── */}
-                    <div className="px-4 py-3">
-                        <div className="instruction-box">
-                            <div className="small fw-semibold text-muted mb-2">GENERAL INSTRUCTION</div>
-                            <ol className="small text-muted mb-2">
-                                <li>Please consult your doctor before making any medical decisions based on these results.</li>
-                                <li>Results are specific to the sample collected on the mentioned date.</li>
-                                <li>Clinical correlation is advised.</li>
-                                <li>Follow up as recommended by your physician.</li>
-                            </ol>
-                            <div className="small text-muted">
-                                Clinical correlation advised. Follow up in 3 days.
-                            </div>
-                        </div>
-                    </div>
-
-                    {/* ── SIGNATURES ── */}
-                    <div className="row border-top text-center small text-muted">
-                        <div className="col p-3 d-flex flex-column">
-                            <span> Lab Technician </span>
-                            <span>{labData?.name}</span>
-                            <span>{labData?.nh12}</span>
-                        </div>
-                        <div className="col p-3 border-start d-flex flex-column">
-                            <span> Lab Doctor </span>
-                            <span>{appointmentData?.staff?.name}</span>
-                            <span>{appointmentData?.staff?.nh12}</span></div>
-                        <div className="col p-3 border-start d-flex flex-column">
-                            <span> Patient </span>
-                            <span> {patientData?.name} </span>
-                            <span> {patientData?.nh12} </span>
-
-                        </div>
-                    </div>
-
-                    {/* ── FOOTER ── */}
-                    <div className="footer-bar text-white text-center py-2 small">
-                        Wishing you a speedy recovery
-                    </div>
-
-                </div>
+              )}
+            </div>
+          );
+        })}
+ 
+        <div className="ds-notes-section">
+          <div className="ds-notes-summary">
+            <p className="ds-detail-section-label-header">
+              GENERAL INSTRUCTION
+            </p>
+ 
+            <div className="ds-notes-box">
+ 
+              <ol className="mb-2 ps-3">
+ 
+                <li>
+                  Please consult your doctor before making any medical decisions based on these results.
+                </li>
+ 
+                <li>
+                  Results are specific to the sample collected on the mentioned date.
+                </li>
+ 
+                <li>
+                  Clinical correlation is advised.
+                </li>
+ 
+                <li>
+                  Follow up as recommended by your physician.
+                </li>
+ 
+              </ol>
+ 
+              <div>
+                Clinical correlation advised. Follow up in 3 days.
+              </div>
+ 
+            </div>
+          </div>
+        </div>
+ 
+        <div className="ds-sig-grid">
+ 
+          <div className="ds-sig-cell">
+            <div className="ds-sig-name">
+              Lab Technician
+            </div>
+ 
+            <div className="ds-sig-sub ">
+              {labData?.name}
+            </div>
+ 
+            <div className="ds-sig-id my-0">
+              {labData?.nh12}
+            </div>
+          </div>
+ 
+          <div className="ds-sig-cell-border d-flex flex-column">
+            <div className="ds-sig-name">
+              Lab Doctor
+            </div>
+ 
+            <div className="ds-sig-sub">
+              {appointmentData?.staff?.name}
+            </div>
+ 
+            <div className="ds-sig-id my-0">
+              {appointmentData?.staff?.nh12}
+            </div>
+          </div>
+ 
+          <div className="ds-sig-cell-border d-flex flex-column">
+            <div className="ds-sig-name">
+              Patient
+            </div>
+ 
+            <div className="ds-sig-sub ">
+              {patientData?.name}
+            </div>
+ 
+            <div className="ds-sig-id my-0">
+              {patientData?.nh12}
+            </div>
+          </div>
+ 
+        </div>
+ 
+        {/* ── FOOTER ── */}
+        <div className="ds-footer">
+          <span>
+            {patientData?.orgName}, Mumbai · {patientData?.orgEmail} ·{" "}
+            {patientData?.orgContactNumber}
+          </span>
+ 
+          <span>
+            Wishing you a speedy recovery
+          </span>
+        </div>
+ 
+      </div>
             </div>
         </>
     );

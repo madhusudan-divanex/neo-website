@@ -1,5 +1,4 @@
 import React, { useEffect, useRef, useState } from "react";
-import "bootstrap/dist/css/bootstrap.min.css";
 import { NavLink, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { QRCodeCanvas } from "qrcode.react";
@@ -7,31 +6,17 @@ import html2pdf from "html2pdf.js";
 import html2canvas from "html2canvas";
 import base_url from "../baseUrl";
 
+import "./Template css/Certificate.css"
+import "./Template css/DischargeSummary.css"
 
 
-
-const s = {
-  watermark: {
-    position: "absolute",
-    width: 220,
-    height: 220,
-    background: "url('/CertWatermark2.png')",
-    backgroundRepeat: "no-repeat",
-    backgroundSize: "contain",
-    // opacity: 0.05,
-    borderRadius: "50%",
-    top: "40%",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
-  },
-}
 export default function ViewDeathCertificate({ certificateData }) {
   const pdfRef = useRef()
   const handleDownload = () => {
     const element = pdfRef.current;
 
     const opt = {
-      margin: 0.3,
+      margin: 0,
       filename: `${certificateData?.customId}.pdf`,
       image: { type: "jpeg", quality: 1 },
       html2canvas: {
@@ -43,7 +28,7 @@ export default function ViewDeathCertificate({ certificateData }) {
         format: "a4",
         orientation: "portrait"
       },
-      pagebreak: { mode: ['avoid-all'] } // ✅ important
+      pagebreak: { mode: ['avoid-all'] } 
     };
 
     html2pdf().set(opt).from(element).save();
@@ -58,194 +43,214 @@ export default function ViewDeathCertificate({ certificateData }) {
         </div>
       </div>
 
-      <div ref={pdfRef} style={{ background: "#f5f6f7", padding: "30px", fontFamily: "Inter, Segoe UI, sans-serif" }}>
-        <div
-          style={{
-            maxWidth: "980px",
-            margin: "auto",
-            background: "#fff",
-            borderRadius: "6px",
-            boxShadow: "0 0 0 1px #e5e7eb",
-            overflow: "hidden"
-          }}
-        >
+         <div className="neo-hp-fitness-page" style={{ padding: 24 }} ref={pdfRef}>
+  <div className="neo-hp-fitness-card">
 
-          {/* HEADER */}
-          <div style={{ padding: "20px 24px", borderBottom: "1px solid #e5e7eb" }}>
-            <div className="d-flex justify-content-between">
-
-              <div className="d-flex">
-                <div style={{ width: '34px', height: '34px' }}>
-                  <img src={certificateData?.organization?.logo ?
-                    `${base_url}/${certificateData?.organization?.logo}` : "/logo.png"} alt="" />
-                </div>
-                <div style={{ marginLeft: 10 }}>
-                  <div style={{ fontSize: "20px", fontWeight: 700 }}>Death Certificate</div>
-                  <div style={{ fontSize: "13px", color: "#555" }}>{certificateData?.organization?.name}</div>
-                  <div style={{ fontSize: "11px", color: "#888" }}>
-                    {certificateData?.organization?.nh12} · Reg. {certificateData?.license}
-                  </div>
-                  <div style={{ fontSize: "11px", color: "#888" }}>
-                    {[
-                      certificateData?.address?.fullAddress,
-                      certificateData?.address?.city?.name,
-                      certificateData?.address?.state?.name,
-                      certificateData?.address?.pinCode
-                    ]
-                      .filter(Boolean)
-                      .join(', ')
-                    }
-                  </div>
-                </div>
-              </div>
-
-              <div className="text-end">
-                <div
-                  style={{
-                    fontSize: "11px",
-                    border: "1px solid #19b6b6",
-                    padding: "4px 10px",
-                    borderRadius: "20px",
-                    color: "#19b6b6",
-                    display: "inline-block",
-                    marginBottom: "4px"
-                  }}
-                >
-                  NeoHealthCard Network
-                </div>
-                <div style={{ fontSize: "11px", color: "#19b6b6" }}>
-                  Fully Automated · Ecosystem Connected
-                </div>
-                <div style={{ fontSize: "11px", color: "#777" }}>
-                  {certificateData?.organization?.email} · {certificateData?.organization?.contactNumber}
-                </div>
-              </div>
-            </div>
-
-            {/* META */}
-            <div className="row mt-3" style={{ fontSize: "11px", color: "#666" }}>
-              <div className="col">
-                CERTIFICATE ID<br />
-                <span style={{ color: "#000", fontWeight: 500 }}>{certificateData?.customId}</span>
-              </div>
-              <div className="col">
-                ISSUE DATE<br />
-                <span style={{ color: "#000", fontWeight: 500 }}>{new Date(certificateData?.createdAt)?.toLocaleDateString('en-GB')}</span>
-              </div>
-              {certificateData?.license && <div className="col">
-                REGISTRATION NO.<br />
-                <span style={{ color: "#000", fontWeight: 500 }}>{certificateData?.license}</span>
-              </div>}
-              <div className="col">
-                STATUS<br />
-                <span style={{ color: "#16a34a", fontWeight: 600 }}>Registered · Verified</span>
-              </div>
-            </div>
-          </div>
-
-
-          {/* CERTIFICATE BOX */}
-          <div style={{ padding: "24px" }}>
-            <div
-              style={{
-                border: "1.5px solid #19b6b6",
-                borderRadius: "10px",
-                padding: "30px 28px",
-                textAlign: "center",
-                position: "relative"
-              }}
-            >
-              <div style={s.watermark}></div>
-              <div style={{ fontSize: "18px", fontWeight: 600, color: "#19b6b6" }}>
-                Certificate of Death
-              </div>
-
-              <div style={{ fontSize: "12px", color: "#666", marginTop: "6px" }}>
-                {certificateData?.organization?.name} · {certificateData?.customId} · Govt. of {certificateData?.address?.state?.name}
-              </div>
-
-              <div style={{ fontSize: "12px", marginTop: "18px", color: "#444" }}>
-                This is to certify that the following person passed away at this hospital:
-              </div>
-
-              {/* DETAILS */}
-              <div className="row text-start mt-4" style={{ fontSize: "12px" }}>
-                <div className="col-6 pe-4">
-                  <div className="mb-2"><span style={{ color: "#888" }}>Full Name</span><br /><b>{certificateData?.fullName}</b></div>
-                  <div className="mb-2"><span style={{ color: "#888" }}>Gender</span><br />{certificateData?.gender}</div>
-                  <div className="mb-2"><span style={{ color: "#888" }}>Date of Death</span><br />{new Date(certificateData?.dateOfDeath)?.toLocaleDateString('en-GB')}</div>
-                  <div className="mb-2"><span style={{ color: "#888" }}>Place of Death</span><br />{certificateData?.placeOfDeath}</div>
-                  <div className="mb-2"><span style={{ color: "#888" }}>Contributing Cause</span><br />{certificateData?.contributingCause || '-'}</div>
-                  <div><span style={{ color: "#888" }}>Certifying Doctor</span><br /> {certificateData?.doctorId?.name}</div>
-                </div>
-
-                <div className="col-6 ps-4" style={{ borderLeft: "1px solid #e5e7eb" }}>
-                  <div className="mb-2"><span style={{ color: "#888" }}>Age at Death</span><br />{certificateData?.ageAtDeath} Years</div>
-                  {certificateData?.patientId && <div className="mb-2"><span style={{ color: "#888" }}>NHC-P ID</span><br />{certificateData?.patientId?.nh12}</div>}
-                  <div className="mb-2"><span style={{ color: "#888" }}>Time of Death</span><br />{certificateData?.timeOfDeath}</div>
-                  <div className="mb-2"><span style={{ color: "#888" }}>Cause of Death</span><br />{certificateData?.causeOfDeath}</div>
-                  <div className="mb-2"><span style={{ color: "#888" }}>Manner of Death</span><br />{certificateData?.mannerOfDeath || '-'}</div>
-                  <div><span style={{ color: "#888" }}>Next of Kin</span><br />{certificateData?.nextOfKin?.name} ({certificateData?.nextOfKin?.relation})</div>
-                </div>
-              </div>
-
-              {/* QR */}
-              <div style={{ marginTop: "28px" }}>
-                <div style={{
-                  width: "80px",
-                  height: "80px",
-                  margin: "auto",
-                }}>
-                  <QRCodeCanvas
-                    value={`https://www.neohealthcard.com/certificate/${certificateData?.customId}`}
-                    size={256}
-                    // className="qr-code"
-                    style={{ height: "auto", maxWidth: "100%", width: "100%" }}
-                  />
-                </div>
-                <div style={{ fontSize: "11px", color: "#888", marginTop: "6px" }}>Scan to verify</div>
-                <div style={{ fontSize: "11px", color: "#19b6b6" }}>verify.neohealthcard.in</div>
-              </div>
-            </div>
-          </div>
-
-
-          {/* SIGNATURE */}
-          <div className="row text-center" style={{ borderTop: "1px solid #e5e7eb" }}>
-            <div className="col" style={{ padding: "18px" }}>
-              <div style={{ fontSize: "13px", fontWeight: 500 }}> {certificateData?.doctorId?.name}</div>
-              <div style={{ fontSize: "11px", color: "#777" }}>{certificateData?.specialty} specialist· · {certificateData?.organization?.name}</div>
-              <div style={{ fontSize: "11px", color: "#19b6b6" }}>{certificateData?.doctorId?.nh12}</div>
-            </div>
-
-            <div className="col" style={{ padding: "18px", borderLeft: "1px solid #e5e7eb" }}>
-              <div style={{ fontSize: "13px", fontWeight: 500 }}>Registrar of Deaths</div>
-              <div style={{ fontSize: "11px", color: "#777" }}>Govt. of {certificateData?.address?.state?.name} · BMC</div>
-              <div style={{ fontSize: "11px", color: "#19b6b6" }}>Reg. No. {certificateData?.license}</div>
-            </div>
-
-            <div className="col" style={{ padding: "18px", borderLeft: "1px solid #e5e7eb" }}>
-              <div style={{ fontSize: "13px", fontWeight: 500 }}>{certificateData?.organization?.name}</div>
-              <div style={{ fontSize: "11px", color: "#777" }}>Authorised Signatory</div>
-              <div style={{ fontSize: "11px", color: "#19b6b6" }}>{certificateData?.organization?.nh12}</div>
-            </div>
-          </div>
-
-          {/* FOOTER */}
-          <div style={{
-            background: "#0ea5a5",
-            color: "#fff",
-            fontSize: "11px",
-            padding: "8px 16px",
-            display: "flex",
-            justifyContent: "space-between"
-          }}>
-            <div>{certificateData?.organization?.name}, {certificateData?.address?.city?.name} · {certificateData?.organization?.email} · {certificateData?.organization?.contactNumber}</div>
-            <div>Wishing you a speedy recovery</div>
-          </div>
-
+    {/* HEADER */}
+    <div className="d-flex justify-content-between align-items-start hp-certificate-bx">
+      <div className="d-flex gap-3">
+        <div className="neo-hp-fitness-logo">
+          <img src={certificateData?.logo ?
+            `${base_url}/${certificateData?.logo}` : "/logo.png"} alt="" />
         </div>
-      </div >
+        <div>
+          <div className="neo-hp-fitness-title">Death Certificate</div>
+          <div className="neo-hp-fitness-subtitle">{certificateData?.organization?.name}</div>
+          <div className="neo-hp-fitness-meta">
+            {certificateData?.organization?.nh12} · Reg. {certificateData?.license}
+          </div>
+          <div className="neo-hp-fitness-meta">
+            {certificateData?.address?.fullAddress + ',' + certificateData?.address?.city?.name + ',' + certificateData?.address?.state?.name + ',' + certificateData?.address?.pinCode}
+          </div>
+        </div>
+      </div>
+
+      <div className="text-end">
+        <div className="neo-hp-fitness-badge mb-1">NeoHealthCard Network</div>
+        <p className="neo-hp-fitness-meta-right-ft mb-0 lh-base">
+          Fully Automated · Ecosystem Connected
+        </p>
+        <p className="neo-hp-fitness-meta-right mb-0 lh-base">
+          {certificateData?.organization?.email} · {certificateData?.organization?.contactNumber}
+        </p>
+      </div>
+    </div>
+
+    {/* META */}
+    <div className="ds-meta-strip" style={{ borderTop: "1px solid #e6e6e6" }}>
+      {[
+        ["CERTIFICATE ID", certificateData?.customId],
+        ["ISSUE DATE", new Date(certificateData?.createdAt)?.toLocaleDateString('en-GB')],
+        ["REGISTRATION NO.", certificateData?.license],
+        ["STATUS", "Registered · Verified"]
+      ].map((item, i) => (
+        <div key={i} className="ds-meta-block">
+          <div className="ds-meta-label">{item[0]}</div>
+          <div className={`ds-meta-value fz-12 ${i === 3 ? "neo-hp-fitness-status" : ""}`}>
+            {item[1]}
+          </div>
+        </div>
+      ))}
+    </div>
+
+    {/* CERTIFICATE BOX */}
+    <div className="neo-hp-fitness-box">
+      <div className="neo-hp-fitness-box-title">Certificate of Death</div>
+
+      <div className="neo-hp-fitness-box-sub">
+        {certificateData?.organization?.name} · {certificateData?.customId} · Govt. of {certificateData?.address?.state?.name}
+      </div>
+
+      <div className="neo-hp-fitness-center-text">
+        This is to certify that the following person passed away at this hospital:
+      </div>
+
+      {/* DETAILS */}
+      <div className="neo-dc-details-grid">
+
+  <div className="neo-dc-details-column neo-dc-details-column-left">
+
+    <div className="neo-dc-detail-item">
+      <span className="neo-dc-detail-label">Full Name</span>
+      <div className="neo-dc-detail-value">
+        <b>{certificateData?.fullName}</b>
+      </div>
+    </div>
+
+    <div className="neo-dc-detail-item">
+      <span className="neo-dc-detail-label">Gender</span>
+      <div className="neo-dc-detail-value">
+        {certificateData?.gender}
+      </div>
+    </div>
+
+    <div className="neo-dc-detail-item">
+      <span className="neo-dc-detail-label">Date of Death</span>
+      <div className="neo-dc-detail-value">
+        {new Date(certificateData?.dateOfDeath)?.toLocaleDateString("en-GB")}
+      </div>
+    </div>
+
+    <div className="neo-dc-detail-item">
+      <span className="neo-dc-detail-label">Place of Death</span>
+      <div className="neo-dc-detail-value">
+        {certificateData?.placeOfDeath}
+      </div>
+    </div>
+
+    <div className="neo-dc-detail-item">
+      <span className="neo-dc-detail-label">Contributing Cause</span>
+      <div className="neo-dc-detail-value">
+        {certificateData?.contributingCause || "-"}
+      </div>
+    </div>
+
+    <div className="neo-dc-detail-item">
+      <span className="neo-dc-detail-label">Certifying Doctor</span>
+      <div className="neo-dc-detail-value">
+        {certificateData?.doctorId?.name}
+      </div>
+    </div>
+
+  </div>
+
+  <div className="neo-dc-details-column neo-dc-details-column-right">
+
+    <div className="neo-dc-detail-item">
+      <span className="neo-dc-detail-label">Age at Death</span>
+      <div className="neo-dc-detail-value">
+        {certificateData?.ageAtDeath} Years
+      </div>
+    </div>
+
+    {certificateData?.patientId && (
+      <div className="neo-dc-detail-item">
+        <span className="neo-dc-detail-label">NHC-P ID</span>
+        <div className="neo-dc-detail-value">
+          {certificateData?.patientId?.nh12}
+        </div>
+      </div>
+    )}
+
+    <div className="neo-dc-detail-item">
+      <span className="neo-dc-detail-label">Time of Death</span>
+      <div className="neo-dc-detail-value">
+        {certificateData?.timeOfDeath}
+      </div>
+    </div>
+
+    <div className="neo-dc-detail-item">
+      <span className="neo-dc-detail-label">Cause of Death</span>
+      <div className="neo-dc-detail-value">
+        {certificateData?.causeOfDeath}
+      </div>
+    </div>
+
+    <div className="neo-dc-detail-item">
+      <span className="neo-dc-detail-label">Manner of Death</span>
+      <div className="neo-dc-detail-value">
+        {certificateData?.mannerOfDeath || "-"}
+      </div>
+    </div>
+
+    <div className="neo-dc-detail-item">
+      <span className="neo-dc-detail-label">Next of Kin</span>
+      <div className="neo-dc-detail-value">
+        {certificateData?.nextOfKin?.name} (
+        {certificateData?.nextOfKin?.relation})
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+      <div className="neo-hp-fitness-watermark"></div>
+
+      <div className="d-flex align-items-center flex-column justify-content-center mt-5">
+        <div className="neo-hp-fitness-qr">
+          <QRCodeCanvas
+            value={`https://www.neohealthcard.com/certificate/${certificateData?.customId}`}
+            size={256}
+            className="qr-codes"
+            style={{ height: "auto", maxWidth: "100%", width: "100%" }}
+          />
+        </div>
+        <div className="neo-hp-fitness-qr-text">Scan to verify</div>
+        <div className="neo-hp-fitness-link">verify.neohealthcard.in</div>
+      </div>
+    </div>
+
+    <div className="ds-sig-grid" style={{ borderTop: "1px solid #e6e6e6" }}>
+      <div className="ds-sig-cell">
+        <div className="ds-sig-name">{certificateData?.doctorId?.name}</div>
+        <div className="ds-sig-sub">{certificateData?.specialty} specialist · {certificateData?.organization?.name}</div>
+        <div className="neo-hp-fitness-link-small">{certificateData?.doctorId?.nh12}</div>
+      </div>
+
+      <div className="ds-sig-cell-border">
+        <div className="ds-sig-name">Registrar of Deaths</div>
+        <div className="ds-sig-sub">Govt. of {certificateData?.address?.state?.name} · BMC</div>
+        <div className="neo-hp-fitness-link-small">Reg. No. {certificateData?.license}</div>
+      </div>
+
+      <div className="ds-sig-cell-border">
+        <div className="ds-sig-name">{certificateData?.organization?.name}</div>
+        <div className="ds-sig-sub">Authorised Signatory</div>
+        <div className="neo-hp-fitness-link-small">{certificateData?.organization?.nh12}</div>
+      </div>
+    </div>
+
+    <div className="neo-hp-fitness-footer-bar">
+      <span>
+        {certificateData?.organization?.name}, {certificateData?.address?.city?.name} · {certificateData?.organization?.email} · {certificateData?.organization?.contactNumber}
+      </span>
+      <span style={{ float: "right" }}>Wishing you a speedy recovery</span>
+    </div>
+
+  </div>
+</div>
+
 
     </>
   );

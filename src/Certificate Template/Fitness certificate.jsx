@@ -1,11 +1,15 @@
 import React, { useEffect, useRef, useState } from "react";
-import "bootstrap/dist/css/bootstrap.min.css";
 import { NavLink, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { QRCodeCanvas } from "qrcode.react"
 import html2canvas from "html2canvas";
 import html2pdf from "html2pdf.js";
 import base_url from "../baseUrl";
+
+import "./Template css/Certificate.css"
+import "./Template css/DischargeSummary.css"
+
+
 export default function ViewFitnessCertificate({ certificateData }) {
   const pdfRef = useRef()
   const handleDownload = () => {
@@ -31,7 +35,7 @@ export default function ViewFitnessCertificate({ certificateData }) {
   };
   return (
     <>
-      <div className="container mt-2 d-flex justify-content-between align-items-center">
+      <div className="container d-flex justify-content-between align-items-center">
         <img src="/logo.png" alt="" srcset="" width={100} height={60} />
         <div>
           <button className="thm-btn" onClick={handleDownload}>Download</button>
@@ -39,249 +43,146 @@ export default function ViewFitnessCertificate({ certificateData }) {
       </div>
 
 
-      <div style={styles.page} ref={pdfRef}>
-        <div style={styles.card}>
+
+      <div className="neo-hp-fitness-page" ref={pdfRef}>
+        <div className="neo-hp-fitness-card">
 
           {/* HEADER */}
-          <div className="d-flex justify-content-between align-items-start mb-3">
-            <div className="d-flex">
-              <div style={styles.logo}>
-                <img src={certificateData?.organization?.logo ?
-                  `${base_url}/${certificateData?.organization?.logo}` : "/logo.png"} alt="" />
+          <div className="d-flex justify-content-between align-items-start hp-certificate-bx">
+            <div className="d-flex gap-3">
+              <div className="neo-hp-fitness-logo">
+                <img src={certificateData?.logo ? `${base_url}/${certificateData?.logo}` : "/logo.png"} alt="" />
               </div>
-              <div className="ms-2">
-                <div style={styles.title}>Fitness Certificate</div>
-                <div style={styles.subtitle}>{certificateData?.organization?.name}</div>
-                <div style={styles.meta}>
-                  {certificateData?.nh12}<br />
-                  {[
-                    certificateData?.address?.fullAddress,
-                    certificateData?.address?.city?.name,
-                    certificateData?.address?.state?.name,
-                    certificateData?.address?.pinCode
-                  ]
-                    .filter(Boolean)
-                    .join(', ')
-                  }
+              <div className="">
+                <div className="neo-hp-fitness-title">Fitness Certificate</div>
+                <div className="neo-hp-fitness-subtitle">{certificateData?.organization?.name}</div>
+                <div className="neo-hp-fitness-meta">
+                  {certificateData?.nh12} {certificateData?.address?.fullAddress + ',' + certificateData?.address?.city?.name + ',' + certificateData?.address?.state?.name + ',' + certificateData?.address?.pinCode}
                 </div>
               </div>
             </div>
 
             <div className="text-end">
-              <div style={styles.badge}>NeoHealthCard Network</div>
-              <div style={styles.metaRight}>
-                Fully Automated · Ecosystem Connected<br />
-                {certificateData?.organization?.email} · {certificateData?.organization?.contactNumber}
-              </div>
+              <div className="neo-hp-fitness-badge mb-1">NeoHealthCard Network</div>
+              <p className="neo-hp-fitness-meta-right-ft mb-0 lh-base">
+                Fully Automated · Ecosystem Connected
+              </p>
+              <p className="neo-hp-fitness-meta-right mb-0 lh-base"> {certificateData?.organization?.email} · {certificateData?.organization?.contactNumber}</p>
             </div>
           </div>
 
           {/* INFO ROW */}
-          <div className="row text-muted mb-3" style={{ fontSize: 12 }}>
-            <div className="col">CERTIFICATE ID<br /><b>{certificateData?.customId}</b></div>
-            <div className="col">ISSUE DATE<br /><b>{new Date(certificateData?.examinDate)?.toLocaleDateString('en-GB')}</b></div>
-            <div className="col">PURPOSE<br /><b>{certificateData?.purpose}</b></div>
-            <div className="col">VALID UNTIL<br /><b>{new Date(certificateData?.effectiveDate)?.toLocaleDateString('en-GB')}</b></div>
-            <div className="col">STATUS<br /><span style={{ color: "#00a6a6", fontWeight: 600 }} className="text-capitalize">Verified · {certificateData?.status}</span></div>
-          </div>
+          <div className="ds-meta-strip" style={{borderTop : "1px solid #e6e6e6"}}>
+        {[
+          ["CERTIFICATE ID", certificateData?.customId],
+          [
+            "ISSUE DATE",
+            new Date(certificateData?.examinDate)?.toLocaleDateString("en-GB"),
+          ],
+          ["PURPOSE", certificateData?.purpose],
+          [
+            "VALID UNTIL",
+            new Date(certificateData?.effectiveDate)?.toLocaleDateString("en-GB"),
+          ],
+          ["STATUS", `Verified · ${certificateData?.status}`],
+        ].map((item, i) => (
+          <div key={i} className="ds-meta-block">
+            <div className="ds-meta-label">{item[0]}</div>
 
-          {/* MAIN CERTIFICATE BOX */}
-          <div style={styles.box}>
-            <div style={styles.boxTitle}>Certificate of Fitness</div>
-            <div style={styles.boxSub}>{certificateData?.organization?.name} · {certificateData?.organization?.nh12}</div>
-
-            <div style={styles.centerText}>
-              This is to certify that
+            <div
+              className={`ds-meta-value fz-12 ${
+                item[0] === "STATUS" ? "neo-hp-fitness-status text-capitalize" : ""
+              }`}
+            >
+              {item[1]}
             </div>
+          </div>
+        ))}
+      </div>
 
-            <div style={styles.name}>{certificateData?.patientId?.name}</div>
+          <div className="neo-hp-fitness-box">
+            <div className="neo-hp-fitness-box-title">Certificate of Fitness</div>
+            <div className="neo-hp-fitness-box-sub">{certificateData?.organization?.name} · {certificateData?.organization?.nh12}</div>
 
-            <div style={styles.desc}>
+            <div className="neo-hp-fitness-center-text">This is to certify that</div>
+
+            <div className="neo-hp-fitness-name">{certificateData?.patientId?.name}</div>
+
+            <div className="neo-hp-fitness-desc">
               Age: {certificateData?.age} Years · Gender: {certificateData?.gender} · {certificateData?.patientId?.nh12}<br />
               was examined by the undersigned on <b>{new Date(certificateData?.examinDate)?.toLocaleDateString('en-GB')}</b> and is found to be medically FIT to resume<br />
               work / school / normal duties effective <b>{new Date(certificateData?.effectiveDate)?.toLocaleDateString('en-GB')}</b>, subject to the following conditions:
             </div>
 
-            {certificateData?.condition && <div style={styles.desc}>
-              Conditions: {certificateData?.condition}
-            </div>}
+            {certificateData?.condition && (
+              <div className="neo-hp-fitness-desc">
+                Conditions: {certificateData?.condition}
+              </div>
+            )}
 
-            {/* WATERMARK */}
-            <div style={styles.watermark}></div>
+            <div className="neo-hp-fitness-watermark"></div>
 
-            {/* QR */}
-            <div className="text-center mt-4">
-              <div style={styles.qr}>
+            <div className="d-flex align-items-center flex-column justify-content-center mt-5">
+              <div className="neo-hp-fitness-qr">
                 <QRCodeCanvas
                   value={`https://www.neohealthcard.com/certificate/${certificateData?.customId}`}
                   size={256}
-                  // className="qr-code"
+                  className="qr-codes"
                   style={{ height: "auto", maxWidth: "100%", width: "100%" }}
                 />
               </div>
-              <div style={styles.qrText}>Scan to verify</div>
-              <div style={styles.link}>verify.neohealthcard.in</div>
+              <div className="neo-hp-fitness-qr-text">Scan to verify</div>
+              <div className="neo-hp-fitness-link">verify.neohealthcard.in</div>
             </div>
+
+
+            
+
           </div>
 
           {/* FOOTER SIGN */}
-          <div className="row mt-5 text-center">
-            <div className="col">
-              <div style={styles.signName}> {certificateData?.doctorId?.name}</div>
-              <div style={styles.signMeta}>{certificateData?.specialty} specialist· {certificateData?.organization?.name}</div>
-              <div style={styles.linkSmall}>{certificateData?.doctorId?.nh12} </div>
-            </div>
-            <div className="col">
-              <div style={styles.signName}>Hospital Seal & Stamp</div>
-              <div style={styles.signMeta}>{certificateData?.organization?.name}</div>
-              <div style={styles.linkSmall}>{certificateData?.organization?.nh12}</div>
-            </div>
+          <div className="hp-ds-sig-grid" style={{borderTop : "1px solid #e6e6e6"}}>
+        <div className="ds-sig-cell">
+          <div className="ds-sig-name">
+            {certificateData?.doctorId?.name}
           </div>
 
-          <div style={styles.footerBar} className="mt-3">
-            {certificateData?.organization?.name}, {certificateData?.address?.city?.name} · {certificateData?.organization?.name} · {certificateData?.organization?.contactNumber}
-            <span style={{ float: "right" }}>Wishing you a speedy recovery</span>
+          <div className="ds-sig-sub">
+            {certificateData?.specialty} specialist ·{" "}
+            {certificateData?.organization?.name}
+          </div>
+
+          <div className="neo-hp-fitness-link-small">
+            {certificateData?.doctorId?.nh12}
+          </div>
+        </div>
+
+        <div className="ds-sig-cell-border">
+          <div className="ds-sig-name">
+            Hospital Seal & Stamp
+          </div>
+
+          <div className="ds-sig-sub">
+            {certificateData?.organization?.name}
+          </div>
+
+          <div className="neo-hp-fitness-link-small">
+            {certificateData?.organization?.nh12}
           </div>
         </div>
       </div>
+
+          <div className="neo-hp-fitness-footer-bar">
+            {certificateData?.organization?.name}, {certificateData?.address?.city?.name} · {certificateData?.organization?.name} · {certificateData?.organization?.contactNumber}
+            <span style={{ float: "right" }}>Wishing you a speedy recovery</span>
+          </div>
+
+        </div>
+      </div>
+
 
     </>
 
   );
 }
 
-/* ================= STYLES ================= */
-
-const styles = {
-  page: {
-    background: "#f4f6f7",
-    padding: 20,
-    fontFamily: "Inter, Arial, sans-serif",
-  },
-  card: {
-    background: "#fff",
-    padding: 24,
-    borderRadius: 8,
-    boxShadow: "0 0 0 1px #e6e6e6",
-    maxWidth: 900,
-    margin: "auto",
-  },
-  logo: {
-    width: 36,
-    height: 36,
-    borderRadius: "50%",
-    // background: "linear-gradient(135deg, #00a6a6, #003c46)",
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: 600,
-  },
-  subtitle: {
-    fontSize: 14,
-    fontWeight: 500,
-  },
-  meta: {
-    fontSize: 11,
-    color: "#777",
-    lineHeight: "16px",
-  },
-  metaRight: {
-    fontSize: 11,
-    color: "#777",
-  },
-  badge: {
-    background: "#e6f7f7",
-    color: "#00a6a6",
-    padding: "4px 10px",
-    borderRadius: 20,
-    fontSize: 11,
-    fontWeight: 500,
-    display: "inline-block",
-    marginBottom: 5,
-  },
-
-  box: {
-    border: "2px solid #00a6a6",
-    borderRadius: 12,
-    padding: 30,
-    textAlign: "center",
-    position: "relative",
-  },
-  boxTitle: {
-    color: "#00a6a6",
-    fontSize: 22,
-    fontWeight: 600,
-  },
-  boxSub: {
-    fontSize: 12,
-    color: "#666",
-    marginBottom: 20,
-  },
-  centerText: {
-    fontSize: 13,
-    marginBottom: 10,
-  },
-  name: {
-    fontSize: 28,
-    fontWeight: 700,
-    marginBottom: 15,
-  },
-  desc: {
-    fontSize: 13,
-    color: "#444",
-    lineHeight: "20px",
-    marginBottom: 12,
-  },
-
-  watermark: {
-    position: "absolute",
-    width: 220,
-    height: 220,
-    background: "url('/CertWatermark2.png')",
-    backgroundRepeat: "no-repeat",
-    backgroundSize: "contain",
-    // opacity: 0.05,
-    borderRadius: "50%",
-    top: "40%",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
-  },
-
-  qr: {
-    width: 90,
-    height: 90,
-    margin: "auto",
-    background: "#000",
-    borderRadius: 6,
-  },
-  qrText: {
-    fontSize: 11,
-    color: "#888",
-  },
-  link: {
-    fontSize: 12,
-    color: "#00a6a6",
-    fontWeight: 500,
-  },
-
-  signName: {
-    fontSize: 14,
-    fontWeight: 600,
-  },
-  signMeta: {
-    fontSize: 11,
-    color: "#777",
-  },
-  linkSmall: {
-    fontSize: 11,
-    color: "#00a6a6",
-  },
-
-  footerBar: {
-    background: "#00a6a6",
-    color: "#fff",
-    padding: "8px 20px",
-    fontSize: 12,
-    marginTop: 10,
-  },
-};

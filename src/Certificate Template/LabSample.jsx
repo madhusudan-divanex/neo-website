@@ -7,6 +7,7 @@ import html2canvas from "html2canvas";
 import base_url from "../baseUrl";
 import { getApiData } from "../Services/api";
 import { calculateAge, stripHtml } from "../Services/globalFunction";
+import "./Template css/DischargeSummary.css"
 
 const LabSampleReceipt = () => {
     const { id } = useParams();
@@ -90,10 +91,9 @@ const LabSampleReceipt = () => {
                     <button className="thm-btn" onClick={handleDownload}>Download</button>
                 </div>
             </div>
-            <div ref={invoiceRef} style={{ background: "#f4f6f8", padding: "24px", fontFamily: "Inter, sans-serif" }}>
-                <div style={{ width: '100%', maxWidth: "794px", margin: "0 auto", background: "#ffffff", border: "1px solid #e5e7eb" }}>
 
-                    {/* HEADER */}
+            {/* <div ref={invoiceRef} style={{ background: "#f4f6f8", padding: "24px", fontFamily: "Inter, sans-serif" }}>
+                <div style={{ width: '100%', maxWidth: "794px", margin: "0 auto", background: "#ffffff", border: "1px solid #e5e7eb" }}>
                     <div style={{ display: "flex", justifyContent: "space-between", padding: "18px 20px", borderBottom: "1px solid #e5e7eb" }}>
                         <div className="d-flex gap-2">
                             <div style={{ width: '34px', height: '34px' }}>
@@ -115,8 +115,7 @@ const LabSampleReceipt = () => {
                         </div>
                     </div>
 
-                    {/* META */}
-                    <div style={{ display: "grid", gridTemplateColumns: "repeat(5,1fr)", borderBottom: "1px solid #e5e7eb" }}>
+           <div style={{ display: "grid", gridTemplateColumns: "repeat(5,1fr)", borderBottom: "1px solid #e5e7eb" }}>
                         {[
                             ["APPOINTMENT", new Date(appointmentData?.date)?.toLocaleString('en-GB')],
                             ["LAB ID", labData?.nh12],
@@ -131,7 +130,7 @@ const LabSampleReceipt = () => {
                         ))}
                     </div>
 
-                    {/* PATIENT */}
+             
                     <div style={{ padding: "16px 20px", borderBottom: "1px solid #e5e7eb", display: "flex" }}>
                         <div style={{ flex: 1 }}>
                             <div style={{ fontSize: "18px", fontWeight: 600, marginBottom: "8px" }}>{patientData?.name}</div>
@@ -156,7 +155,7 @@ const LabSampleReceipt = () => {
                                 <QRCodeCanvas
                                     value={`https://www.neohealthcard.com/lab-sample/${appointmentData?.customId}`}
                                     size={256}
-                                    // className="qr-code"
+                                  
                                     style={{ height: "auto", maxWidth: "100%", width: "100%" }}
                                 />
                             </div>
@@ -165,7 +164,7 @@ const LabSampleReceipt = () => {
                         </div>
                     </div>
 
-                    {/* SAMPLES TABLE */}
+             
                     <div style={{ padding: "16px 20px" }}>
                         <div style={{ fontSize: "11px", marginBottom: "6px", color: "#6b7280" }}>SAMPLES COLLECTED</div>
 
@@ -196,7 +195,7 @@ const LabSampleReceipt = () => {
                         </table>
                     </div>
 
-                    {/* TRACKING TABLE */}
+            
                     <div style={{ padding: "16px 20px" }}>
                         <div style={{ fontSize: "11px", marginBottom: "6px", color: "#6b7280" }}>SAMPLE ID TRACKING</div>
 
@@ -223,7 +222,7 @@ const LabSampleReceipt = () => {
                         </table>
                     </div>
 
-                    {/* NOTES */}
+                 
                     <div style={{ padding: "16px 20px" }}>
                         <div style={{ fontSize: "11px", marginBottom: "6px", color: "#6b7280" }}>COLLECTION NOTES</div>
                         <ol style={{ fontSize: "12px", marginLeft: "16px" }}>
@@ -234,7 +233,7 @@ const LabSampleReceipt = () => {
                         </ol>
                     </div>
 
-                    {/* SIGNATURE */}
+                   
                     <div style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", textAlign: "center", padding: "20px", borderTop: "1px solid #e5e7eb" }}>
                         <div>
                             <div>{appointmentData?.staff?.name}</div>
@@ -250,14 +249,212 @@ const LabSampleReceipt = () => {
                         </div>
                     </div>
 
-                    {/* FOOTER */}
+                  
                     <div style={{ background: "#0ea5a4", color: "#fff", fontSize: "11px", padding: "8px 14px", display: "flex", justifyContent: "space-between" }}>
                         <span>{labData?.name}, {labData?.address} · {labData?.email} · {labData?.contactNumber}</span>
                         <span>Wishing you a speedy recovery</span>
                     </div>
 
                 </div>
-            </div>
+            </div> */}
+
+              <div className="ds-page" ref={invoiceRef}>
+  <div className="ds-card">
+    <div className="ds-watermark-wrap">
+    </div>
+
+    {/* HEADER */}
+    <div className="ds-header">
+      <div className="d-flex gap-3">
+        <div className="ds-logo">
+          <img src={labData?.logo ?
+            `${base_url}/${labData?.logo}` : "/logo.png"} alt="" />
+        </div>
+        <div>
+          <h1 className="ds-header-title">Lab Sample Collection Receipt</h1>
+          <p className="ds-header-sub mb-0 lh-sm">{labData?.name}</p>
+          <p className="ds-header-meta-top mb-0 lh-sm">{labData?.nh12}</p>
+          <p className="ds-header-meta mb-0 lh-sm">{labData?.address}</p>
+        </div>
+      </div>
+      <div className="ds-header-right">
+        <div className="ds-badge">NeoHealthCard Network</div>
+        <p className="ds-header-system mb-0 lh-sm">Fully Automated · Ecosystem Connected</p>
+        <p className="ds-header-meta mb-0 lh-sm">{labData?.email} · {labData?.contactNumber}</p>
+      </div>
+    </div>
+
+    {/* META STRIP */}
+    <div className="ds-meta-strip">
+      {[
+        ["APPOINTMENT", new Date(appointmentData?.date)?.toLocaleString('en-GB')],
+        ["LAB ID", labData?.nh12],
+        ["LAB ORDER REF", appointmentData?.customId],
+        ["PATIENT ID", patientData?.nh12],
+        ["STATUS", capitalize(appointmentData?.paymentStatus)]
+      ].map((item, i) => (
+        <div key={i} className="ds-meta-block">
+          <div className="ds-meta-label">{item[0]}</div>
+          <div className={`ds-meta-value fz-12 ${i === 4 ? "text-teal" : ""}`}>{item[1]}</div>
+        </div>
+      ))}
+    </div>
+
+    {/* PATIENT */}
+    <div className="ds-patient-section">
+      <div className="ds-patient-left">
+        <h3 className="ds-patient-title">Patient</h3>
+        <h2 className="ds-patient-name">{patientData?.name}</h2>
+        <div className="ds-patient-grid">
+          <div>
+            <h6 className="ds-detail-key mb-0">Age / Sex</h6>
+            <span className="ds-detail-summary">{calculateAge(patientData?.dob, appointmentData?.createdAt)} / {patientData?.gender || '-'}</span>
+          </div>
+          <div>
+            <h6 className="ds-detail-key mb-0">Email Address</h6>
+            <span className="ds-detail-summary">{patientData?.email}</span>
+          </div>
+          <div>
+            <h6 className="ds-detail-key mb-0">Patient ID</h6>
+            <span className="ds-detail-summary ds-mono">{patientData?.nh12}</span>
+          </div>
+
+          <div>
+            <h6 className="ds-detail-key mb-0">DOB</h6>
+            <span className="ds-detail-summary">{patientData?.dob ? new Date(patientData.dob).toLocaleDateString("en-GB") : "—"}</span>
+          </div>
+          <div>
+            <h6 className="ds-detail-key mb-0">Address</h6>
+            <span className="ds-detail-summary">{patientData?.address}</span>
+          </div>
+          <div>
+            <h6 className="ds-detail-key mb-0">Attending Doctor</h6>
+            <span className="ds-detail-summary">{appointmentData?.staff?.name}</span>
+          </div>
+
+          <div>
+            <h6 className="ds-detail-key mb-0">Blood</h6>
+            <span className="ds-detail-summary">{patientData?.bloodGroup || '-'}</span>
+          </div>
+          <div>
+            <h6 className="ds-detail-key mb-0">Contact</h6>
+            <span className="ds-detail-summary">{patientData?.contactNumber}</span>
+          </div>
+          <div>
+            <h6 className="ds-detail-key mb-0">Lab</h6>
+            <span className="ds-detail-summary">{labData?.name}</span>
+          </div>
+        </div>
+      </div>
+
+      {/* QR */}
+      <div className="ds-qr-col">
+        <div className="ds-qr-box">
+          <QRCodeCanvas
+            value={`https://www.neohealthcard.com/lab-sample/${appointmentData?.customId}`}
+            size={256}
+            style={{ height: "auto", maxWidth: "100%", width: "100%" }}
+          />
+        </div>
+        <p className="ds-qr-label">Scan to verify</p>
+        <p>
+          <a href="javascript:void(0)" className="ds-qr-link">verify.neohealthcard.in</a>
+        </p>
+      </div>
+    </div>
+
+    {/* SAMPLES TABLE */}
+    <div className="ds-medicines-section">
+      <p className="ds-table-title">SAMPLES COLLECTED</p>
+      <table className="ds-table">
+        <thead className="ds-thead">
+          <tr>
+            {["TEST NAME", "SAMPLE TYPE", "TUBE / CONTAINER", "VOLUME", "FASTING", "COLLECTION TIME", "CONDITION"].map((h, i) => (
+              <th key={i} className="ds-th-left">{h}</th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {sampleList?.map((cell, i) => (
+            <tr key={i} className="ds-tr-border">
+              <td className="ds-td-left">{cell?.forTestId?.subCategory}</td>
+              <td className="ds-td-left">{cell?.forTestId?.sample?.map(s => s.type).join(',')}</td>
+              <td className="ds-td-left">{cell?.sampleContainer}</td>
+              <td className="ds-td-left">{cell?.forTestId?.sample?.map(s => s?.volume)}</td>
+              <td className="ds-td-left">{cell?.forTestId?.fastingRequired ? 'Yes' : 'No'}</td>
+              <td className="ds-td-left">{new Date(cell?.createdAt)?.toLocaleString('en-GB')}</td>
+              <td className="ds-td-left">{cell?.condition}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+
+    {/* TRACKING TABLE */}
+    <div className="ds-medicines-section">
+      <p className="ds-table-title">SAMPLE ID TRACKING</p>
+      <table className="ds-table">
+        <thead className="ds-thead">
+          <tr>
+            {["SAMPLE ID", "TEST", "BARCODE", "STORAGE TEMP", "EXPECTED TAT"].map((h, i) => (
+              <th key={i} className="ds-th-left">{h}</th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {sampleList?.map((cell, i) => (
+            <tr key={i} className="ds-tr-border">
+              <td className="ds-td-left">{cell?.customId}</td>
+              <td className="ds-td-left">{cell?.forTestId?.subCategory}</td>
+              <td className="ds-td-left">{cell?.forTestId?.code}</td>
+              <td className="ds-td-left">{cell?.storageDetail}</td>
+              <td className="ds-td-left">{cell?.resultExpected}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+
+    {/* NOTES */}
+    <div className="ds-notes-section">
+      <div className="ds-notes-summary">
+        <p className="ds-detail-section-label-header">COLLECTION NOTES</p>
+        <div className="ds-notes-box">
+          <ol className="mb-0" style={{ fontSize: "12px", paddingLeft: "10px" }}>
+            <li>All samples collected under aseptic conditions. Patient was fasting 10 hours for Iron/LFT.</li>
+            <li>Blood culture collected before antibiotic administration – sterile technique used.</li>
+            <li>Samples labelled, bar-coded and entered into NHC Lab system at 09:35.</li>
+            <li>Patient tolerated venipuncture well – no adverse events during collection.</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+
+    {/* SIGNATURE */}
+    <div className="ds-sig-grid">
+      <div className="ds-sig-cell">
+        <div className="ds-sig-name">{appointmentData?.staff?.name}</div>
+        <div className="ds-sig-sub">Phlebotomist / Lab Technician</div>
+      </div>
+      <div className="ds-sig-cell-border">
+        <div className="ds-sig-name">{labData?.name}</div>
+        <div className="ds-sig-sub">Accepted & Processing</div>
+      </div>
+      <div className="ds-sig-cell-border">
+        <div className="ds-sig-name">{patientData?.name}</div>
+        <div className="ds-sig-sub">Patient</div>
+      </div>
+    </div>
+
+    {/* FOOTER */}
+    <div className="ds-footer">
+      <span>{labData?.name}, {labData?.address} · {labData?.email} · {labData?.contactNumber}</span>
+      <span className="ds-tagline">Wishing you a speedy recovery</span>
+    </div>
+
+  </div>
+</div>
+
         </>
     );
 };

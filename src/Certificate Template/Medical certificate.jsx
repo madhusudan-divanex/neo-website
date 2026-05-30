@@ -2,18 +2,22 @@ import React, { useEffect, useRef, useState } from "react";
 import { NavLink, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { QRCodeCanvas } from "qrcode.react"
-import './Template css/medicalCertificate.css'
 import { getDaysBetweenDates } from "../Services/globalFunction";
 import html2pdf from "html2pdf.js";
 import html2canvas from "html2canvas";
 import base_url from "../baseUrl";
+
+import "./Template css/Certificate.css"
+import "./Template css/DischargeSummary.css"
+
+
 const ViewMedicalCertificate = ({ certificateData }) => {
   const pdfRef = useRef()
   const handleDownload = () => {
     const element = pdfRef.current;
 
     const opt = {
-      margin: 0.3,
+      margin: 0,
       filename: `${certificateData?.customId}.pdf`,
       image: { type: "jpeg", quality: 1 },
       html2canvas: {
@@ -40,137 +44,136 @@ const ViewMedicalCertificate = ({ certificateData }) => {
         </div>
       </div>
 
-      <div ref={pdfRef} className="mc-wrapper d-flex justify-content-center bg-light py-4">
-        <div className="mc-a4 bg-white position-relative">
-
-          {/* HEADER */}
-          <div className="d-flex justify-content-between p-4 border-bottom">
-            <div className="d-flex">
-              <div style={{ width: '34px', height: '34px' }}>
-                <img src={certificateData?.organization?.logo ?
-                  `${base_url}/${certificateData?.organization?.logo}` : "/logo.png"} alt="" />
-              </div>
-              <div style={{ marginLeft: 10 }}>
-                <h5 className="fw-bold mb-1">Medical Certificate</h5>
-                <div className="text-muted small">{certificateData?.organization?.name}</div>
-                <div className="text-muted small">
-                  {[
-                    certificateData?.address?.fullAddress,
-                    certificateData?.address?.city?.name,
-                    certificateData?.address?.state?.name,
-                    certificateData?.address?.pinCode
-                  ]
-                    .filter(Boolean)
-                    .join(', ')
-                  }
+      <div className="ds-page" ref={pdfRef}>
+          <div  className="ds-card position-relative">
+            <div className="ds-header">
+              <div className="d-flex gap-3">
+                <div className="ds-logo">
+                  <img src={certificateData?.logo ?
+                    `${base_url}/${certificateData?.logo}` : "/logo.png"} alt="" />
+                </div>
+                <div>
+                  <h5 className="ds-header-title">Medical Certificate</h5>
+                  <div className="ds-header-sub">{certificateData?.organization?.name}</div>
+                  <div className="ds-header-meta">
+                    {certificateData?.address?.fullAddress + ',' + certificateData?.address?.city?.name + ',' + certificateData?.address?.state?.name + ',' + certificateData?.address?.pinCode}
+                  </div>
                 </div>
               </div>
-            </div>
 
-            <div className="text-end">
-              <span className="badge bg-teal px-3 py-2">
-                NeoHealthCard Network
-              </span>
-              <div className="small text-muted mt-2">
-                {certificateData?.organization?.email}
+              <div className="ds-header-right">
+                <div className="ds-badge">NeoHealthCard Network</div>
+               <p className="ds-header-system lh-base fw-500">
+              Fully Automated · Ecosystem Connected
+              </p>
+                <p className="ds-header-meta my-0 lh-sm">
+                  {certificateData?.organization?.email} · {certificateData?.organization?.contactNumber}
+                </p>
               </div>
-              <div className="small text-muted">{certificateData?.organization?.contactNumber}</div>
-            </div>
-          </div>
 
-          {/* META */}
-          <div className="row px-4 py-3 border-bottom small text-muted">
-            <Meta title="Certificate ID" value={certificateData?.customId} />
-            <Meta title="Issue Date" value={new Date(certificateData?.createdAt)?.toLocaleDateString('en-GB')} />
-            <Meta title="Issued By" value={` ${certificateData?.doctorId?.name}`} />
-            <Meta title="Valid For" value={`${getDaysBetweenDates(certificateData?.rest?.from, certificateData?.rest?.to)} Days`} />
-            <Meta title="Status" value={`Verified · ${certificateData?.status}`} />
-          </div>
-
-          {/* CERTIFICATE BODY */}
-          <div className="certificate-box text-center position-relative">
-
-
-
-            <h4 className="title text-teal">Medical Certificate</h4>
-
-            <div className="subtitle">
-              {certificateData?.organization?.name} · NeoHealthCard Network · {certificateData?.organization?.nh12}
             </div>
 
-            <p className="mt-3">This is to certify that the patient</p>
+            {/* META */}
+            <div className="ds-meta-strip">
+              <Meta title="Certificate ID" value={certificateData?.customId} />
+              <Meta title="Issue Date" value={new Date(certificateData?.createdAt)?.toLocaleDateString('en-GB')} />
+              <Meta title="Issued By" value={` ${certificateData?.doctorId?.name}`} />
+              <Meta title="Valid For" value={`${getDaysBetweenDates(certificateData?.rest?.from, certificateData?.rest?.to)} Days`} />
+              <Meta title="Status" value={`Verified · ${certificateData?.status}`} />
+            </div>
 
-            <h2 className="patient-name">{certificateData?.patientId?.name}</h2>
+            {/* CERTIFICATE BODY */}
+            <div className="certificate-box text-center position-relative">
 
-            <p className="small text-muted">
-              Age: {certificateData?.age} Years · Gender: {certificateData?.gender} · {certificateData?.patientId?.nh12}
-            </p>
+              {/* WATERMARK */}
+              <div className="watermark"></div>
 
-            <p className="description">
-              was examined and found to be suffering from {certificateData?.diagnosis}.
-            </p>
+          <div className="pb-5">
+                <h4 className="c-title">Medical Certificate</h4>
 
-            <p className="description">
-              The patient was admitted on <strong>{new Date(certificateData?.admitDate)?.toLocaleDateString('en-GB')}</strong> and discharged on <strong>{new Date(certificateData?.dischargeDate)?.toLocaleDateString('en-GB')}</strong>.
-            </p>
+              <div className="c-subtitle">
+                {certificateData?.organization?.name} · NeoHealthCard Network · {certificateData?.organization?.nh12}
+              </div>
 
-            {certificateData?.rest?.from && certificateData?.rest?.to &&
+              <p className="c-neo-title">This is to certify that the patient</p>
 
-              <p className="description">
-                The patient is advised rest and is unfit for duty for a period of
-                <strong> {getDaysBetweenDates(certificateData?.rest?.from, certificateData?.rest?.to)} Days</strong> (
-                {new Date(certificateData?.rest?.from)?.toLocaleDateString('en-GB')} to {new Date(certificateData?.rest?.to)?.toLocaleDateString('en-GB')}
-                ).
+              <h2 className="patient-name">{certificateData?.patientId?.name}</h2>
+
+              <p className="c-description">
+                Age: {certificateData?.age} Years · Gender: {certificateData?.gender} · {certificateData?.patientId?.nh12}
               </p>
 
-            }
+              <p className="c-description">
+                was examined and found to be suffering from {certificateData?.diagnosis}.
+              </p>
 
-            <p className="description">
-              The patient should avoid strenuous activity and report if symptoms worsen.
-            </p>
+              <p className="c-description">
+                The patient was admitted on <strong>{new Date(certificateData?.admitDate)?.toLocaleDateString('en-GB')}</strong> and discharged on <strong>{new Date(certificateData?.dischargeDate)?.toLocaleDateString('en-GB')}</strong>.
+              </p>
 
-            {/* QR */}
-            <div className="qr-box">
-              <div className="qr-placeholder">
-                <QRCodeCanvas
-                  value={`https://www.neohealthcard.com/certificate/${certificateData?.customId}`}
-                  size={256}
-                  // className="qr-code"
-                  style={{ height: "auto", maxWidth: "100%", width: "100%" }}
-                />
+              {certificateData?.rest?.from && certificateData?.rest?.to &&
+
+                <p className="c-description">
+                  The patient is advised rest and is unfit for duty for a period of
+                  <strong> {getDaysBetweenDates(certificateData?.rest?.from, certificateData?.rest?.to)} Days</strong> (
+                  {new Date(certificateData?.rest?.from)?.toLocaleDateString('en-GB')} to {new Date(certificateData?.rest?.to)?.toLocaleDateString('en-GB')}
+                  ).
+                </p>
+
+              }
+
+              <p className="c-description">
+                The patient should avoid strenuous activity and report if symptoms worsen.
+              </p>
+          </div>
+
+              {/* QR */}
+              <div className="d-flex align-items-center flex-column justify-content-center">
+                <div className="ds-qr-box">
+                  <QRCodeCanvas
+                    value={`https://www.neohealthcard.com/certificate/${certificateData?.customId}`}
+                    size={256}
+                    className="qr-codes"
+                    style={{ height: "auto", maxWidth: "100%", width: "100%" }}
+                  />
+                </div>
+                <p className="ds-qr-label">Scan to verify</p>
+                <p className="mb-0 lh-1">
+                  <a href="javascript:void(0)" className="ds-qr-link fz-14">verify.neohealthcard.in</a>
+               </p>
               </div>
-              <div className="small text-muted mt-2">Scan to verify</div>
-              <div className="verify-link">verify.neohealthcard.in</div>
-            </div>
-          </div>
 
-          {/* SIGNATURE */}
-          <div className="row border-top text-center small text-muted">
-            <div className="col p-4">
-              <div className="fw-semibold"> {certificateData?.doctorId?.name}</div>
-              <div>{certificateData?.specialty} specialist</div>
+
             </div>
 
-            <div className="col p-4 border-start">
-              <div className="fw-semibold">Hospital Seal & Stamp</div>
-              <div>{certificateData?.organization?.name}</div>
+            {/* SIGNATURE */}
+            <div className="hp-ds-sig-grid" style={{borderTop : "1px solid #e6e6e6"}}>
+              <div className="ds-sig-cell">
+                <div className="ds-sig-name"> {certificateData?.doctorId?.name}</div>
+                <div className="ds-sig-sub">{certificateData?.specialty} specialist</div>
+              </div>
+
+              <div className="ds-sig-cell-border">
+                <div className="ds-sig-name">Hospital Seal & Stamp</div>
+                <div  className="ds-sig-sub">{certificateData?.organization?.name}</div>
+              </div>
             </div>
-          </div>
 
-          <div className="footer-bar text-white text-center py-2 small">
-            {certificateData?.organization?.name} · {certificateData?.organization?.contactNumber} · Wishing you a speedy recovery
-          </div>
+            <div className="footer-bar text-white text-center py-2 small">
+              {certificateData?.organization?.name} · {certificateData?.organization?.contactNumber} · Wishing you a speedy recovery
+            </div>
 
+          </div>
         </div>
-      </div>
+
     </>
   );
 };
 
 const Meta = ({ title, value }) => (
-  <div className="col">
-    <div className="text-secondary">{title}</div>
-    <div className="fw-medium text-dark text-capitalize">{value}</div>
+  <div className="ds-meta-block">
+    <div className="ds-meta-label">{title}</div>
+    <div className="fz-12 ds-meta-value text-capitalize">{value}</div>
   </div>
 );
 

@@ -1,18 +1,20 @@
 import React, { useEffect, useRef, useState } from "react";
-import "bootstrap/dist/css/bootstrap.min.css";
 import { NavLink, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { QRCodeCanvas } from "qrcode.react";
 import html2canvas from "html2canvas";
 import html2pdf from "html2pdf.js";
 import base_url from "../baseUrl";
+import "./Template css/Certificate.css"
+
+
 export default function ViewBirthCertificate({ certificateData }) {
   const pdfRef = useRef()
   const handleDownload = () => {
     const element = pdfRef.current;
 
     const opt = {
-      margin: 0.3,
+      margin:0,
       filename: `${certificateData?.customId}.pdf`,
       image: { type: "jpeg", quality: 1 },
       html2canvas: {
@@ -38,287 +40,374 @@ export default function ViewBirthCertificate({ certificateData }) {
           <button className="thm-btn" onClick={handleDownload}>Download</button>
         </div>
       </div>
-      <div style={s.page} ref={pdfRef}>
-        <div style={s.container}>
 
-          {/* HEADER */}
-          <div className="d-flex justify-content-between align-items-start">
-            <div className="d-flex">
-              <div style={s.logo}>
-                <img src={certificateData?.organization?.logo ?
-                  `${base_url}/${certificateData?.organization?.logo}` : "/logo.png"} alt="" />
-              </div>
-              <div style={{ marginLeft: 10 }}>
-                <div style={s.title}>Birth Certificate</div>
-                <div style={s.subtitle}>{certificateData?.organization?.name}</div>
-                <div style={s.meta}>
-                  {certificateData?.organization?.nh12}<br />
-                  {[
-                    certificateData?.address?.fullAddress,
-                    certificateData?.address?.city?.name,
-                    certificateData?.address?.state?.name,
-                    certificateData?.address?.pinCode
-                  ]
-                    .filter(Boolean)
-                    .join(', ')
-                  }
-                </div>
-              </div>
-            </div>
+      <div className="neo-hp-fitness-page"  style={{ padding: 24 }} ref={pdfRef}>
+  <div className="neo-hp-fitness-card">
 
-            <div style={{ textAlign: "right" }}>
-              <div style={s.badge}>NeoHealthCard Network</div>
-              <div style={s.metaRight}>
-                Fully Automated · Ecosystem Connected<br />
-                {certificateData?.organization?.email} · {certificateData?.organization?.contactNumber}
-              </div>
+    {/* HEADER */}
+    <div className="d-flex justify-content-between align-items-start hp-certificate-bx">
+      <div className="d-flex gap-3">
+
+        <div className="neo-hp-fitness-logo">
+          <img
+            src={
+              certificateData?.logo
+                ? `${base_url}/${certificateData?.logo}`
+                : "/logo.png"
+            }
+            alt=""
+          />
+        </div>
+
+        <div>
+          <div className="neo-hp-fitness-title">
+            Birth Certificate
+          </div>
+
+          <div className="neo-hp-fitness-subtitle">
+            {certificateData?.organization?.name}
+          </div>
+
+          <div className="neo-hp-fitness-meta">
+            {certificateData?.organization?.nh12}
+          </div>
+
+          <div className="neo-hp-fitness-meta">
+            {certificateData?.address?.fullAddress +
+              "," +
+              certificateData?.address?.city?.name +
+              "," +
+              certificateData?.address?.state?.name +
+              "," +
+              certificateData?.address?.pinCode}
+          </div>
+        </div>
+      </div>
+
+      <div className="text-end">
+        <div className="neo-hp-fitness-badge mb-1">
+          NeoHealthCard Network
+        </div>
+
+        <div className="neo-hp-fitness-meta-right-ft">
+          Fully Automated · Ecosystem Connected
+        </div>
+
+        <div className="neo-hp-fitness-meta-right">
+          {certificateData?.organization?.email} ·{" "}
+          {certificateData?.organization?.contactNumber}
+        </div>
+      </div>
+    </div>
+
+    {/* INFO STRIP */}
+    <div
+      className="ds-meta-strip"
+      style={{ borderTop: "1px solid #e6e6e6" }}
+    >
+      <div className="ds-meta-block">
+        <div className="ds-meta-label">
+          CERTIFICATE ID
+        </div>
+
+        <div className="ds-meta-value fz-12">
+          {certificateData?.customId}
+        </div>
+      </div>
+
+      <div className="ds-meta-block">
+        <div className="ds-meta-label">
+          ISSUE DATE
+        </div>
+
+        <div className="ds-meta-value fz-12">
+          {new Date(certificateData?.createdAt)?.toLocaleDateString("en-GB")}
+        </div>
+      </div>
+
+      <div className="ds-meta-block">
+        <div className="ds-meta-label">
+          REGISTRATION NO.
+        </div>
+
+        <div className="ds-meta-value fz-12">
+          {certificateData?.license}
+        </div>
+      </div>
+
+      <div className="ds-meta-block">
+        <div className="ds-meta-label">
+          STATUS
+        </div>
+
+        <div className="ds-meta-value fz-12 neo-hp-fitness-status">
+          Registered · Verified
+        </div>
+      </div>
+    </div>
+
+    {/* MAIN BOX */}
+    <div className="neo-hp-fitness-box">
+
+      <div className="neo-hp-fitness-box-title">
+        Certificate of Birth
+      </div>
+
+      <div className="neo-hp-fitness-box-sub">
+        {certificateData?.organization?.name} ·{" "}
+        {certificateData?.customId} · Govt. of{" "}
+        {certificateData?.address?.state?.name}
+      </div>
+
+      <div className="neo-hp-fitness-center-text">
+        This is to certify that a child was born at this hospital:
+      </div>
+
+      {/* DETAILS GRID */}
+      <div className="neo-dc-details-grid">
+
+        <div className="neo-dc-details-column neo-dc-details-column-left">
+
+          <div className="neo-dc-detail-item">
+            <span className="neo-dc-detail-label">
+              Child's Name
+            </span>
+
+            <div className="neo-dc-detail-value">
+              <b>{certificateData?.childName}</b>
             </div>
           </div>
 
-          {/* INFO STRIP */}
-          <div className="row" style={s.infoRow}>
-            <div className="col">
-              <div style={s.infoLabel}>CERTIFICATE ID</div>
-              <div style={s.infoValue}>{certificateData?.customId}</div>
-            </div>
-            <div className="col">
-              <div style={s.infoLabel}>ISSUE DATE</div>
-              <div style={s.infoValue}>{new Date(certificateData?.createdAt)?.toLocaleDateString('en-GB')}</div>
-            </div>
-            {certificateData?.license && <div className="col">
-              <div style={s.infoLabel}>REGISTRATION NO.</div>
-              <div style={s.infoValue}>{certificateData?.license}</div>
-            </div>}
-            <div className="col">
-              <div style={s.infoLabel}>STATUS</div>
-              <div style={{ ...s.infoValue, color: "#00a6a6" }}>
-                Registered · Verified
-              </div>
+          <div className="neo-dc-detail-item">
+            <span className="neo-dc-detail-label">
+              Time of Birth
+            </span>
+
+            <div className="neo-dc-detail-value">
+              {certificateData?.timeOfBirth}
             </div>
           </div>
 
-          {/* MAIN BOX */}
-          <div style={s.box}>
-            <div style={s.boxTitle}>Certificate of Birth</div>
-            <div style={s.boxSub}>
-              {certificateData?.organization?.name} · {certificateData?.customId} · Govt. of {certificateData?.address?.state?.name}
-            </div>
+          <div className="neo-dc-detail-item">
+            <span className="neo-dc-detail-label">
+              Birth Weight
+            </span>
 
-            <div style={s.centerText}>
-              This is to certify that a child was born at this hospital:
-            </div>
-
-            {/* DETAILS GRID */}
-            <div className="row" style={s.details}>
-              <div className="col-6">
-                <Row label="Child's Name" value={certificateData?.childName} />
-                <Row label="Time of Birth" value={certificateData?.timeOfBirth} />
-                <Row label="Birth Weight" value={`${certificateData?.weight} Kg`} />
-                <Row label="Father's Name" value={certificateData?.fatherName} />
-                {certificateData?.fatherId?.nh12 && <Row label="Father's NHC-ID" value={certificateData?.fatherId?.nh12} />}
-                <Row label="Delivery Type" value={`${certificateData?.deliveryType} Delivery`} />
-              </div>
-
-              <div className="col-6" style={s.rightCol}>
-                <Row label="Date of Birth" value={new Date(certificateData?.dateOfBirth)?.toLocaleDateString('en-GB')} />
-                <Row label="Gender" value={certificateData?.gender} />
-                {certificateData?.childId?.nh12 && <Row label="NHC-P ID (Child)" value={certificateData?.childId?.nh12} />}
-                <Row label="Mother's Name" value={certificateData?.motherName} />
-                {certificateData?.motherId?.nh12 && <Row label="Mother's NHC-P ID" value={certificateData?.motherId?.nh12} />}
-                <Row label="Attending Doctor" value={` ${certificateData?.doctorId?.name}`} />
-              </div>
-            </div>
-
-            {/* WATERMARK */}
-            <div style={s.watermark}></div>
-
-            {/* QR */}
-            <div style={{ textAlign: "center", marginTop: 30 }}>
-              <div style={s.qr}>
-                <QRCodeCanvas
-                  value={`https://www.neohealthcard.com/certificate/${certificateData?.customId}`}
-                  size={256}
-                  // className="qr-code"
-                  style={{ height: "auto", maxWidth: "100%", width: "100%" }}
-                />
-              </div>
-              <div style={s.qrText}>Scan to verify</div>
-              <div style={s.link}>verify.neohealthcard.in</div>
+            <div className="neo-dc-detail-value">
+              {certificateData?.weight} Kg
             </div>
           </div>
 
-          {/* SIGNATURES */}
-          <div className="row text-center" style={{ marginTop: 40 }}>
-            <div className="col">
-              <div style={s.signName}> {certificateData?.doctorId?.name}</div>
-              <div style={s.signMeta}>{certificateData?.specialty} specialist· · {certificateData?.organization?.name}</div>
-              <div style={s.linkSmall}>{certificateData?.doctorId?.nh12}</div>
-            </div>
-            <div className="col">
-              <div style={s.signName}>Registrar of Births</div>
-              <div style={s.signMeta}>Govt. of {certificateData?.address?.state?.name} · BMC</div>
-              <div style={s.linkSmall}>Reg. No. {certificateData?.license}</div>
-            </div>
-            <div className="col">
-              <div style={s.signName}>{certificateData?.organization?.name}</div>
-              <div style={s.signMeta}>Authorised Signatory</div>
-              <div style={s.linkSmall}>{certificateData?.organization?.nh12}</div>
+          <div className="neo-dc-detail-item">
+            <span className="neo-dc-detail-label">
+              Father's Name
+            </span>
+
+            <div className="neo-dc-detail-value">
+              {certificateData?.fatherName}
             </div>
           </div>
 
-          <div style={s.footer}>
-            {certificateData?.organization?.name}, {certificateData?.address?.city?.name} · {certificateData?.organization?.email} · {certificateData?.organization?.contactNumber}
-            <span style={{ float: "right" }}>Wishing you a speedy recovery</span>
+          {certificateData?.fatherId?.nh12 && (
+            <div className="neo-dc-detail-item">
+              <span className="neo-dc-detail-label">
+                Father's NHC-ID
+              </span>
+
+              <div className="neo-dc-detail-value">
+                {certificateData?.fatherId?.nh12}
+              </div>
+            </div>
+          )}
+
+          <div className="neo-dc-detail-item">
+            <span className="neo-dc-detail-label">
+              Delivery Type
+            </span>
+
+            <div className="neo-dc-detail-value">
+              {certificateData?.deliveryType} Delivery
+            </div>
           </div>
+
+        </div>
+
+        <div className="neo-dc-details-column neo-dc-details-column-right">
+
+          <div className="neo-dc-detail-item">
+            <span className="neo-dc-detail-label">
+              Date of Birth
+            </span>
+
+            <div className="neo-dc-detail-value">
+              {new Date(
+                certificateData?.dateOfBirth
+              )?.toLocaleDateString("en-GB")}
+            </div>
+          </div>
+
+          <div className="neo-dc-detail-item">
+            <span className="neo-dc-detail-label">
+              Gender
+            </span>
+
+            <div className="neo-dc-detail-value">
+              {certificateData?.gender}
+            </div>
+          </div>
+
+          {certificateData?.childId?.nh12 && (
+            <div className="neo-dc-detail-item">
+              <span className="neo-dc-detail-label">
+                NHC-P ID (Child)
+              </span>
+
+              <div className="neo-dc-detail-value">
+                {certificateData?.childId?.nh12}
+              </div>
+            </div>
+          )}
+
+          <div className="neo-dc-detail-item">
+            <span className="neo-dc-detail-label">
+              Mother's Name
+            </span>
+
+            <div className="neo-dc-detail-value">
+              {certificateData?.motherName}
+            </div>
+          </div>
+
+          {certificateData?.motherId?.nh12 && (
+            <div className="neo-dc-detail-item">
+              <span className="neo-dc-detail-label">
+                Mother's NHC-P ID
+              </span>
+
+              <div className="neo-dc-detail-value">
+                {certificateData?.motherId?.nh12}
+              </div>
+            </div>
+          )}
+
+          <div className="neo-dc-detail-item">
+            <span className="neo-dc-detail-label">
+              Attending Doctor
+            </span>
+
+            <div className="neo-dc-detail-value">
+              {certificateData?.doctorId?.name}
+            </div>
+          </div>
+
         </div>
 
       </div>
+
+      {/* WATERMARK */}
+      <div className="neo-hp-fitness-watermark"></div>
+
+      {/* QR */}
+      <div className="d-flex align-items-center flex-column justify-content-center mt-5">
+        <div className="neo-hp-fitness-qr">
+          <QRCodeCanvas
+            value={`https://www.neohealthcard.com/certificate/${certificateData?.customId}`}
+            size={256}
+            className="qr-codes"
+            style={{
+              height: "auto",
+              maxWidth: "100%",
+              width: "100%",
+            }}
+          />
+        </div>
+
+        <div className="neo-hp-fitness-qr-text">
+          Scan to verify
+        </div>
+
+        <div className="neo-hp-fitness-link">
+          verify.neohealthcard.in
+        </div>
+      </div>
+    </div>
+
+    {/* SIGNATURES */}
+    <div
+      className="ds-sig-grid"
+      style={{ borderTop: "1px solid #e6e6e6" }}
+    >
+
+      <div className="ds-sig-cell">
+        <div className="ds-sig-name">
+          {certificateData?.doctorId?.name}
+        </div>
+
+        <div className="ds-sig-sub">
+          {certificateData?.specialty} specialist · ·{" "}
+          {certificateData?.organization?.name}
+        </div>
+
+        <div className="neo-hp-fitness-link-small">
+          {certificateData?.doctorId?.nh12}
+        </div>
+      </div>
+
+      <div className="ds-sig-cell-border">
+        <div className="ds-sig-name">
+          Registrar of Births
+        </div>
+
+        <div className="ds-sig-sub">
+          Govt. of {certificateData?.address?.state?.name} · BMC
+        </div>
+
+        <div className="neo-hp-fitness-link-small">
+          Reg. No. {certificateData?.license}
+        </div>
+      </div>
+
+      <div className="ds-sig-cell-border">
+        <div className="ds-sig-name">
+          {certificateData?.organization?.name}
+        </div>
+
+        <div className="ds-sig-sub">
+          Authorised Signatory
+        </div>
+
+        <div className="neo-hp-fitness-link-small">
+          {certificateData?.organization?.nh12}
+        </div>
+      </div>
+
+    </div>
+
+    <div className="neo-hp-fitness-footer-bar">
+      <span>
+        {certificateData?.organization?.name},{" "}
+        {certificateData?.address?.city?.name} ·{" "}
+        {certificateData?.organization?.email} ·{" "}
+        {certificateData?.organization?.contactNumber}
+      </span>
+
+      <span style={{ float: "right" }}>
+        Wishing you a speedy recovery
+      </span>
+    </div>
+
+  </div>
+</div>
+
     </>
   );
 }
 
 /* ---------- SMALL ROW COMPONENT ---------- */
-const Row = ({ label, value }) => (
-  <div style={s.row}>
-    <div style={s.rowLabel}>{label}</div>
-    <div style={s.rowValue}>{value}</div>
-  </div>
-);
+// const Row = ({ label, value }) => (
+//   <div style={s.row}>
+//     <div style={s.rowLabel}>{label}</div>
+//     <div style={s.rowValue}>{value}</div>
+//   </div>
+// );
 
-/* ---------- STYLES ---------- */
-const s = {
-  page: {
-    background: "#f4f6f7",
-    padding: 20,
-    fontFamily: "Inter, Arial, sans-serif",
-  },
-  container: {
-    background: "#fff",
-    padding: 24,
-    maxWidth: 900,
-    margin: "auto",
-    borderRadius: 6,
-    boxShadow: "0 0 0 1px #e5e5e5",
-  },
-
-  logo: {
-    width: 34,
-    height: 34,
-    // borderRadius: "50%",
-    // background: "linear-gradient(135deg,#00a6a6,#003c46)",
-  },
-
-  title: { fontSize: 20, fontWeight: 600 },
-  subtitle: { fontSize: 14, fontWeight: 500 },
-  meta: { fontSize: 11, color: "#777", lineHeight: "16px" },
-  metaRight: { fontSize: 11, color: "#777" },
-
-  badge: {
-    fontSize: 11,
-    padding: "4px 10px",
-    borderRadius: 20,
-    border: "1px solid #00a6a6",
-    color: "#00a6a6",
-    marginBottom: 4,
-    display: "inline-block",
-  },
-
-  infoRow: {
-    marginTop: 16,
-    paddingTop: 10,
-    borderTop: "1px solid #eee",
-    fontSize: 11,
-  },
-  infoLabel: { color: "#888", fontSize: 10 },
-  infoValue: { fontWeight: 500, fontSize: 12 },
-
-  box: {
-    border: "2px solid #00a6a6",
-    borderRadius: 12,
-    marginTop: 20,
-    padding: 30,
-    position: "relative",
-  },
-
-  boxTitle: {
-    textAlign: "center",
-    fontSize: 20,
-    fontWeight: 600,
-    color: "#00a6a6",
-  },
-
-  boxSub: {
-    textAlign: "center",
-    fontSize: 12,
-    color: "#666",
-    marginBottom: 20,
-  },
-
-  centerText: {
-    textAlign: "center",
-    fontSize: 13,
-    marginBottom: 20,
-  },
-
-  details: {
-    fontSize: 13,
-    padding: "0 10px",
-  },
-
-  rightCol: {
-    borderLeft: "1px solid #e6e6e6",
-    paddingLeft: 20,
-  },
-
-  row: {
-    display: "flex",
-    justifyContent: "space-between",
-    marginBottom: 10,
-  },
-
-  rowLabel: {
-    color: "#666",
-  },
-
-  rowValue: {
-    fontWeight: 500,
-    textAlign: "right",
-  },
-
-  watermark: {
-    position: "absolute",
-    width: 220,
-    height: 220,
-    background: "url('/CertWatermark2.png')",
-    backgroundRepeat: "no-repeat",
-    backgroundSize: "contain",
-    // opacity: 0.05,
-    borderRadius: "50%",
-    top: "40%",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
-  },
-
-  qr: {
-    width: 90,
-    height: 90,
-    background: "#000",
-    margin: "auto",
-    borderRadius: 6,
-  },
-
-  qrText: { fontSize: 11, color: "#888" },
-  link: { fontSize: 12, color: "#00a6a6", fontWeight: 500 },
-
-  signName: { fontSize: 14, fontWeight: 600 },
-  signMeta: { fontSize: 11, color: "#777" },
-  linkSmall: { fontSize: 11, color: "#00a6a6" },
-
-  footer: {
-    marginTop: 10,
-    background: "#00a6a6",
-    color: "#fff",
-    padding: "8px 20px",
-    fontSize: 12,
-  },
-};

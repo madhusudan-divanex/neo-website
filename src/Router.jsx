@@ -9,6 +9,10 @@ import LabSampleReceipt from "./Certificate Template/LabSample";
 import PatientConsentForm from "./Certificate Template/PatientConsentForm";
 import UserProfile from "./User Profile/UserProfile";
 import OPDReceipt from "./Certificate Template/OPDReceipt";
+import PatientTransfer from "./Certificate Template/PatientTransfer";
+import ViewBirthCertificate from "./Certificate Template/Birth Certificate";
+import FollowUpPrescription from "./Certificate Template/FollowUpPrescription";
+import DoctorEmpanelmentCertificate from "./Certificate Template/DoctorEmpanelmentCertificate";
 
 const PrivacyPolicy = React.lazy(() => import("./Components/PrivacyPolicy"));
 const TermAndCondition = React.lazy(() => import("./Components/TermAndCondition"));
@@ -154,60 +158,78 @@ function Router() {
         },
         {
           path: "/transfer-certificate/:id",
-          element: <TransferCertificate />
+          element: <TransferCertificate /> // done
         },
         {
-          path: "/discharge-invoice/:id",
+          path: "/discharge-invoice/:id", // done
           element: <DischargeInvoice />
         },
         {
-          path: "/lab-report/:id",
+          path: "/lab-report/:id", //done
           element: <LabReport />
         },
         {
           path: "/ipd-invoice/:id",
-          element: <IPDInvoice />
+          element: <IPDInvoice /> //done
         },
         {
-          path: "/opd-receipt/:id",
+          path: "/opd-receipt/:id", //done
           element: <OPDReceipt />
         },
         {
-          path: "/doctor-appointment-receipt/:id",
+          path: "/doctor-appointment-receipt/:id", //done
           element: <DoctorAptBookingReceipt />
         },
         {
-          path: "/medical-prescription/:id",
+          path: "/medical-prescription/:id", //done
           element: <MedicalPrescription />
         },
         {
-          path: "/hospital-bill/:id",
+          path: "/hospital-bill/:id", //done
           element: <HospitalBill />
         },
         {
-          path: "/lab-order/:id",
+          path: "/lab-order/:id",  //done
           element: <LabTestOrder />
         },
         {
-          path: "/lab-invoice/:id",
+          path: "/lab-invoice/:id", //done
           element: <LabInvoice />
         },
         {
-          path: "/lab-sample/:id",
+          path: "/lab-sample/:id", //done
           element: <LabSampleReceipt />
         },
         {
-          path: "/pharmacy-return/:id",
+          path: "/pharmacy-return/:id", //done
           element: <PharmacyReturn />
         },
         {
-          path: "/pharmacy-sell/:id",
+          path: "/pharmacy-sell/:id", //pending backend // design done
           element: <PharmacyInvoice />
         },
+
         {
-          path: "/patient-consent-letter/:id",
+          path: "/patient-consent-letter/:id", //done
           element: <PatientConsentForm />
         },
+        
+        {
+          path: "/patient-transfer/:id", //done
+          element: <PatientTransfer />
+        },
+
+        {
+          path: "/follow-up-prescription/:id", //done
+          element: <FollowUpPrescription />
+        },
+
+        {
+          path: "/empanelment-certificate/:id", //done
+          element: <DoctorEmpanelmentCertificate />
+        },
+
+
         {
           path: "/user-profile/:id",
           element: <UserProfile />

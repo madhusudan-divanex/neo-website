@@ -1,0 +1,808 @@
+/* ── DischargeSummary Component Styles ──────────────────────────────────────── */
+
+/* ── Page ──────────────────────────────────────────────────────────────────── */
+.ds-page {
+  /* min-height: 100vh; */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.ds-card {
+  width: 880px;
+  background-color: #ffffff;
+  border-radius: 6px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.28);
+  color: #1c1c1c;
+  font-size: 12px;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid #E4E4E4;
+  z-index: 9;
+}
+
+
+
+
+/* ── Watermark ───────────────────────────────────────────────────────────────── */
+.ds-watermark-wrap {
+  position: absolute;
+  width: 320px;
+  height: 320px;
+  background: url("/CertWatermark2.png");
+  background-repeat: no-repeat;
+  background-size: contain;
+  border-radius: 50%;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: -1;
+}
+
+.ds-watermark-circle {
+  width: 440px;
+  height: 440px;
+  border-radius: 50%;
+  background-color: #14b8a6;
+  opacity: 0.05;
+}
+
+/* ── Header ──────────────────────────────────────────────────────────────────── */
+.ds-header {
+  position: relative;
+  padding: 15px 24px;
+  border-bottom: 1px solid #e6e6e6;
+  display: flex;
+  justify-content: space-between;
+}
+
+.ds-logo {
+  width: 34px;
+  height: 34px;
+}
+
+.ds-header-title {
+  font-size: 21px;
+  font-weight: 700;
+  line-height: 24px;
+  margin: 0;
+  color: #1a1a1a;
+}
+
+.ds-header-sub {
+  font-size: 13px;
+  color: #1a1a1a;
+  margin: 0;
+  font-weight: 600;
+}
+
+.ds-header-meta {
+  font-size: 10px;
+  color: #555555;
+  margin-top: 2px;
+  margin: 0;
+  font-weight: 400;
+}
+
+.ds-header-system {
+  font-size: 10px;
+  color: #00b4b5;
+  margin-top: 2px;
+  margin: 0;
+  font-weight: 400;
+}
+
+.ds-header-meta-top {
+  font-size: 10px;
+  color: #555555;
+  margin-top: 2px;
+  font-weight: 400;
+}
+
+.ds-header-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+}
+
+.ds-badge {
+  border: 1px solid #00b4b5;
+  color: #00b4b5;
+  font-size: 10px;
+  padding: 3px 8px;
+  border-radius: 5px;
+  background-color: #00b4b529;
+  font-weight: 700;
+}
+
+/* ── Meta Strip ──────────────────────────────────────────────────────────────── */
+.ds-meta-strip {
+  padding: 15px 24px;
+  border-bottom: 1px solid #e6e6e6;
+  display: grid;
+  grid-template-columns: repeat(6, auto);
+  gap: 16px;
+  font-size: 11px;
+}
+
+.ds-meta-block {
+  min-width: 0;
+}
+
+.ds-meta-label {
+  font-size: 10px;
+  color: #555555;
+  letter-spacing: 0.02em;
+  margin: 0;
+  line-height: normal;
+}
+
+.ds-meta-value {
+  font-weight: 700;
+  color: #555555;
+  margin: 0;
+  font-size: 12px !important;
+}
+
+.ds-meta-value-highlight {
+  font-weight: 700;
+  color: #00b4b5;
+  margin: 0;
+  font-size: 12px !important;
+}
+
+/* ── Patient ─────────────────────────────────────────────────────────────────── */
+.ds-patient-section {
+  padding: 15px 24px;
+  border-bottom: 1px solid #e6e6e6;
+  display: flex;
+}
+
+.ds-patient-left {
+  flex: 1;
+}
+
+.ds-patient-name {
+  font-size: 17px;
+  font-weight: 700;
+  margin: 0;
+  color: #1a1a1a;
+}
+
+.ds-patient-grid {
+  display: grid;
+  grid-template-columns: repeat(3, auto);
+  column-gap: 20px;
+  row-gap: 10px;
+  font-size: 11px;
+  margin-top: 10px;
+}
+
+.ds-patient-title {
+  color: #888888;
+  font-weight: 600;
+  font-size: 10px;
+  margin: 0;
+  text-transform: uppercase;
+}
+
+.ds-kv-wrap {
+  line-height: 1.25;
+}
+
+.ds-kv-label {
+  font-size: 12px;
+  color: #555555;
+  letter-spacing: 0.02em;
+  margin: 0;
+  font-weight: 400;
+  line-height: normal;
+}
+
+.ds-kv-value {
+  font-size: 12px;
+  font-weight: 700;
+  margin: 0;
+  color: #555555;
+}
+
+.ds-qr-col {
+  width: 120px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-left: 1px solid #e6e6e6;
+  padding-left: 20px;
+}
+
+.ds-qr-box {
+  width: 82px;
+  height: 82px;
+  background-color: #ffffff;
+  padding: 6px;
+  border: 1px solid #e0e0e0;
+  border-radius: 7px;
+  box-shadow: 0px 6px 40px 0px #0000002e;
+}
+
+.ds-qr-label {
+  font-size: 10px;
+  color: #aaaaaa;
+  margin: 5px 0;
+  font-weight: 400;
+}
+
+.ds-qr-link {
+  font-size: 10px;
+  color: #00b4b5;
+  margin-top: 2px;
+  font-weight: 700;
+  margin: 0;
+  text-decoration: none;
+}
+
+/* ── Vitals ──────────────────────────────────────────────────────────────────── */
+.ds-vitals-row {
+  padding: 15px 24px;
+  border-bottom: 1px solid #e6e6e6;
+  display: flex;
+  gap: 12px;
+}
+
+.ds-vital-card {
+  flex: 1;
+  border-radius: 6px;
+  border: 1px solid #e4e4e4;
+  background-color: #f7f8fa;
+  padding: 8px 12px;
+  text-align: center;
+}
+
+.ds-vital-label {
+  font-size: 10px;
+  font-weight: 400;
+  color: #555555;
+  letter-spacing: 0.02em;
+  margin: 0;
+}
+
+.ds-vital-value {
+  font-size: 14px;
+  font-weight: 700;
+  color: #555555;
+  line-height: 18px;
+  margin: 0;
+}
+
+.ds-vital-unit {
+  font-size: 10px;
+  font-weight: 400;
+  color: #555555;
+  margin: 0;
+}
+
+.ds-vital-sub {
+  font-size: 10px;
+  color: #868686;
+  margin-top: 2px;
+  margin: 0;
+}
+
+/* ── Details Grid ────────────────────────────────────────────────────────────── */
+.ds-details-grid {
+  padding: 15px 24px;
+  border-bottom: 1px solid #e6e6e6;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  font-size: 11px;
+}
+
+.ds-detail-section-label {
+  font-size: 10px;
+  color: #888888;
+  letter-spacing: 0.02em;
+  margin: 0;
+  font-weight: 700;
+  line-height: normal;
+}
+
+.ds-detail-rows {
+  margin-top: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.ds-detail-row {
+  display: flex;
+  justify-content: space-between;
+}
+
+.ds-detail-key {
+  font-size: 12px;
+  color: #555555;
+  font-weight: 400;
+}
+
+.ds-detail-summary {
+  font-size: 12px;
+  color: #555555;
+  font-weight: 700;
+}
+
+/* ── Medicines Table ─────────────────────────────────────────────────────────── */
+.ds-medicines-section {
+  padding: 10px 24px;
+  border-bottom: 1px solid #e6e6e6;
+}
+
+.ds-table-title {
+  text-align: center;
+  font-size: 10px;
+  color: #888888;
+  letter-spacing: 0.02em;
+  margin-bottom: 8px;
+  font-weight: 700;
+  position: relative;
+}
+
+/* .ds-table-title::after{
+    content: "";
+    position: absolute;
+    top: 7px;
+    left: 0px;
+    background: #E0E0E0;
+    width: 44%;
+    height: 1px;
+}
+
+.ds-table-title::before{
+    content: "";
+    position: absolute;
+    top: 7px;
+    right: 0px;
+    background: #E0E0E0;
+    width: 44%;
+    height: 1px;
+} */
+
+.ds-table {
+  width: 100%;
+  font-size: 11px;
+  border: 1px solid #e8e8e8;
+  border-collapse: collapse;
+}
+
+.ds-thead {
+  background-color: #f7f8fa;
+  color: #868686;
+}
+
+.ds-th-left {
+  text-align: left;
+  padding: 8px 12px;
+  font-weight: 500;
+}
+
+.ds-th-center {
+  text-align: center;
+  padding: 8px 12px;
+  font-weight: 500;
+}
+
+.ds-tr-border {
+  border-top: 1px solid #e6e6e6;
+}
+
+.ds-td-left {
+  padding: 8px 12px;
+  text-align: left;
+  color: #555555;
+}
+
+.ds-td-center {
+  padding: 8px 12px;
+  text-align: center;
+  color: #555555;
+}
+
+/* ── Notes ───────────────────────────────────────────────────────────────────── */
+.ds-notes-section {
+  padding: 16px 24px;
+  border-bottom: 1px solid #e6e6e6;
+}
+
+.ds-notes-summary {
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+}
+
+.ds-notes-box {
+  font-size: 11px;
+  color: #555555;
+  line-height: 1.6;
+  padding: 6px 12px;
+  font-weight: 400;
+}
+
+.ds-detail-section-label-header {
+  background-color: #f7f8fa;
+  font-size: 10px;
+  color: #888888;
+  letter-spacing: 0.02em;
+  margin: 0;
+  font-weight: 700;
+  line-height: normal;
+  padding: 6px 12px;
+  border-bottom: 1px solid #e0e0e0;
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
+}
+
+/* ── Signatures ──────────────────────────────────────────────────────────────── */
+.ds-sig-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  border-bottom: 1px solid #e6e6e6;
+  font-size: 11px;
+}
+
+.hp-ds-sig-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  border-bottom: 1px solid #e6e6e6;
+  font-size: 11px;
+}
+
+.ds-sig-cell {
+  padding: 16px;
+  text-align: center;
+}
+
+.ds-sig-cell-border {
+  padding: 16px;
+  text-align: center;
+  border-left: 1px solid #e6e6e6;
+}
+
+.ds-sig-name {
+  font-size: 12px;
+  font-weight: 700;
+  margin: 0 0 2px 0;
+  color: #555555;
+  line-height: normal;
+}
+
+.ds-sig-sub {
+  font-size: 11px;
+  font-weight: 400;
+  color: #555555;
+  margin: 5px 0;
+  line-height: normal;
+}
+
+.ds-sig-id {
+  font-size: 11px;
+  font-weight: 400;
+  color: #00b4b5;
+  margin: 2px 0;
+  line-height: normal;
+}
+
+/* ── Footer ──────────────────────────────────────────────────────────────────── */
+.ds-footer {
+  background-color: #00b4b5;
+  color: #ffffff;
+  font-size: 11px;
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 24px;
+}
+
+/* Hospital Bill Start CSS */
+
+.ds-summary-wrap{
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 12px;
+}
+
+.ds-summary-box{
+  width: 220px;
+  font-size: 14px;
+  line-height: 1.4;
+  color: #555555;
+}
+
+.ds-summary-row{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 4px;
+}
+
+.ds-summary-label{
+  color: #868686;
+}
+
+.ds-summary-total{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: 700;
+  font-size: 16px;
+  margin-top: 6px;
+  padding-top: 6px;
+  border-top: 1px solid #E6E6E6;
+  color: #555555;
+}
+
+
+.ds-payment-grid{
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  border-bottom: 1px solid #E6E6E6;
+  font-size: 11px;
+}
+
+.opd-ds-payment-grid{
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  border-bottom: 1px solid #E6E6E6;
+  font-size: 11px;
+  padding: 0 24px;
+}
+.hp-opd-ds-payment-grid{
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  border-bottom: 1px solid #E6E6E6;
+  font-size: 11px;
+  padding: 0 24px;
+}
+
+.ds-payment-cell-border{
+  padding: 12px 24px;
+  border-left: 1px solid #E6E6E6;
+}
+
+.ds-payment-cell-border:first-child{
+  border-left: none;
+}
+
+
+.ds-payment-cell-border label,
+.ds-payment-cell-border .label{
+  display: block;
+  font-size: 11px;
+  color: #868686;
+  margin-bottom: 4px;
+}
+
+.ds-payment-cell-border p,
+.ds-payment-cell-border .value{
+  font-size: 13px;
+  font-weight: 600;
+  color: #555555 ;
+  margin: 0;
+}
+
+
+
+.ds-td-subtext{
+  font-size: 12px;
+  color: #555555;
+    font-weight: 400;
+}
+.ds-td-right{
+  font-size: 12px;
+  color: #555555;
+  font-weight: 400;
+}
+
+
+/* Hospital Bill End CSS */
+
+
+/* Bed Invoice Bill Start CSS */
+.ds-notes-box ol li{
+  list-style-type: decimal !important; 
+}
+
+/* Bed Invoice Bill End CSS */
+
+
+/* Medical Certificate Start Css */
+
+.mc-wrapper {
+  min-height: 100vh;
+}
+
+/* .mc-a4 {
+  width: 794px;
+  min-height: 1123px;
+  font-family: 'Inter', sans-serif;
+  position: relative;
+  border-radius: 6px;
+  overflow: hidden;
+} */
+
+/* PRIMARY COLOR */
+.text-teal {
+  color: #0F9D9A;
+}
+
+.bg-teal {
+  background-color: #0F9D9A;
+}
+
+/* CERTIFICATE BOX */
+.certificate-box {
+  margin: 24px;
+  padding: 40px 60px;
+  border: 1px solid #00B4B5;
+  border-radius: 12px;
+  position: relative;
+  background: #fff;
+}
+
+/* TITLE */
+.c-title {
+  font-weight: 600;
+  margin-bottom: 5px;
+  color: #00B4B5;
+}
+
+.c-subtitle {
+  font-size: 14px;
+  font-weight: 600;
+  color: #555555;
+  margin-bottom: 16px;
+}
+
+.c-neo-title{
+font-weight: 600;
+font-size: 14px;
+line-height: 100%;
+color: #555555;
+}
+
+/* PATIENT NAME */
+.patient-name {
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 10px;
+  color: #555555;
+}
+
+/* TEXT */
+.c-description {
+  font-size: 14px;
+  color: #555;
+  margin-bottom: 0px;
+   font-weight: 600;
+
+}
+
+/* QR */
+.qr-box {
+  margin-top: 40px;
+}
+
+.qr-placeholder {
+  width: 90px;
+  height: 90px;
+  background: #ddd;
+  margin: auto;
+  border-radius: 6px;
+}
+
+.verify-link {
+  color: #0F9D9A;
+  font-size: 13px;
+}
+
+/* WATERMARK */
+.watermark {
+  position: absolute;
+  width: 220px;
+  height: 220px;
+  background: url('/CertWatermark2.png');
+  background-repeat: no-repeat;
+  background-size: contain;
+  border-radius: 50%;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* FOOTER */
+.footer-bar {
+  background: #0F9D9A;
+}
+
+/* PRINT */
+@media print {
+  body {
+    background: white;
+  }
+
+  /* .mc-a4 {
+    width: 100%;
+    box-shadow: none;
+  } */
+}
+@media (max-width:991px) {
+  .certificate-box{
+    margin: 0;
+    padding: 20px;
+  }
+}
+
+
+
+
+
+/* Medical Certificate Start End */
+
+/* Medical Certificate Start */
+
+.pt-ds-notes-box{
+  border: 1px solid #00B4B5;
+  border-radius: 12px;
+  padding: 15px 24px;
+  text-align: center;
+}
+
+.pt-ds-notes-box h4{
+font-weight: 700;
+font-size: 24px;
+line-height: 100%;
+color: #00B4B5;
+margin-bottom: 15px;
+
+}
+
+.pt-ds-notes-box h5{
+font-weight: 600;
+font-size: 14px;
+line-height: 100%;
+color: #555555;
+margin-bottom: 15px;
+
+}
+
+.pt-ds-notes-box p{
+  font-weight: 600;
+font-size: 14px;
+line-height: 100%;
+color: #555555;
+/* margin-bottom: 15px; */
+}
+
+.pt-ds-notes-box ol{
+  list-style-type: decimal !important;
+}
+
+.pt-ds-notes-box ol li{
+  font-weight: 600;
+font-size: 14px;
+line-height: 100%;
+color: #555555;
+line-height: 1.85;
+}
+
+.pt-ds-patient-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  column-gap: 20px;
+  row-gap: 10px;
+  font-size: 11px;
+  margin-top: 5px;
+}
+
+/* Medical Certificate end */
+
