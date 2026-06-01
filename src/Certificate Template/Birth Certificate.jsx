@@ -14,7 +14,7 @@ export default function ViewBirthCertificate({ certificateData }) {
     const element = pdfRef.current;
 
     const opt = {
-      margin:0,
+      margin: 0,
       filename: `${certificateData?.customId}.pdf`,
       image: { type: "jpeg", quality: 1 },
       html2canvas: {
@@ -41,363 +41,363 @@ export default function ViewBirthCertificate({ certificateData }) {
         </div>
       </div>
 
-      <div className="neo-hp-fitness-page"  style={{ padding: 24 }} ref={pdfRef}>
-  <div className="neo-hp-fitness-card">
+      <div className="neo-hp-fitness-page" style={{ padding: 24 }} ref={pdfRef}>
+        <div className="neo-hp-fitness-card">
 
-    {/* HEADER */}
-    <div className="d-flex justify-content-between align-items-start hp-certificate-bx">
-      <div className="d-flex gap-3">
+          {/* HEADER */}
+          <div className="d-flex justify-content-between align-items-start hp-certificate-bx">
+            <div className="d-flex gap-3">
 
-        <div className="neo-hp-fitness-logo">
-          <img
-            src={
-              certificateData?.logo
-                ? `${base_url}/${certificateData?.logo}`
-                : "/logo.png"
-            }
-            alt=""
-          />
-        </div>
+              <div className="neo-hp-fitness-logo">
+                <img
+                  src={
+                    certificateData?.organization?.logo
+                      ? `${base_url}/${certificateData?.organization?.logo}`
+                      : "/logo.png"
+                  }
+                  alt=""
+                />
+              </div>
 
-        <div>
-          <div className="neo-hp-fitness-title">
-            Birth Certificate
-          </div>
+              <div>
+                <div className="neo-hp-fitness-title">
+                  Birth Certificate
+                </div>
 
-          <div className="neo-hp-fitness-subtitle">
-            {certificateData?.organization?.name}
-          </div>
+                <div className="neo-hp-fitness-subtitle">
+                  {certificateData?.organization?.name}
+                </div>
 
-          <div className="neo-hp-fitness-meta">
-            {certificateData?.organization?.nh12}
-          </div>
+                <div className="neo-hp-fitness-meta">
+                  {certificateData?.organization?.nh12}
+                </div>
 
-          <div className="neo-hp-fitness-meta">
-            {certificateData?.address?.fullAddress +
-              "," +
-              certificateData?.address?.city?.name +
-              "," +
-              certificateData?.address?.state?.name +
-              "," +
-              certificateData?.address?.pinCode}
-          </div>
-        </div>
-      </div>
-
-      <div className="text-end">
-        <div className="neo-hp-fitness-badge mb-1">
-          NeoHealthCard Network
-        </div>
-
-        <div className="neo-hp-fitness-meta-right-ft">
-          Fully Automated · Ecosystem Connected
-        </div>
-
-        <div className="neo-hp-fitness-meta-right">
-          {certificateData?.organization?.email} ·{" "}
-          {certificateData?.organization?.contactNumber}
-        </div>
-      </div>
-    </div>
-
-    {/* INFO STRIP */}
-    <div
-      className="ds-meta-strip"
-      style={{ borderTop: "1px solid #e6e6e6" }}
-    >
-      <div className="ds-meta-block">
-        <div className="ds-meta-label">
-          CERTIFICATE ID
-        </div>
-
-        <div className="ds-meta-value fz-12">
-          {certificateData?.customId}
-        </div>
-      </div>
-
-      <div className="ds-meta-block">
-        <div className="ds-meta-label">
-          ISSUE DATE
-        </div>
-
-        <div className="ds-meta-value fz-12">
-          {new Date(certificateData?.createdAt)?.toLocaleDateString("en-GB")}
-        </div>
-      </div>
-
-      <div className="ds-meta-block">
-        <div className="ds-meta-label">
-          REGISTRATION NO.
-        </div>
-
-        <div className="ds-meta-value fz-12">
-          {certificateData?.license}
-        </div>
-      </div>
-
-      <div className="ds-meta-block">
-        <div className="ds-meta-label">
-          STATUS
-        </div>
-
-        <div className="ds-meta-value fz-12 neo-hp-fitness-status">
-          Registered · Verified
-        </div>
-      </div>
-    </div>
-
-    {/* MAIN BOX */}
-    <div className="neo-hp-fitness-box">
-
-      <div className="neo-hp-fitness-box-title">
-        Certificate of Birth
-      </div>
-
-      <div className="neo-hp-fitness-box-sub">
-        {certificateData?.organization?.name} ·{" "}
-        {certificateData?.customId} · Govt. of{" "}
-        {certificateData?.address?.state?.name}
-      </div>
-
-      <div className="neo-hp-fitness-center-text">
-        This is to certify that a child was born at this hospital:
-      </div>
-
-      {/* DETAILS GRID */}
-      <div className="neo-dc-details-grid">
-
-        <div className="neo-dc-details-column neo-dc-details-column-left">
-
-          <div className="neo-dc-detail-item">
-            <span className="neo-dc-detail-label">
-              Child's Name
-            </span>
-
-            <div className="neo-dc-detail-value">
-              <b>{certificateData?.childName}</b>
-            </div>
-          </div>
-
-          <div className="neo-dc-detail-item">
-            <span className="neo-dc-detail-label">
-              Time of Birth
-            </span>
-
-            <div className="neo-dc-detail-value">
-              {certificateData?.timeOfBirth}
-            </div>
-          </div>
-
-          <div className="neo-dc-detail-item">
-            <span className="neo-dc-detail-label">
-              Birth Weight
-            </span>
-
-            <div className="neo-dc-detail-value">
-              {certificateData?.weight} Kg
-            </div>
-          </div>
-
-          <div className="neo-dc-detail-item">
-            <span className="neo-dc-detail-label">
-              Father's Name
-            </span>
-
-            <div className="neo-dc-detail-value">
-              {certificateData?.fatherName}
-            </div>
-          </div>
-
-          {certificateData?.fatherId?.nh12 && (
-            <div className="neo-dc-detail-item">
-              <span className="neo-dc-detail-label">
-                Father's NHC-ID
-              </span>
-
-              <div className="neo-dc-detail-value">
-                {certificateData?.fatherId?.nh12}
+                <div className="neo-hp-fitness-meta">
+                  {certificateData?.address?.fullAddress +
+                    "," +
+                    certificateData?.address?.city?.name +
+                    "," +
+                    certificateData?.address?.state?.name +
+                    "," +
+                    certificateData?.address?.pinCode}
+                </div>
               </div>
             </div>
-          )}
 
-          <div className="neo-dc-detail-item">
-            <span className="neo-dc-detail-label">
-              Delivery Type
-            </span>
+            <div className="text-end">
+              <div className="neo-hp-fitness-badge mb-1">
+                NeoHealthCard Network
+              </div>
 
-            <div className="neo-dc-detail-value">
-              {certificateData?.deliveryType} Delivery
-            </div>
-          </div>
+              <div className="neo-hp-fitness-meta-right-ft">
+                Fully Automated · Ecosystem Connected
+              </div>
 
-        </div>
-
-        <div className="neo-dc-details-column neo-dc-details-column-right">
-
-          <div className="neo-dc-detail-item">
-            <span className="neo-dc-detail-label">
-              Date of Birth
-            </span>
-
-            <div className="neo-dc-detail-value">
-              {new Date(
-                certificateData?.dateOfBirth
-              )?.toLocaleDateString("en-GB")}
-            </div>
-          </div>
-
-          <div className="neo-dc-detail-item">
-            <span className="neo-dc-detail-label">
-              Gender
-            </span>
-
-            <div className="neo-dc-detail-value">
-              {certificateData?.gender}
-            </div>
-          </div>
-
-          {certificateData?.childId?.nh12 && (
-            <div className="neo-dc-detail-item">
-              <span className="neo-dc-detail-label">
-                NHC-P ID (Child)
-              </span>
-
-              <div className="neo-dc-detail-value">
-                {certificateData?.childId?.nh12}
+              <div className="neo-hp-fitness-meta-right">
+                {certificateData?.organization?.email} ·{" "}
+                {certificateData?.organization?.contactNumber}
               </div>
             </div>
-          )}
-
-          <div className="neo-dc-detail-item">
-            <span className="neo-dc-detail-label">
-              Mother's Name
-            </span>
-
-            <div className="neo-dc-detail-value">
-              {certificateData?.motherName}
-            </div>
           </div>
 
-          {certificateData?.motherId?.nh12 && (
-            <div className="neo-dc-detail-item">
-              <span className="neo-dc-detail-label">
-                Mother's NHC-P ID
-              </span>
+          {/* INFO STRIP */}
+          <div
+            className="ds-meta-strip"
+            style={{ borderTop: "1px solid #e6e6e6" }}
+          >
+            <div className="ds-meta-block">
+              <div className="ds-meta-label">
+                CERTIFICATE ID
+              </div>
 
-              <div className="neo-dc-detail-value">
-                {certificateData?.motherId?.nh12}
+              <div className="ds-meta-value fz-12">
+                {certificateData?.customId}
               </div>
             </div>
-          )}
 
-          <div className="neo-dc-detail-item">
-            <span className="neo-dc-detail-label">
-              Attending Doctor
-            </span>
+            <div className="ds-meta-block">
+              <div className="ds-meta-label">
+                ISSUE DATE
+              </div>
 
-            <div className="neo-dc-detail-value">
-              {certificateData?.doctorId?.name}
+              <div className="ds-meta-value fz-12">
+                {new Date(certificateData?.createdAt)?.toLocaleDateString("en-GB")}
+              </div>
+            </div>
+
+            <div className="ds-meta-block">
+              <div className="ds-meta-label">
+                REGISTRATION NO.
+              </div>
+
+              <div className="ds-meta-value fz-12">
+                {certificateData?.license}
+              </div>
+            </div>
+
+            <div className="ds-meta-block">
+              <div className="ds-meta-label">
+                STATUS
+              </div>
+
+              <div className="ds-meta-value fz-12 neo-hp-fitness-status">
+                Registered · Verified
+              </div>
             </div>
           </div>
 
-        </div>
+          {/* MAIN BOX */}
+          <div className="neo-hp-fitness-box">
 
+            <div className="neo-hp-fitness-box-title">
+              Certificate of Birth
+            </div>
+
+            <div className="neo-hp-fitness-box-sub">
+              {certificateData?.organization?.name} ·{" "}
+              {certificateData?.customId} · Govt. of{" "}
+              {certificateData?.address?.state?.name}
+            </div>
+
+            <div className="neo-hp-fitness-center-text">
+              This is to certify that a child was born at this hospital:
+            </div>
+
+            {/* DETAILS GRID */}
+            <div className="neo-dc-details-grid">
+
+              <div className="neo-dc-details-column neo-dc-details-column-left">
+
+                <div className="neo-dc-detail-item">
+                  <span className="neo-dc-detail-label">
+                    Child's Name
+                  </span>
+
+                  <div className="neo-dc-detail-value">
+                    <b>{certificateData?.childName}</b>
+                  </div>
+                </div>
+
+                <div className="neo-dc-detail-item">
+                  <span className="neo-dc-detail-label">
+                    Time of Birth
+                  </span>
+
+                  <div className="neo-dc-detail-value">
+                    {certificateData?.timeOfBirth}
+                  </div>
+                </div>
+
+                <div className="neo-dc-detail-item">
+                  <span className="neo-dc-detail-label">
+                    Birth Weight
+                  </span>
+
+                  <div className="neo-dc-detail-value">
+                    {certificateData?.weight} Kg
+                  </div>
+                </div>
+
+                <div className="neo-dc-detail-item">
+                  <span className="neo-dc-detail-label">
+                    Father's Name
+                  </span>
+
+                  <div className="neo-dc-detail-value">
+                    {certificateData?.fatherName}
+                  </div>
+                </div>
+
+                {certificateData?.fatherId?.nh12 && (
+                  <div className="neo-dc-detail-item">
+                    <span className="neo-dc-detail-label">
+                      Father's NHC-ID
+                    </span>
+
+                    <div className="neo-dc-detail-value">
+                      {certificateData?.fatherId?.nh12}
+                    </div>
+                  </div>
+                )}
+
+                <div className="neo-dc-detail-item">
+                  <span className="neo-dc-detail-label">
+                    Delivery Type
+                  </span>
+
+                  <div className="neo-dc-detail-value">
+                    {certificateData?.deliveryType} Delivery
+                  </div>
+                </div>
+
+              </div>
+
+              <div className="neo-dc-details-column neo-dc-details-column-right">
+
+                <div className="neo-dc-detail-item">
+                  <span className="neo-dc-detail-label">
+                    Date of Birth
+                  </span>
+
+                  <div className="neo-dc-detail-value">
+                    {new Date(
+                      certificateData?.dateOfBirth
+                    )?.toLocaleDateString("en-GB")}
+                  </div>
+                </div>
+
+                <div className="neo-dc-detail-item">
+                  <span className="neo-dc-detail-label">
+                    Gender
+                  </span>
+
+                  <div className="neo-dc-detail-value">
+                    {certificateData?.gender}
+                  </div>
+                </div>
+
+                {certificateData?.childId?.nh12 && (
+                  <div className="neo-dc-detail-item">
+                    <span className="neo-dc-detail-label">
+                      NHC-P ID (Child)
+                    </span>
+
+                    <div className="neo-dc-detail-value">
+                      {certificateData?.childId?.nh12}
+                    </div>
+                  </div>
+                )}
+
+                <div className="neo-dc-detail-item">
+                  <span className="neo-dc-detail-label">
+                    Mother's Name
+                  </span>
+
+                  <div className="neo-dc-detail-value">
+                    {certificateData?.motherName}
+                  </div>
+                </div>
+
+                {certificateData?.motherId?.nh12 && (
+                  <div className="neo-dc-detail-item">
+                    <span className="neo-dc-detail-label">
+                      Mother's NHC-P ID
+                    </span>
+
+                    <div className="neo-dc-detail-value">
+                      {certificateData?.motherId?.nh12}
+                    </div>
+                  </div>
+                )}
+
+                <div className="neo-dc-detail-item">
+                  <span className="neo-dc-detail-label">
+                    Attending Doctor
+                  </span>
+
+                  <div className="neo-dc-detail-value">
+                    {certificateData?.doctorId?.name}
+                  </div>
+                </div>
+
+              </div>
+
+            </div>
+
+            {/* WATERMARK */}
+            <div className="neo-hp-fitness-watermark"></div>
+
+            {/* QR */}
+            <div className="d-flex align-items-center flex-column justify-content-center mt-5">
+              <div className="neo-hp-fitness-qr">
+                <QRCodeCanvas
+                  value={`https://www.neohealthcard.com/certificate/${certificateData?.customId}`}
+                  size={256}
+                  className="qr-codes"
+                  style={{
+                    height: "auto",
+                    maxWidth: "100%",
+                    width: "100%",
+                  }}
+                />
+              </div>
+
+              <div className="neo-hp-fitness-qr-text">
+                Scan to verify
+              </div>
+
+              <div className="neo-hp-fitness-link">
+                verify.neohealthcard.in
+              </div>
+            </div>
+          </div>
+
+          {/* SIGNATURES */}
+          <div
+            className="ds-sig-grid"
+            style={{ borderTop: "1px solid #e6e6e6" }}
+          >
+
+            <div className="ds-sig-cell">
+              <div className="ds-sig-name">
+                {certificateData?.doctorId?.name}
+              </div>
+
+              <div className="ds-sig-sub">
+                {certificateData?.specialty} specialist · ·{" "}
+                {certificateData?.organization?.name}
+              </div>
+
+              <div className="neo-hp-fitness-link-small">
+                {certificateData?.doctorId?.nh12}
+              </div>
+            </div>
+
+            <div className="ds-sig-cell-border">
+              <div className="ds-sig-name">
+                Registrar of Births
+              </div>
+
+              <div className="ds-sig-sub">
+                Govt. of {certificateData?.address?.state?.name} · BMC
+              </div>
+
+              <div className="neo-hp-fitness-link-small">
+                Reg. No. {certificateData?.license}
+              </div>
+            </div>
+
+            <div className="ds-sig-cell-border">
+              <div className="ds-sig-name">
+                {certificateData?.organization?.name}
+              </div>
+
+              <div className="ds-sig-sub">
+                Authorised Signatory
+              </div>
+
+              <div className="neo-hp-fitness-link-small">
+                {certificateData?.organization?.nh12}
+              </div>
+            </div>
+
+          </div>
+
+          <div className="neo-hp-fitness-footer-bar">
+            <span>
+              {certificateData?.organization?.name},{" "}
+              {certificateData?.address?.city?.name} ·{" "}
+              {certificateData?.organization?.email} ·{" "}
+              {certificateData?.organization?.contactNumber}
+            </span>
+
+            <span style={{ float: "right" }}>
+              Wishing you a speedy recovery
+            </span>
+          </div>
+
+        </div>
       </div>
-
-      {/* WATERMARK */}
-      <div className="neo-hp-fitness-watermark"></div>
-
-      {/* QR */}
-      <div className="d-flex align-items-center flex-column justify-content-center mt-5">
-        <div className="neo-hp-fitness-qr">
-          <QRCodeCanvas
-            value={`https://www.neohealthcard.com/certificate/${certificateData?.customId}`}
-            size={256}
-            className="qr-codes"
-            style={{
-              height: "auto",
-              maxWidth: "100%",
-              width: "100%",
-            }}
-          />
-        </div>
-
-        <div className="neo-hp-fitness-qr-text">
-          Scan to verify
-        </div>
-
-        <div className="neo-hp-fitness-link">
-          verify.neohealthcard.in
-        </div>
-      </div>
-    </div>
-
-    {/* SIGNATURES */}
-    <div
-      className="ds-sig-grid"
-      style={{ borderTop: "1px solid #e6e6e6" }}
-    >
-
-      <div className="ds-sig-cell">
-        <div className="ds-sig-name">
-          {certificateData?.doctorId?.name}
-        </div>
-
-        <div className="ds-sig-sub">
-          {certificateData?.specialty} specialist · ·{" "}
-          {certificateData?.organization?.name}
-        </div>
-
-        <div className="neo-hp-fitness-link-small">
-          {certificateData?.doctorId?.nh12}
-        </div>
-      </div>
-
-      <div className="ds-sig-cell-border">
-        <div className="ds-sig-name">
-          Registrar of Births
-        </div>
-
-        <div className="ds-sig-sub">
-          Govt. of {certificateData?.address?.state?.name} · BMC
-        </div>
-
-        <div className="neo-hp-fitness-link-small">
-          Reg. No. {certificateData?.license}
-        </div>
-      </div>
-
-      <div className="ds-sig-cell-border">
-        <div className="ds-sig-name">
-          {certificateData?.organization?.name}
-        </div>
-
-        <div className="ds-sig-sub">
-          Authorised Signatory
-        </div>
-
-        <div className="neo-hp-fitness-link-small">
-          {certificateData?.organization?.nh12}
-        </div>
-      </div>
-
-    </div>
-
-    <div className="neo-hp-fitness-footer-bar">
-      <span>
-        {certificateData?.organization?.name},{" "}
-        {certificateData?.address?.city?.name} ·{" "}
-        {certificateData?.organization?.email} ·{" "}
-        {certificateData?.organization?.contactNumber}
-      </span>
-
-      <span style={{ float: "right" }}>
-        Wishing you a speedy recovery
-      </span>
-    </div>
-
-  </div>
-</div>
 
     </>
   );

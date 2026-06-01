@@ -45,51 +45,51 @@ const ViewMedicalCertificate = ({ certificateData }) => {
       </div>
 
       <div className="ds-page" ref={pdfRef}>
-          <div  className="ds-card position-relative">
-            <div className="ds-header">
-              <div className="d-flex gap-3">
-                <div className="ds-logo">
-                  <img src={certificateData?.logo ?
-                    `${base_url}/${certificateData?.logo}` : "/logo.png"} alt="" />
-                </div>
-                <div>
-                  <h5 className="ds-header-title">Medical Certificate</h5>
-                  <div className="ds-header-sub">{certificateData?.organization?.name}</div>
-                  <div className="ds-header-meta">
-                    {certificateData?.address?.fullAddress + ',' + certificateData?.address?.city?.name + ',' + certificateData?.address?.state?.name + ',' + certificateData?.address?.pinCode}
-                  </div>
+        <div className="ds-card position-relative">
+          <div className="ds-header">
+            <div className="d-flex gap-3">
+              <div className="ds-logo">
+                <img src={certificateData?.organization?.logo ?
+                  `${base_url}/${certificateData?.organization?.logo}` : "/logo.png"} alt="" />
+              </div>
+              <div>
+                <h5 className="ds-header-title">Medical Certificate</h5>
+                <div className="ds-header-sub">{certificateData?.organization?.name}</div>
+                <div className="ds-header-meta">
+                  {certificateData?.address?.fullAddress + ',' + certificateData?.address?.city?.name + ',' + certificateData?.address?.state?.name + ',' + certificateData?.address?.pinCode}
                 </div>
               </div>
+            </div>
 
-              <div className="ds-header-right">
-                <div className="ds-badge">NeoHealthCard Network</div>
-               <p className="ds-header-system lh-base fw-500">
-              Fully Automated · Ecosystem Connected
+            <div className="ds-header-right">
+              <div className="ds-badge">NeoHealthCard Network</div>
+              <p className="ds-header-system lh-base fw-500">
+                Fully Automated · Ecosystem Connected
               </p>
-                <p className="ds-header-meta my-0 lh-sm">
-                  {certificateData?.organization?.email} · {certificateData?.organization?.contactNumber}
-                </p>
-              </div>
-
+              <p className="ds-header-meta my-0 lh-sm">
+                {certificateData?.organization?.email} · {certificateData?.organization?.contactNumber}
+              </p>
             </div>
 
-            {/* META */}
-            <div className="ds-meta-strip">
-              <Meta title="Certificate ID" value={certificateData?.customId} />
-              <Meta title="Issue Date" value={new Date(certificateData?.createdAt)?.toLocaleDateString('en-GB')} />
-              <Meta title="Issued By" value={` ${certificateData?.doctorId?.name}`} />
-              <Meta title="Valid For" value={`${getDaysBetweenDates(certificateData?.rest?.from, certificateData?.rest?.to)} Days`} />
-              <Meta title="Status" value={`Verified · ${certificateData?.status}`} />
-            </div>
+          </div>
 
-            {/* CERTIFICATE BODY */}
-            <div className="certificate-box text-center position-relative">
+          {/* META */}
+          <div className="ds-meta-strip">
+            <Meta title="Certificate ID" value={certificateData?.customId} />
+            <Meta title="Issue Date" value={new Date(certificateData?.createdAt)?.toLocaleDateString('en-GB')} />
+            <Meta title="Issued By" value={` ${certificateData?.doctorId?.name}`} />
+            <Meta title="Valid For" value={`${getDaysBetweenDates(certificateData?.rest?.from, certificateData?.rest?.to)} Days`} />
+            <Meta title="Status" value={`Verified · ${certificateData?.status}`} />
+          </div>
 
-              {/* WATERMARK */}
-              <div className="watermark"></div>
+          {/* CERTIFICATE BODY */}
+          <div className="certificate-box text-center position-relative">
 
-          <div className="pb-5">
-                <h4 className="c-title">Medical Certificate</h4>
+            {/* WATERMARK */}
+            <div className="watermark"></div>
+
+            <div className="pb-5">
+              <h4 className="c-title">Medical Certificate</h4>
 
               <div className="c-subtitle">
                 {certificateData?.organization?.name} · NeoHealthCard Network · {certificateData?.organization?.nh12}
@@ -125,46 +125,46 @@ const ViewMedicalCertificate = ({ certificateData }) => {
               <p className="c-description">
                 The patient should avoid strenuous activity and report if symptoms worsen.
               </p>
+            </div>
+
+            {/* QR */}
+            <div className="d-flex align-items-center flex-column justify-content-center">
+              <div className="ds-qr-box">
+                <QRCodeCanvas
+                  value={`https://www.neohealthcard.com/certificate/${certificateData?.customId}`}
+                  size={256}
+                  className="qr-codes"
+                  style={{ height: "auto", maxWidth: "100%", width: "100%" }}
+                />
+              </div>
+              <p className="ds-qr-label">Scan to verify</p>
+              <p className="mb-0 lh-1">
+                <a href="javascript:void(0)" className="ds-qr-link fz-14">verify.neohealthcard.in</a>
+              </p>
+            </div>
+
+
           </div>
 
-              {/* QR */}
-              <div className="d-flex align-items-center flex-column justify-content-center">
-                <div className="ds-qr-box">
-                  <QRCodeCanvas
-                    value={`https://www.neohealthcard.com/certificate/${certificateData?.customId}`}
-                    size={256}
-                    className="qr-codes"
-                    style={{ height: "auto", maxWidth: "100%", width: "100%" }}
-                  />
-                </div>
-                <p className="ds-qr-label">Scan to verify</p>
-                <p className="mb-0 lh-1">
-                  <a href="javascript:void(0)" className="ds-qr-link fz-14">verify.neohealthcard.in</a>
-               </p>
-              </div>
-
-
+          {/* SIGNATURE */}
+          <div className="hp-ds-sig-grid" style={{ borderTop: "1px solid #e6e6e6" }}>
+            <div className="ds-sig-cell">
+              <div className="ds-sig-name"> {certificateData?.doctorId?.name}</div>
+              <div className="ds-sig-sub">{certificateData?.specialty} specialist</div>
             </div>
 
-            {/* SIGNATURE */}
-            <div className="hp-ds-sig-grid" style={{borderTop : "1px solid #e6e6e6"}}>
-              <div className="ds-sig-cell">
-                <div className="ds-sig-name"> {certificateData?.doctorId?.name}</div>
-                <div className="ds-sig-sub">{certificateData?.specialty} specialist</div>
-              </div>
-
-              <div className="ds-sig-cell-border">
-                <div className="ds-sig-name">Hospital Seal & Stamp</div>
-                <div  className="ds-sig-sub">{certificateData?.organization?.name}</div>
-              </div>
+            <div className="ds-sig-cell-border">
+              <div className="ds-sig-name">Hospital Seal & Stamp</div>
+              <div className="ds-sig-sub">{certificateData?.organization?.name}</div>
             </div>
-
-            <div className="footer-bar text-white text-center py-2 small">
-              {certificateData?.organization?.name} · {certificateData?.organization?.contactNumber} · Wishing you a speedy recovery
-            </div>
-
           </div>
+
+          <div className="footer-bar text-white text-center py-2 small">
+            {certificateData?.organization?.name} · {certificateData?.organization?.contactNumber} · Wishing you a speedy recovery
+          </div>
+
         </div>
+      </div>
 
     </>
   );

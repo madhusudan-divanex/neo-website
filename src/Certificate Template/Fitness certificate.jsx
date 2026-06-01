@@ -51,7 +51,7 @@ export default function ViewFitnessCertificate({ certificateData }) {
           <div className="d-flex justify-content-between align-items-start hp-certificate-bx">
             <div className="d-flex gap-3">
               <div className="neo-hp-fitness-logo">
-                <img src={certificateData?.logo ? `${base_url}/${certificateData?.logo}` : "/logo.png"} alt="" />
+                <img src={certificateData?.organization?.logo ? `${base_url}/${certificateData?.organization?.logo}` : "/logo.png"} alt="" />
               </div>
               <div className="">
                 <div className="neo-hp-fitness-title">Fitness Certificate</div>
@@ -72,33 +72,32 @@ export default function ViewFitnessCertificate({ certificateData }) {
           </div>
 
           {/* INFO ROW */}
-          <div className="ds-meta-strip" style={{borderTop : "1px solid #e6e6e6"}}>
-        {[
-          ["CERTIFICATE ID", certificateData?.customId],
-          [
-            "ISSUE DATE",
-            new Date(certificateData?.examinDate)?.toLocaleDateString("en-GB"),
-          ],
-          ["PURPOSE", certificateData?.purpose],
-          [
-            "VALID UNTIL",
-            new Date(certificateData?.effectiveDate)?.toLocaleDateString("en-GB"),
-          ],
-          ["STATUS", `Verified · ${certificateData?.status}`],
-        ].map((item, i) => (
-          <div key={i} className="ds-meta-block">
-            <div className="ds-meta-label">{item[0]}</div>
+          <div className="ds-meta-strip" style={{ borderTop: "1px solid #e6e6e6" }}>
+            {[
+              ["CERTIFICATE ID", certificateData?.customId],
+              [
+                "ISSUE DATE",
+                new Date(certificateData?.examinDate)?.toLocaleDateString("en-GB"),
+              ],
+              ["PURPOSE", certificateData?.purpose],
+              [
+                "VALID UNTIL",
+                new Date(certificateData?.effectiveDate)?.toLocaleDateString("en-GB"),
+              ],
+              ["STATUS", `Verified · ${certificateData?.status}`],
+            ].map((item, i) => (
+              <div key={i} className="ds-meta-block">
+                <div className="ds-meta-label">{item[0]}</div>
 
-            <div
-              className={`ds-meta-value fz-12 ${
-                item[0] === "STATUS" ? "neo-hp-fitness-status text-capitalize" : ""
-              }`}
-            >
-              {item[1]}
-            </div>
+                <div
+                  className={`ds-meta-value fz-12 ${item[0] === "STATUS" ? "neo-hp-fitness-status text-capitalize" : ""
+                    }`}
+                >
+                  {item[1]}
+                </div>
+              </div>
+            ))}
           </div>
-        ))}
-      </div>
 
           <div className="neo-hp-fitness-box">
             <div className="neo-hp-fitness-box-title">Certificate of Fitness</div>
@@ -136,41 +135,41 @@ export default function ViewFitnessCertificate({ certificateData }) {
             </div>
 
 
-            
+
 
           </div>
 
           {/* FOOTER SIGN */}
-          <div className="hp-ds-sig-grid" style={{borderTop : "1px solid #e6e6e6"}}>
-        <div className="ds-sig-cell">
-          <div className="ds-sig-name">
-            {certificateData?.doctorId?.name}
-          </div>
+          <div className="hp-ds-sig-grid" style={{ borderTop: "1px solid #e6e6e6" }}>
+            <div className="ds-sig-cell">
+              <div className="ds-sig-name">
+                {certificateData?.doctorId?.name}
+              </div>
 
-          <div className="ds-sig-sub">
-            {certificateData?.specialty} specialist ·{" "}
-            {certificateData?.organization?.name}
-          </div>
+              <div className="ds-sig-sub">
+                {certificateData?.specialty} specialist ·{" "}
+                {certificateData?.organization?.name}
+              </div>
 
-          <div className="neo-hp-fitness-link-small">
-            {certificateData?.doctorId?.nh12}
-          </div>
-        </div>
+              <div className="neo-hp-fitness-link-small">
+                {certificateData?.doctorId?.nh12}
+              </div>
+            </div>
 
-        <div className="ds-sig-cell-border">
-          <div className="ds-sig-name">
-            Hospital Seal & Stamp
-          </div>
+            <div className="ds-sig-cell-border">
+              <div className="ds-sig-name">
+                Hospital Seal & Stamp
+              </div>
 
-          <div className="ds-sig-sub">
-            {certificateData?.organization?.name}
-          </div>
+              <div className="ds-sig-sub">
+                {certificateData?.organization?.name}
+              </div>
 
-          <div className="neo-hp-fitness-link-small">
-            {certificateData?.organization?.nh12}
+              <div className="neo-hp-fitness-link-small">
+                {certificateData?.organization?.nh12}
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
 
           <div className="neo-hp-fitness-footer-bar">
             {certificateData?.organization?.name}, {certificateData?.address?.city?.name} · {certificateData?.organization?.name} · {certificateData?.organization?.contactNumber}
