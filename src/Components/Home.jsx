@@ -105,7 +105,7 @@ function Landing() {
   const [blogUrl, setBlogUrl] = useState('')
   async function fetchBlog() {
 
-    const result = await getApiData(`api/admin/blogs?page=1&limit=8`)
+    const result = await getApiData(`api/admin/blogs?page=1&limit=8&status=published`)
     if (result.success) {
       setBlogData(result.data)
       setBlogUrl(result.baseUrl)
@@ -114,7 +114,7 @@ function Landing() {
   useEffect(() => {
     fetchBlog()
   }, [])
-   const splideRef = useRef(null);
+  const splideRef = useRef(null);
 
   const nextSlide = () => {
     splideRef.current.splide.go(">");
@@ -395,7 +395,7 @@ function Landing() {
               </p>
             </div>
 
-            <div className="row" id="security"> 
+            <div className="row" id="security">
               {connectedData?.model?.map(m =>
                 <div className="col-lg-4 col-md-6 col-sm-12 mb-3">
                   <div className="work-card h-100">
@@ -449,7 +449,7 @@ function Landing() {
           </div>
         </section> */}
 
-          <section  className="container  pt-md-6 neo-section">
+          <section className="container  pt-md-6 neo-section">
 
             <div class="doctor-works-content">
               <h6 class="section-label"><span className="built-title">GOVERNANCE & COMPLIANCE</span></h6>
@@ -580,84 +580,84 @@ function Landing() {
               </div>
             </div>
           </section>
-           {blogData?.length > 0 && 
-           <section className='blog-section'>
-        <div className="container">
-          <div className="row">
-            <div className="col-lg-12">
+          {blogData?.length > 0 &&
+            <section className='blog-section'>
+              <div className="container">
+                <div className="row">
+                  <div className="col-lg-12">
 
-              <div className="nw-arrow-bx  mb-2">
-                <div>
-                  <h4 className="heading-grad fz-40 mb-2">Latest Blogs</h4>
-                  <p>{firstSection?.blogDesc}</p>
-                </div>
-
-                <div className="rating-arrows">
-                  <button onClick={prevSlide} className="rating-prev me-2">
-                    <FontAwesomeIcon icon={faChevronLeft} />
-                  </button>
-                  <Link to="/blogs" className="view-all-btn">View All</Link>
-                  <button onClick={nextSlide} className="rating-next">
-                    <FontAwesomeIcon icon={faChevronRight} />
-                  </button>
-                </div>
-              </div>
-
-
-              <Splide
-                ref={splideRef}
-                options={{
-                  type: "loop",
-                  perPage: 4,
-                  perMove: 1,
-                  autoplay: true,
-                  pagination: false,
-                  interval: 2500,
-                  speed: 800,
-                  arrows: false,
-                  gap: "20px",
-                  breakpoints: {
-                    992: { perPage: 2, gap: "15px" },
-                    767: { perPage: 1, gap: "10px" },
-                  },
-                }}
-              >
-
-                {blogData?.map((item, key) =>
-                  <SplideSlide key={key}>
-                    <div className="bloging-card">
-                      <div class="blog-picture">
-                        <img src={item?.image ?
-                          `${blogUrl}${item.image}` : "/hospital-pic.jpg"} alt="example" class="img-scale" />
+                    <div className="nw-arrow-bx  mb-2">
+                      <div>
+                        <h4 className="heading-grad fz-40 mb-2">Latest Blogs</h4>
+                        <p>{firstSection?.blogDesc}</p>
                       </div>
-                      <div className="blog-content mt-2">
-                        <h4>{item.title}</h4>
 
-                        <div className="d-flex gap-3 my-3">
-                          <span className="blog-user-title"><FontAwesomeIcon icon={faUser} /> Admin</span>
-                          <span className="blog-user-title"><FontAwesomeIcon icon={faCalendar} />
-                            {new Date(item?.createdAt)?.toLocaleDateString(('en-GB'), {
-                              day: '2-digit',
-                              month: 'short',
-                              year: 'numeric'
-                            })}</span>
-                        </div>
-
-                        <p className="blog-para">{item?.description}</p>
-
-                        <div className="text-center mt-4">
-                          <Link to={`/blogs-detail/${item._id}`} className="nw-thm-btn w-75">Read More</Link>
-                        </div>
+                      <div className="rating-arrows">
+                        <button onClick={prevSlide} className="rating-prev me-2">
+                          <FontAwesomeIcon icon={faChevronLeft} />
+                        </button>
+                        <Link to="/blogs" className="view-all-btn">View All</Link>
+                        <button onClick={nextSlide} className="rating-next">
+                          <FontAwesomeIcon icon={faChevronRight} />
+                        </button>
                       </div>
                     </div>
-                  </SplideSlide>)}
-              </Splide>
 
 
-            </div>
-          </div>
-        </div>
-      </section>}
+                    <Splide
+                      ref={splideRef}
+                      options={{
+                        type: "loop",
+                        perPage: 4,
+                        perMove: 1,
+                        autoplay: true,
+                        pagination: false,
+                        interval: 2500,
+                        speed: 800,
+                        arrows: false,
+                        gap: "20px",
+                        breakpoints: {
+                          992: { perPage: 2, gap: "15px" },
+                          767: { perPage: 1, gap: "10px" },
+                        },
+                      }}
+                    >
+
+                      {blogData?.map((item, key) =>
+                        <SplideSlide key={key}>
+                          <div className="bloging-card">
+                            <div class="blog-picture">
+                              <img src={item?.image ?
+                                `${blogUrl}${item.image}` : "/hospital-pic.jpg"} alt="example" class="img-scale" />
+                            </div>
+                            <div className="blog-content mt-2">
+                              <h4>{item.title}</h4>
+
+                              <div className="d-flex gap-3 my-3">
+                                <span className="blog-user-title"><FontAwesomeIcon icon={faUser} /> Admin</span>
+                                <span className="blog-user-title"><FontAwesomeIcon icon={faCalendar} />
+                                  {new Date(item?.createdAt)?.toLocaleDateString(('en-GB'), {
+                                    day: '2-digit',
+                                    month: 'short',
+                                    year: 'numeric'
+                                  })}</span>
+                              </div>
+
+                              <p className="blog-para">{item?.description}</p>
+
+                              <div className="text-center mt-4">
+                                <Link to={`/blogs-detail/${item._id}`} className="nw-thm-btn w-75">Read More</Link>
+                              </div>
+                            </div>
+                          </div>
+                        </SplideSlide>)}
+                    </Splide>
+
+
+                  </div>
+                </div>
+              </div>
+            </section>}
 
 
           {/* <footer className={`border-t backdrop-blur-xl ${theme.footer}`}>
@@ -728,7 +728,7 @@ function Landing() {
 
         </div>
       </div>
-<ContactQuery/>
+      <ContactQuery />
 
 
 

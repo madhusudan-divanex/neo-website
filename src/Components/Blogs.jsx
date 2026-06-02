@@ -11,7 +11,7 @@ function Blogs() {
     const [totalPages, setTotalPages] = useState(1)
     async function fetchBlog() {
 
-        const result = await getApiData(`api/admin/blogs?page=${currentPage}&limit=8`)
+        const result = await getApiData(`api/admin/blogs?page=${currentPage}&limit=8&status=published`)
         if (result.success) {
             setBlogData(result.data)
             setBaseUrl(result.baseUrl)
@@ -70,7 +70,7 @@ function Blogs() {
                                             <span className="blog-user-title"><FontAwesomeIcon icon={faUser} /> Admin</span>
                                             <span className="blog-user-title"><FontAwesomeIcon icon={faCalendar} />
                                                 {item?.createdAt &&
-                                                    new Date(item?.createdAt).toLocaleDateString(('en-GB'),{
+                                                    new Date(item?.createdAt).toLocaleDateString(('en-GB'), {
                                                         day: '2-digit',
                                                         month: 'short',
                                                         year: 'numeric'
@@ -248,10 +248,10 @@ function Blogs() {
                             </div>
                         </div> */}
                     </div>
-                {totalPages > 1 && <div className="d-flex text-end gap-2 justify-content-end mt-3">
-                    <button onClick={() => setCurrentPage(currentPage - 1)} disabled={currentPage == 1} className="nw-thm-btn outline">Prev</button>
-                    <button onClick={() => setCurrentPage(currentPage + 1)} disabled={currentPage == totalPages} className="nw-thm-btn">Next</button>
-                </div>}
+                    {totalPages > 1 && <div className="d-flex text-end gap-2 justify-content-end mt-3">
+                        <button onClick={() => setCurrentPage(currentPage - 1)} disabled={currentPage == 1} className="nw-thm-btn outline">Prev</button>
+                        <button onClick={() => setCurrentPage(currentPage + 1)} disabled={currentPage == totalPages} className="nw-thm-btn">Next</button>
+                    </div>}
                 </div>
             </section>
 
